@@ -398,8 +398,8 @@
         </div>
 
         <div class="form-card">
-          <input type="text" id="pickup" data-ph="ph_pickup" placeholder="Pickup Location 📍 Ex: Stone Town">
-          <input type="text" id="dropoff" data-ph="ph_dropoff" placeholder="Drop-off Location 📍 Ex: Mwanakwerekwe">
+          <input type="text" id="pickup" data-ph="ph_pickup" autocomplete="Pickup Location 📍 Ex: Stone Town">
+          <input type="text" id="dropoff" data-ph="ph_dropoff" autocomplete="Drop-off Location 📍 Ex: Mwanakwerekwe">
           <select id="truckType">
             <option value="" data-lang="opt_choose">Choose Service</option>
             <optgroup data-label="label_passenger" label="🏍️ Passengers">
@@ -700,17 +700,17 @@ function setLang(lang) {
   
   document.querySelectorAll('[data-lang]').forEach(el => {
     const key = el.getAttribute('data-lang');
-    if (T[currentlang] && T[currentlang][key]) el.textContent = T[currentlang][key];
+    if (T[currentLang] && T[currentLang][key]) el.textContent = T[currentLang][key];
   });
   
   document.querySelectorAll('[data-ph]').forEach(el => {
     const key = el.getAttribute('data-ph');
-    if (T[currentlang] && T[currentlang][key]) el.placeholder = T[currentlang][key];
+    if (T[currentLang] && T[currentLang][key]) el.placeholder = T[currentLang][key];
   });
 
   document.querySelectorAll('optgroup').forEach(el => {
     const key = el.getAttribute('data-label');
-    if (T[currentlang] && T[lang][key]) el.label = T[currentlang][key];
+    if (T[currentLang] && T[currentLang][key]) el.label = T[currentLang][key];
   });
 
   document.querySelectorAll('.lang-switch button').forEach(btn => btn.classList.remove('active'));
