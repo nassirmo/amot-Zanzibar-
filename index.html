@@ -700,17 +700,17 @@ function setLang(lang) {
   
   document.querySelectorAll('[data-lang]').forEach(el => {
     const key = el.getAttribute('data-lang');
-    if (T[lang] && T[lang][key]) el.textContent = T[lang][key];
+    if (T[currentlang] && T[currentlang][key]) el.textContent = T[currentlang][key];
   });
   
   document.querySelectorAll('[data-ph]').forEach(el => {
     const key = el.getAttribute('data-ph');
-    if (T[lang] && T[lang][key]) el.placeholder = T[lang][key];
+    if (T[currentlang] && T[currentlang][key]) el.placeholder = T[currentlang][key];
   });
 
   document.querySelectorAll('optgroup').forEach(el => {
     const key = el.getAttribute('data-label');
-    if (T[lang] && T[lang][key]) el.label = T[lang][key];
+    if (T[currentlang] && T[lang][key]) el.label = T[currentlang][key];
   });
 
   document.querySelectorAll('.lang-switch button').forEach(btn => btn.classList.remove('active'));
