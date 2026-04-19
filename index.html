@@ -367,18 +367,17 @@
 
   <div class="top-bar">
     <div class="container">
-      <div class="top-bar-content">
-        <img src="amot-logo.png" alt="AMOT" class="logo-img">
-        <div class="lang-switch">
-          <button id="btnSw" class="active">SW</button>
-          <button id="btnEn">EN</button>
-          <button id="btnAr">AR</button>
-          <button id="btnFr">FR</button>
-          <button id="btnDe">DE</button>
-          <button id="btnIt">IT</button>
-          <button id="btnEs">ES</button>
-          <button id="btnZh">ZH</button>
-        </div>
+      <div class="lang-switch">
+  <select id="langSelect" onchange="setLang(this.value)">
+    <option value="en">🇬🇧 English</option>
+    <option value="sw">🇹🇿 Kiswahili</option>
+    <option value="ar">🇸🇦 العربية</option>
+    <option value="fr">🇫🇷 Français</option>
+    <option value="it">🇮🇹 Italiano</option>
+    <option value="de">🇩🇪 Deutsch</option>
+    <option value="zh">🇨🇳 中文</option>
+  </select>
+</div>
       </div>
     </div>
   </div>
@@ -801,6 +800,10 @@ document.querySelectorAll('.payment-method').forEach(el => {
 });
 
 setLang('sw');
+  document.getElementById('pickup').removeAttribute('disabled');
+document.getElementById('dropoff').removeAttribute('disabled');
+document.getElementById('pickup').removeAttribute('readonly');
+document.getElementById('dropoff').removeAttribute('readonly');
 </script>
 </body>
 </html>
