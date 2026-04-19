@@ -733,18 +733,47 @@ function updateUIForService() {
 function calculatePrice() {
   const pickup = document.getElementById('pickup').value.trim();
   const dropoff = document.getElementById('dropoff').value.trim();
-  const type = document.getElementById('truckType').value;
-  const errorMsg = document.getElementById('errorMsg');
-  const resultDiv = document.getElementById('priceResult');
-  
-  errorMsg.style.display = 'none';
-  resultDiv.style.display = 'none';
-  
-  if (!pickup ||!dropoff ||!type) {
-    errorMsg.textContent = T[currentLang].err_fill;
-    errorMsg.style.display = 'block';
+  const service = document.getElementById('service').value;
+  const hours = parseInt(document.getElementById('hours').value) || 3;
+
+  const errorBox = document.getElementById('errorBox');
+  const priceBox = document.getElementById('priceBox');
+
+  errorBox.style.display = 'none';
+  priceBox.style.display = 'none';
+
+  if (!pickup ||!dropoff ||!service) {
+    errorBox.textContent = T[currentLang].error_fields;
+    errorBox.style.display = 'block';
     return;
   }
+
+  let total = 0;
+  let breakdown = '';
+
+  if (service === 'airport') {
+    total = 15;
+    breakdown = T[currentLang].breakdown_airport;
+  } else if (service === 'tour3') {
+    total = 40;
+    breakdown = T[currentLang].breakdown_tour3;
+  } else if (service === 'fullday') {
+    total = 70;
+    breakdown = T[currentLang].breakdown_fullday;
+  } else if (service === 'hourly') {
+    if (hours < 3) {
+      errorBox.textContent = T[currentLang].error_hours;
+      errorBox.style.display = 'block';
+      return;
+    }
+    total = hours * 15;
+    breakdown = T[currentLang].breakdown_hourly.replace('{h}', hours).replace('{t}', total);
+  }
+
+  const msg = ${T[currentLang].price_prefix} $${total}. ${breakdown} ${T[currentLang].price_suffix};
+  priceBox.innerHTML = ${msg}<br><a href="https://wa.me/255773165432" class="btn-book">${T[currentLang].btn_book}</a>;
+  priceBox.style.display = 'block';
+}
   
   const isCrane = CRANE_TYPES.includes(type);
   let total = 0;
