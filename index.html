@@ -1,0 +1,806 @@
+<!DOCTYPE html>
+<html lang="sw">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AMOT - Move Anything, Fast | Zanzibar</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --blue:#0066FF; 
+      --blue-dark:#0052CC;
+      --green:#00D26A; 
+      --orange:#FF7A00;
+      --purple:#8B5CF6;
+      --dark:#0A0E27;
+      --gray:#64748B;
+      --light:#F8FAFC;
+      --glass:rgba(255,255,255,0.1);
+    }
+    * {margin:0; padding:0; box-sizing:border-box;}
+    body {
+      font-family:'Poppins',sans-serif; 
+      color:var(--dark);
+      background:var(--light);
+      overflow-x:hidden;
+    }
+    .container {max-width:1200px; margin:auto; padding:0 20px;}
+    .top-bar {
+      background:linear-gradient(135deg, var(--dark) 0%, #1a1f3a 100%);
+      padding:12px 0;
+      backdrop-filter:blur(10px);
+    }
+    .top-bar-content {
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      gap:15px;
+    }
+    .logo-img {
+      height:45px;
+      width:auto;
+      object-fit:contain;
+    }
+    .lang-switch {
+      display:flex;
+      gap:6px;
+      flex-wrap:wrap;
+      justify-content:flex-end;
+    }
+    .lang-switch button {
+      background:var(--glass);
+      border:1px solid rgba(255,255,255,0.2);
+      color:white;
+      padding:6px 12px;
+      border-radius:20px;
+      cursor:pointer;
+      font-weight:600;
+      font-size:0.8rem;
+      transition:all 0.3s;
+      backdrop-filter:blur(10px);
+    }
+    .lang-switch button:hover {background:rgba(255,255,255,0.2);}
+    .lang-switch button.active {
+      background:var(--blue);
+      border-color:var(--blue);
+      box-shadow:0 4px 12px rgba(0,102,255,0.4);
+    }
+    .hero {
+      background:linear-gradient(135deg, #0066FF 0%, #8B5CF6 100%);
+      padding:60px 0 100px;
+      position:relative;
+      overflow:hidden;
+    }
+    .hero::before {
+      content:'';
+      position:absolute;
+      top:0; left:0; right:0; bottom:0;
+      background:url('data:image/svg+xml,<svg width="100" height="100" xmlns="http://www.w3.org/2000/svg"><circle cx="50" cy="50" r="2" fill="white" opacity="0.1"/></svg>');
+      animation:float 20s infinite linear;
+    }
+    @keyframes float {
+      from {transform:translateY(0);}
+      to {transform:translateY(-100px);}
+    }
+    .hero-content {
+      position:relative;
+      z-index:1;
+      text-align:center;
+      color:white;
+    }
+    .hero-logo {
+      width:200px;
+      margin:0 auto 20px;
+      display:block;
+      filter:drop-shadow(0 4px 20px rgba(0,0,0,0.3));
+    }
+    .hero h1 {
+      font-size:3rem;
+      font-weight:800;
+      margin-bottom:15px;
+      line-height:1.2;
+      text-shadow:0 4px 20px rgba(0,0,0,0.3);
+    }
+    .hero p {
+      font-size:1.1rem;
+      opacity:0.95;
+      margin-bottom:35px;
+      max-width:600px;
+      margin-left:auto;
+      margin-right:auto;
+    }
+    .trust-badges {
+      display:flex;
+      justify-content:center;
+      gap:20px;
+      flex-wrap:wrap;
+      margin-bottom:40px;
+    }
+    .badge {
+      background:var(--glass);
+      backdrop-filter:blur(10px);
+      border:1px solid rgba(255,255,255,0.2);
+      padding:10px 20px;
+      border-radius:30px;
+      font-size:0.9rem;
+      font-weight:600;
+    }
+    .form-card {
+      background:white;
+      border-radius:24px;
+      padding:30px;
+      box-shadow:0 20px 60px rgba(0,0,0,0.15);
+      max-width:550px;
+      margin:0 auto;
+    }
+    .form-card input,.form-card select {
+      width:100%;
+      padding:14px 16px;
+      margin:10px 0;
+      border:2px solid #E2E8F0;
+      border-radius:12px;
+      font-size:1rem;
+      font-family:'Poppins',sans-serif;
+      transition:all 0.3s;
+    }
+    .form-card input:focus,.form-card select:focus {
+      outline:none;
+      border-color:var(--blue);
+      box-shadow:0 0 0 4px rgba(0,102,255,0.1);
+    }
+    .form-card label {
+      display:flex;
+      align-items:center;
+      margin:12px 0;
+      font-size:0.95rem;
+      color:var(--gray);
+    }
+    .form-card input[type="checkbox"] {
+      width:auto;
+      margin-right:10px;
+      accent-color:var(--blue);
+    }
+    .btn {
+      background:linear-gradient(135deg, var(--blue) 0%, var(--blue-dark) 100%);
+      color:white;
+      border:none;
+      padding:16px 32px;
+      border-radius:12px;
+      font-weight:700;
+      font-size:1.05rem;
+      cursor:pointer;
+      width:100%;
+      transition:all 0.3s;
+      box-shadow:0 8px 20px rgba(0,102,255,0.3);
+    }
+    .btn:hover {
+      transform:translateY(-2px);
+      box-shadow:0 12px 28px rgba(0,102,255,0.4);
+    }
+    .btn:active {transform:translateY(0);}
+    .payment-methods {
+      display:grid;
+      grid-template-columns:repeat(3,1fr);
+      gap:8px;
+      margin:15px 0;
+    }
+    .payment-method {
+      border:2px solid #E2E8F0;
+      border-radius:10px;
+      padding:10px 5px;
+      text-align:center;
+      cursor:pointer;
+      transition:all 0.3s;
+      font-size:0.75rem;
+      font-weight:600;
+    }
+    .payment-method:hover {border-color:var(--blue); background:#F0F9FF;}
+    .payment-method.active {
+      border-color:var(--blue);
+      background:#E0F2FE;
+      color:var(--blue);
+    }
+    #priceResult {
+      margin-top:20px;
+      padding:20px;
+      background:linear-gradient(135deg, #F0F9FF 0%, #E0F2FE 100%);
+      border-radius:16px;
+      border:2px solid var(--blue);
+      display:none;
+      animation:slideUp 0.4s ease;
+    }
+    @keyframes slideUp {
+      from {opacity:0; transform:translateY(20px);}
+      to {opacity:1; transform:translateY(0);}
+    }
+    #priceResult h3 {
+      color:var(--blue);
+      font-size:1.8rem;
+      margin-bottom:8px;
+    }
+    .payment-breakdown {
+      background:white;
+      padding:16px;
+      border-radius:12px;
+      margin-top:12px;
+      font-size:0.9rem;
+      line-height:1.8;
+    }
+    .payment-breakdown strong {color:var(--dark);}
+    .error {
+      color:#EF4444;
+      font-size:0.9rem;
+      margin-top:8px;
+      display:none;
+      padding:10px;
+      background:#FEE2E2;
+      border-radius:8px;
+    }
+    .notice {
+      background:#FEF3C7;
+      padding:12px;
+      border-radius:10px;
+      margin-top:12px;
+      font-size:0.85rem;
+      display:none;
+      border-left:4px solid var(--orange);
+    }
+    #daysGroup, #passengerGroup {display:none;}
+    .section {padding:80px 0;}
+    .section-title {
+      text-align:center;
+      font-size:2.5rem;
+      font-weight:800;
+      margin-bottom:15px;
+      color:var(--dark);
+    }
+    .section-sub {
+      text-align:center;
+      color:var(--gray);
+      margin-bottom:50px;
+      font-size:1.1rem;
+    }
+    .grid3 {
+      display:grid;
+      grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
+      gap:30px;
+    }
+    .card {
+      background:white;
+      padding:35px 30px;
+      border-radius:20px;
+      box-shadow:0 4px 20px rgba(0,0,0,0.06);
+      transition:all 0.3s;
+      border:2px solid transparent;
+    }
+    .card:hover {
+      transform:translateY(-8px);
+      box-shadow:0 12px 40px rgba(0,0,0,0.12);
+      border-color:var(--blue);
+    }
+    .card-icon {
+      font-size:3rem;
+      margin-bottom:15px;
+    }
+    .card h3 {
+      font-size:1.4rem;
+      margin-bottom:10px;
+      color:var(--dark);
+    }
+    .card p {color:var(--gray); line-height:1.6;}
+    .pricing-table {
+      background:white;
+      border-radius:20px;
+      overflow:hidden;
+      box-shadow:0 4px 20px rgba(0,0,0,0.06);
+    }
+    table {width:100%; border-collapse:collapse;}
+    th {
+      background:linear-gradient(135deg, var(--blue) 0%, var(--purple) 100%);
+      color:white;
+      padding:18px;
+      text-align:left;
+      font-weight:700;
+    }
+    td {
+      padding:16px 18px;
+      border-bottom:1px solid #F1F5F9;
+    }
+    tr:last-child td {border-bottom:none;}
+    tr:hover {background:#F8FAFC;}
+    .tag-abiria {background:var(--purple); color:white; padding:4px 12px; border-radius:20px; font-size:0.8rem; font-weight:600;}
+    .tag-boda {background:var(--green); color:white; padding:4px 12px; border-radius:20px; font-size:0.8rem; font-weight:600;}
+    .tag-crane {background:var(--orange); color:white; padding:4px 12px; border-radius:20px; font-size:0.8rem; font-weight:600;}
+    .section-dark {
+      background:linear-gradient(135deg, var(--dark) 0%, #1a1f3a 100%);
+      color:white;
+    }
+    .btn-white {
+      background:white;
+      color:var(--blue);
+      box-shadow:0 8px 20px rgba(255,255,255,0.3);
+    }
+    .btn-white:hover {box-shadow:0 12px 28px rgba(255,255,255,0.4);}
+    footer {
+      background:var(--dark);
+      color:white;
+      text-align:center;
+      padding:40px 0;
+    }
+    footer p {opacity:0.7; margin:8px 0;}
+    .whatsapp {
+      position:fixed;
+      bottom:25px;
+      right:25px;
+      background:#25D366;
+      color:white;
+      width:60px;
+      height:60px;
+      border-radius:50%;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      font-size:1.8rem;
+      text-decoration:none;
+      box-shadow:0 8px 24px rgba(37,211,102,0.4);
+      transition:all 0.3s;
+      z-index:1000;
+    }
+    .whatsapp:hover {
+      transform:scale(1.1);
+      box-shadow:0 12px 32px rgba(37,211,102,0.5);
+    }
+    @media (max-width:768px) {
+      .hero h1 {font-size:2rem;}
+      .section-title {font-size:1.8rem;}
+      .form-card {padding:20px;}
+      .trust-badges {gap:10px;}
+      .badge {font-size:0.8rem; padding:8px 16px;}
+      .lang-switch {gap:4px;}
+      .lang-switch button {padding:5px 10px; font-size:0.75rem;}
+      .payment-methods {grid-template-columns:repeat(2,1fr);}
+      .hero-logo {width:150px;}
+    }
+  </style>
+</head>
+<body>
+
+  <div class="top-bar">
+    <div class="container">
+      <div class="top-bar-content">
+        <img src="amot-logo.png" alt="AMOT" class="logo-img">
+        <div class="lang-switch">
+          <button id="btnSw" class="active">SW</button>
+          <button id="btnEn">EN</button>
+          <button id="btnAr">AR</button>
+          <button id="btnFr">FR</button>
+          <button id="btnDe">DE</button>
+          <button id="btnIt">IT</button>
+          <button id="btnEs">ES</button>
+          <button id="btnZh">ZH</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <section class="hero">
+    <div class="container">
+      <div class="hero-content">
+        <img src="amot-logo.png" alt="AMOT" class="hero-logo">
+        <h1 data-lang="hero_title">Move Anything in Zanzibar, Instantly</h1>
+        <p data-lang="hero_sub">Bodaboda, Car, Truck, Crane - book in 1 minute. Pay small deposit. Driver gets cash + bonus.</p>
+        
+        <div class="trust-badges">
+          <div class="badge">⭐ 4.9 Rating</div>
+          <div class="badge">🚗 500+ Drivers</div>
+          <div class="badge">🛡️ Insured</div>
+          <div class="badge">💰 6 Networks</div>
+        </div>
+
+        <div class="form-card">
+          <input type="text" id="pickup" data-ph="ph_pickup" placeholder="Pickup Location 📍 Ex: Stone Town">
+          <input type="text" id="dropoff" data-ph="ph_dropoff" placeholder="Drop-off Location 📍 Ex: Mwanakwerekwe">
+          <select id="truckType">
+            <option value="" data-lang="opt_choose">Choose Service</option>
+            <optgroup data-label="label_passenger" label="🏍️ Passengers">
+              <option value="BODA_ABIRIA" data-lang="opt_boda_abiria">Bodaboda - 1 Person</option>
+              <option value="TUK_ABIRIA" data-lang="opt_tuk_abiria">TukTuk - 3 People</option>
+              <option value="CAR_ABIRIA" data-lang="opt_car_abiria">Small Car - 4 People</option>
+              <option value="VAN_ABIRIA" data-lang="opt_van_abiria">Van - 7 People</option>
+            </optgroup>
+            <optgroup data-label="label_cargo_small" label="📦 Small Cargo">
+              <option value="BODA_MZIGO" data-lang="opt_boda_mzigo">Bodaboda - 50kg Cargo</option>
+              <option value="0.35T" data-lang="opt_035t">0.35-Tonne TukTuk</option>
+              <option value="1T" data-lang="opt_1t">1-Tonne Pickup</option>
+              <option value="3T" data-lang="opt_3t">3-Tonne Pickup</option>
+            </optgroup>
+            <optgroup data-label="label_cargo_big" label="🚛 Large Cargo">
+              <option value="10T" data-lang="opt_10t">10-Tonne Truck</option>
+              <option value="20ft" data-lang="opt_20ft">20ft Container</option>
+            </optgroup>
+            <optgroup data-label="label_crane" label="🏗️ Crane Trucks">
+              <option value="CR20T" data-lang="opt_cr20t">20-Tonne Crane - TSh 2.7M/day</option>
+              <option value="CR50T" data-lang="opt_cr50t">50-Tonne Crane - TSh 3.2M/day</option>
+              <option value="CR80T" data-lang="opt_cr80t">80-Tonne Crane - TSh 4.5M/day</option>
+            </optgroup>
+          </select>
+          <div id="daysGroup">
+            <input type="number" id="days" data-ph="ph_days" placeholder="How many days? Min: 1" min="1" value="1">
+          </div>
+          <div id="passengerGroup">
+            <input type="number" id="passengers" data-ph="ph_passengers" placeholder="How many people?" min="1" max="7" value="1">
+          </div>
+          <label>
+            <input type="checkbox" id="needLabor"> <span data-lang="lbl_labor">I need loading labor</span>
+          </label>
+          
+          <div style="margin:15px 0;">
+            <small data-lang="pay_method_title" style="color:var(--gray); font-weight:600;">Choose Payment Method:</small>
+            <div class="payment-methods">
+              <div class="payment-method active" data-method="mpesa">M-Pesa</div>
+              <div class="payment-method" data-method="tigo">Tigo Pesa</div>
+              <div class="payment-method" data-method="airtel">Airtel Money</div>
+              <div class="payment-method" data-method="halo">HaloPesa</div>
+              <div class="payment-method" data-method="tpesa">T-Pesa</div>
+              <div class="payment-method" data-method="selcom">Selcom</div>
+            </div>
+          </div>
+
+          <button class="btn" id="calcBtn" data-lang="btn_calc">Get Your Price</button>
+          <div class="error" id="errorMsg"></div>
+          <div class="notice" id="craneNotice" data-lang="notice_crane">⚠️ Crane: Price per day (8 hours). 30% deposit upfront.</div>
+          <div class="notice" id="bodaNotice" data-lang="notice_boda">🏍️ Bodaboda Cargo: For loads under 50kg. Pay 30% deposit only.</div>
+          <div class="notice" id="abiriaNotice" data-lang="notice_abiria">👥 Passengers: Pay 30% deposit now. 70% cash to driver.</div>
+          <div id="priceResult">
+            <h3><span data-lang="result_total">Your Price:</span> TSh <span id="totalPrice">0</span></h3>
+            <small id="detailLine">Distance: <span id="distance">0</span> km</small><br>
+            <div class="payment-breakdown">
+              <strong data-lang="pay_title">How to Pay:</strong><br>
+              1. <b data-lang="pay_deposit">Deposit Now:</b> TSh <span id="deposit">0</span> <small data-lang="pay_deposit_note">(30% to AMOT via <span id="selectedMethod">M-Pesa</span>)</small><br>
+              2. <b data-lang="pay_cash">Cash to Driver:</b> TSh <span id="cashToDriver">0</span> <small data-lang="pay_cash_note">(70% after trip)</small><br>
+              3. <b data-lang="pay_bonus">Driver Bonus:</b> TSh <span id="driverBonus">0</span> <small data-lang="pay_bonus_note">(15% sent Friday by AMOT)</small>
+            </div>
+            <button class="btn" style="margin-top:12px;" id="whatsappBtn" data-lang="btn_book">Book via WhatsApp</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <h2 class="section-title" data-lang="how_title">How AMOT Works</h2>
+      <p class="section-sub" data-lang="how_sub">Simple 3-step process. Safe, fast, transparent.</p>
+      <div class="grid3">
+        <div class="card">
+          <div class="card-icon">📱</div>
+          <h3 data-lang="how1_title">1. Book & Pay Deposit</h3>
+          <p data-lang="how1_text">Pay 30% upfront via any network to confirm. Get driver details instantly.</p>
+        </div>
+        <div class="card">
+          <div class="card-icon">💵</div>
+          <h3 data-lang="how2_title">2. Pay Driver Cash</h3>
+          <p data-lang="how2_text">Pay 70% cash to driver after safe delivery. Track live on map.</p>
+        </div>
+        <div class="card">
+          <div class="card-icon">🎁</div>
+          <h3 data-lang="how3_title">3. Driver Gets Bonus</h3>
+          <p data-lang="how3_text">Every Friday AMOT sends 15% bonus to driver. Happy drivers = better service.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" style="background:var(--light);">
+    <div class="container">
+      <h2 class="section-title" data-lang="price_title">Starting Prices - Zanzibar</h2>
+      <p class="section-sub" data-lang="price_sub">Transparent pricing. No hidden fees. 30% deposit secures booking.</p>
+      <div class="pricing-table">
+        <table>
+          <tr><th data-lang="tbl_service">Service</th><th data-lang="tbl_total">Total Price</th><th data-lang="tbl_deposit">Deposit 30%</th><th data-lang="tbl_cash">Cash to Driver</th></tr>
+          <tr><td><span class="tag-abiria" data-lang="row_boda_a">Bodaboda</span></td><td>TSh 2,000</td><td>TSh 600</td><td>TSh 1,400</td></tr>
+          <tr><td><span class="tag-abiria" data-lang="row_tuk_a">TukTuk</span></td><td>TSh 3,000</td><td>TSh 900</td><td>TSh 2,100</td></tr>
+          <tr><td><span class="tag-abiria" data-lang="row_car_a">Small Car</span></td><td>TSh 8,000</td><td>TSh 2,400</td><td>TSh 5,600</td></tr>
+          <tr><td><span class="tag-abiria" data-lang="row_van_a">Van</span></td><td>TSh 15,000</td><td>TSh 4,500</td><td>TSh 10,500</td></tr>
+          <tr><td><span class="tag-boda" data-lang="row_boda_c">Boda Cargo</span></td><td>TSh 2,000</td><td>TSh 600</td><td>TSh 1,400</td></tr>
+          <tr><td data-lang="row_3t">3T Pickup</td><td>TSh 42,000</td><td>TSh 12,600</td><td>TSh 29,400</td></tr>
+          <tr><td><span class="tag-crane" data-lang="row_cr20">20T Crane</span></td><td>TSh 2.7M/day</td><td>TSh 810k</td><td>TSh 1.89M</td></tr>
+        </table>
+      </div>
+      <p style="text-align:center; margin-top:20px; color:var(--gray); font-size:0.9rem;" data-lang="tbl_note">Driver gets 15% bonus of total price every Friday from AMOT.</p>
+    </div>
+  </section>
+
+  <section class="section section-dark">
+    <div class="container" style="text-align:center;">
+      <h2 class="section-title" style="color:white;" data-lang="driver_title">Have Bodaboda, Car, or Crane?</h2>
+      <p class="section-sub" style="color:rgba(255,255,255,0.8);" data-lang="driver_text">Join 500+ drivers earning daily. Get 70% cash + 15% bonus every Friday.</p>
+      <button class="btn btn-white" data-lang="driver_btn">Join as Driver Now</button>
+    </div>
+  </section>
+
+  <footer>
+    <div class="container">
+      <p><strong>AMOT</strong> - <span data-lang="footer_tag">Move Anything, Fast</span></p>
+      <p>Zanzibar, Tanzania | info@amot.co.tz | +255 7XX XXX</p>
+      <p>© 2026 AMOT. All rights reserved.</p>
+    </div>
+  </footer>
+
+  <a href="https://wa.me/255779771085" class="whatsapp">💬</a>
+
+<script>
+const T = {
+  sw: {
+    hero_title: "Sogeza Chochote Zanzibar, Papo Hapo",
+    hero_sub: "Bodaboda, Gari, Truck, Crane - book kwa dakika 1. Lipa deposit kidogo. Dereva anapata cash + bonus.",
+    ph_pickup: "Weka Pickup 📍 Mf: Stone Town",
+    ph_dropoff: "Weka Drop-off 📍 Mf: Mwanakwerekwe",
+    opt_choose: "Chagua Huduma",
+    label_passenger: "🏍️ Abiria",
+    label_cargo_small: "📦 Mizigo Midogo",
+    label_cargo_big: "🚛 Mizigo Mikubwa",
+    label_crane: "🏗️ Crane Trucks",
+    opt_boda_abiria: "Bodaboda - Mtu 1",
+    opt_tuk_abiria: "TukTuk - Watu 3",
+    opt_car_abiria: "Gari Ndogo - Watu 4",
+    opt_van_abiria: "Van - Watu 7",
+    opt_boda_mzigo: "Bodaboda - Mizigo 50kg",
+    opt_035t: "0.35-Tonne TukTuk",
+    opt_1t: "1-Tonne Pickup",
+    opt_3t: "3-Tonne Pickup",
+    opt_10t: "10-Tonne Truck",
+    opt_20ft: "20ft Container",
+    opt_cr20t: "20-Tonne Crane - TSh 2.7M/siku",
+    opt_cr50t: "50-Tonne Crane - TSh 3.2M/siku",
+    opt_cr80t: "80-Tonne Crane - TSh 4.5M/siku",
+    ph_days: "Siku ngapi? Min: 1",
+    ph_passengers: "Watu wangapi?",
+    lbl_labor: "Nahitaji labor kupakia",
+    pay_method_title: "Chagua Njia ya Malipo:",
+    btn_calc: "Pata Bei Yako",
+    notice_crane: "⚠️ Crane: Bei ni kwa siku (masaa 8). Deposit 30% kwanza.",
+    notice_boda: "🏍️ Bodaboda Mizigo: Kwa mizigo chini ya 50kg. Lipa deposit 30% tu.",
+    notice_abiria: "👥 Abiria: Lipa deposit 30% sasa. 70% cash kwa dereva.",
+    result_total: "Bei Yako:",
+    pay_title: "Jinsi ya Kulipa:",
+    pay_deposit: "Deposit Sasa:",
+    pay_deposit_note: "(30% kwenda AMOT kupitia",
+    pay_cash: "Cash kwa Dereva:",
+    pay_cash_note: "(70% baada ya trip)",
+    pay_bonus: "Bonus ya Dereva:",
+    pay_bonus_note: "(15% atapewa Ijumaa na AMOT)",
+    btn_book: "Book kwa WhatsApp",
+    how_title: "Jinsi AMOT Inavyofanya Kazi",
+    how_sub: "Hatua 3 rahisi. Salama, haraka, wazi.",
+    how1_title: "1. Book & Lipa Deposit",
+    how1_text: "Lipa 30% kwanza kwa mtandao wowote kuthibitisha. Pata maelezo ya dereva papo hapo.",
+    how2_title: "2. Lipa Dereva Cash",
+    how2_text: "Lipa 70% cash kwa dereva baada ya kufika salama. Track live kwenye ramani.",
+    how3_title: "3. Dereva Anapata Bonus",
+    how3_text: "Kila Ijumaa AMOT inatuma 15% bonus kwa dereva. Madereva wenye furaha = huduma bora.",
+    price_title: "Bei za Kuanzia - Zanzibar",
+    price_sub: "Bei wazi. Hakuna ada za siri. Deposit 30% inahakikisha booking.",
+    tbl_service: "Huduma",
+    tbl_total: "Bei Jumla",
+    tbl_deposit: "Deposit 30%",
+    tbl_cash: "Cash kwa Dereva",
+    row_boda_a: "Bodaboda Abiria",
+    row_tuk_a: "TukTuk Abiria",
+    row_car_a: "Gari Ndogo",
+    row_van_a: "Van Abiria",
+    row_boda_c: "Bodaboda Mizigo",
+    row_3t: "3T Pickup",
+    row_cr20: "20T Crane",
+    tbl_note: "Dereva anapata 15% bonus ya bei jumla kila Ijumaa kutoka AMOT.",
+    driver_title: "Una Bodaboda, Gari, au Crane?",
+    driver_text: "Jiunge na madereva 500+ wanaopata kipato kila siku. Pata 70% cash + 15% bonus kila Ijumaa.",
+    driver_btn: "Jiunge Sasa Kama Dereva",
+    footer_tag: "Sogeza Chochote, Haraka",
+    err_fill: "Tafadhali jaza sehemu zote: Pickup, Drop-off, na Huduma"
+  },
+  en: {
+    hero_title: "Move Anything in Zanzibar, Instantly",
+    hero_sub: "Bodaboda, Car, Truck, Crane - book in 1 minute. Pay small deposit. Driver gets cash + bonus.",
+    ph_pickup: "Pickup Location 📍 Ex: Stone Town",
+    ph_dropoff: "Drop-off Location 📍 Ex: Mwanakwerekwe",
+    opt_choose: "Choose Service",
+    label_passenger: "🏍️ Passengers",
+    label_cargo_small: "📦 Small Cargo",
+    label_cargo_big: "🚛 Large Cargo",
+    label_crane: "🏗️ Crane Trucks",
+    opt_boda_abiria: "Bodaboda - 1 Person",
+    opt_tuk_abiria: "TukTuk - 3 People",
+    opt_car_abiria: "Small Car - 4 People",
+    opt_van_abiria: "Van - 7 People",
+    opt_boda_mzigo: "Bodaboda - 50kg Cargo",
+    opt_035t: "0.35-Tonne TukTuk",
+    opt_1t: "1-Tonne Pickup",
+    opt_3t: "3-Tonne Pickup",
+    opt_10t: "10-Tonne Truck",
+    opt_20ft: "20ft Container",
+    opt_cr20t: "20-Tonne Crane - TSh 2.7M/day",
+    opt_cr50t: "50-Tonne Crane - TSh 3.2M/day",
+    opt_cr80t: "80-Tonne Crane - TSh 4.5M/day",
+    ph_days: "How many days? Min: 1",
+    ph_passengers: "How many people?",
+    lbl_labor: "I need loading labor",
+    pay_method_title: "Choose Payment Method:",
+    btn_calc: "Get Your Price",
+    notice_crane: "⚠️ Crane: Price per day (8 hours). 30% deposit upfront.",
+    notice_boda: "🏍️ Bodaboda Cargo: For loads under 50kg. Pay 30% deposit only.",
+    notice_abiria: "👥 Passengers: Pay 30% deposit now. 70% cash to driver.",
+    result_total: "Your Price:",
+    pay_title: "How to Pay:",
+    pay_deposit: "Deposit Now:",
+    pay_deposit_note: "(30% to AMOT via",
+    pay_cash: "Cash to Driver:",
+    pay_cash_note: "(70% after trip)",
+    pay_bonus: "Driver Bonus:",
+    pay_bonus_note: "(15% sent Friday by AMOT)",
+    btn_book: "Book via WhatsApp",
+    how_title: "How AMOT Works",
+    how_sub: "Simple 3-step process. Safe, fast, transparent.",
+    how1_title: "1. Book & Pay Deposit",
+    how1_text: "Pay 30% upfront via any network to confirm. Get driver details instantly.",
+    how2_title: "2. Pay Driver Cash",
+    how2_text: "Pay 70% cash to driver after safe delivery. Track live on map.",
+    how3_title: "3. Driver Gets Bonus",
+    how3_text: "Every Friday AMOT sends 15% bonus to driver. Happy drivers = better service.",
+    price_title: "Starting Prices - Zanzibar",
+    price_sub: "Transparent pricing. No hidden fees. 30% deposit secures booking.",
+    tbl_service: "Service",
+    tbl_total: "Total Price",
+    tbl_deposit: "Deposit 30%",
+    tbl_cash: "Cash to Driver",
+    row_boda_a: "Bodaboda Passenger",
+    row_tuk_a: "TukTuk Passenger",
+    row_car_a: "Small Car",
+    row_van_a: "Van Passenger",
+    row_boda_c: "Bodaboda Cargo",
+        row_3t: "3T Pickup",
+    row_cr20: "20T Crane",
+    tbl_note: "Driver gets 15% bonus of total price every Friday from AMOT.",
+    driver_title: "Have Bodaboda, Car, or Crane?",
+    driver_text: "Join 500+ drivers earning daily. Get 70% cash + 15% bonus every Friday.",
+    driver_btn: "Join as Driver Now",
+    footer_tag: "Move Anything, Fast",
+    err_fill: "Please fill all fields: Pickup, Drop-off, and Service"
+  },
+  ar: {hero_title: "انقل أي شيء في زنجبار فوراً", hero_sub: "بودابودا، سيارة، شاحنة، رافعة - احجز في دقيقة واحدة. ادفع عربون صغير. السائق يحصل على نقد + مكافأة", ph_pickup: "مكان الاستلام 📍 مثال: ستون تاون", ph_dropoff: "مكان التسليم 📍 مثال: مواناكويريكوي", opt_choose: "اختر الخدمة", label_passenger: "🏍️ الركاب", label_cargo_small: "📦 البضائع الصغيرة", label_cargo_big: "🚛 البضائع الكبيرة", label_crane: "🏗️ شاحنات الرافعة", opt_boda_abiria: "بودابودا - شخص واحد", opt_tuk_abiria: "توك توك - 3 أشخاص", opt_car_abiria: "سيارة صغيرة - 4 أشخاص", opt_van_abiria: "فان - 7 أشخاص", opt_boda_mzigo: "بودابودا - بضائع 50 كجم", opt_035t: "0.35 طن توك توك", opt_1t: "1 طن بيك أب", opt_3t: "3 طن بيك أب", opt_10t: "10 طن شاحنة", opt_20ft: "حاوية 20 قدم", opt_cr20t: "رافعة 20 طن - 2.7 مليون شلن/يوم", opt_cr50t: "رافعة 50 طن - 3.2 مليون شلن/يوم", opt_cr80t: "رافعة 80 طن - 4.5 مليون شلن/يوم", ph_days: "كم يوم؟ الحد الأدنى: 1", ph_passengers: "كم عدد الأشخاص؟", lbl_labor: "أحتاج عمالة للتحميل", pay_method_title: "اختر طريقة الدفع:", btn_calc: "احصل على السعر", notice_crane: "⚠️ رافعة: السعر لليوم (8 ساعات). عربون 30% مقدماً.", notice_boda: "🏍️ بودابودا بضائع: للحمولات أقل من 50 كجم. ادفع عربون 30% فقط.", notice_abiria: "👥 الركاب: ادفع عربون 30% الآن. 70% نقداً للسائق.", result_total: "السعر:", pay_title: "كيفية الدفع:", pay_deposit: "العربون الآن:", pay_deposit_note: "(30% إلى AMOT عبر", pay_cash: "نقداً للسائق:", pay_cash_note: "(70% بعد الرحلة)", pay_bonus: "مكافأة السائق:", pay_bonus_note: "(15% ترسل الجمعة من AMOT)", btn_book: "احجز عبر واتساب", how_title: "كيف يعمل AMOT", how_sub: "عملية بسيطة من 3 خطوات. آمنة، سريعة، شفافة.", how1_title: "1. احجز وادفع العربون", how1_text: "ادفع 30% مقدماً عبر أي شبكة للتأكيد. احصل على تفاصيل السائق فوراً.", how2_title: "2. ادفع للسائق نقداً", how2_text: "ادفع 70% نقداً للسائق بعد التسليم الآمن. تتبع مباشر على الخريطة.", how3_title: "3. السائق يحصل على مكافأة", how3_text: "كل جمعة ترسل AMOT مكافأة 15% للسائق. سائقون سعداء = خدمة أفضل.", price_title: "الأسعار الابتدائية - زنجبار", price_sub: "تسعير شفاف. لا رسوم خفية. عربون 30% يؤمن الحجز.", tbl_service: "الخدمة", tbl_total: "السعر الإجمالي", tbl_deposit: "عربون 30%", tbl_cash: "نقداً للسائق", row_boda_a: "بودابودا ركاب", row_tuk_a: "توك توك ركاب", row_car_a: "سيارة صغيرة", row_van_a: "فان ركاب", row_boda_c: "بودابودا بضائع", row_3t: "3 طن بيك أب", row_cr20: "رافعة 20 طن", tbl_note: "السائق يحصل على مكافأة 15% من السعر الإجمالي كل جمعة من AMOT.", driver_title: "هل لديك بودابودا، سيارة، أو رافعة؟", driver_text: "انضم إلى أكثر من 500 سائق يكسبون يومياً. احصل على 70% نقداً + 15% مكافأة كل جمعة.", driver_btn: "انضم كسائق الآن", footer_tag: "انقل أي شيء، بسرعة", err_fill: "يرجى ملء جميع الحقول: الاستلام، التسليم، والخدمة"},
+  fr: {hero_title: "Déplacez Tout à Zanzibar, Instantanément", hero_sub: "Bodaboda, Voiture, Camion, Grue - réservez en 1 minute. Payez un petit acompte. Le chauffeur reçoit cash + bonus.", ph_pickup: "Lieu de ramassage 📍 Ex: Stone Town", ph_dropoff: "Lieu de livraison 📍 Ex: Mwanakwerekwe", opt_choose: "Choisir le service", label_passenger: "🏍️ Passagers", label_cargo_small: "📦 Petit fret", label_cargo_big: "🚛 Gros fret", label_crane: "🏗️ Camions-grues", opt_boda_abiria: "Bodaboda - 1 personne", opt_tuk_abiria: "TukTuk - 3 personnes", opt_car_abiria: "Petite voiture - 4 personnes", opt_van_abiria: "Van - 7 personnes", opt_boda_mzigo: "Bodaboda - Fret 50kg", opt_035t: "TukTuk 0,35 tonne", opt_1t: "Pick-up 1 tonne", opt_3t: "Pick-up 3 tonnes", opt_10t: "Camion 10 tonnes", opt_20ft: "Conteneur 20ft", opt_cr20t: "Grue 20 tonnes - 2,7M TSh/jour", opt_cr50t: "Grue 50 tonnes - 3,2M TSh/jour", opt_cr80t: "Grue 80 tonnes - 4,5M TSh/jour", ph_days: "Combien de jours? Min: 1", ph_passengers: "Combien de personnes?", lbl_labor: "J'ai besoin de main-d'œuvre", pay_method_title: "Choisir le mode de paiement:", btn_calc: "Obtenir le prix", notice_crane: "⚠️ Grue: Prix par jour (8 heures). Acompte 30% d'avance.", notice_boda: "🏍️ Bodaboda Fret: Pour charges moins de 50kg. Payez acompte 30% seulement.", notice_abiria: "👥 Passagers: Payez acompte 30% maintenant. 70% cash au chauffeur.", result_total: "Votre Prix:", pay_title: "Comment payer:", pay_deposit: "Acompte maintenant:", pay_deposit_note: "(30% à AMOT via", pay_cash: "Cash au chauffeur:", pay_cash_note: "(70% après le trajet)", pay_bonus: "Bonus chauffeur:", pay_bonus_note: "(15% envoyé vendredi par AMOT)", btn_book: "Réserver via WhatsApp", how_title: "Comment fonctionne AMOT", how_sub: "Processus simple en 3 étapes. Sûr, rapide, transparent.", how1_title: "1. Réservez & Payez l'acompte", how1_text: "Payez 30% d'avance via n'importe quel réseau pour confirmer. Obtenez les détails du chauffeur instantanément.", how2_title: "2. Payez le chauffeur en cash", how2_text: "Payez 70% cash au chauffeur après livraison sûre. Suivi en direct sur carte.", how3_title: "3. Le chauffeur reçoit un bonus", how3_text: "Chaque vendredi AMOT envoie 15% de bonus au chauffeur. Chauffeurs heureux = meilleur service.", price_title: "Prix de départ - Zanzibar", price_sub: "Tarification transparente. Pas de frais cachés. Acompte 30% sécurise la réservation.", tbl_service: "Service", tbl_total: "Prix total", tbl_deposit: "Acompte 30%", tbl_cash: "Cash au chauffeur", row_boda_a: "Bodaboda Passager", row_tuk_a: "TukTuk Passager", row_car_a: "Petite voiture", row_van_a: "Van Passager", row_boda_c: "Bodaboda Fret", row_3t: "Pick-up 3T", row_cr20: "Grue 20T", tbl_note: "Le chauffeur reçoit 15% de bonus du prix total chaque vendredi d'AMOT.", driver_title: "Vous avez Bodaboda, Voiture, ou Grue?", driver_text: "Rejoignez 500+ chauffeurs gagnant quotidiennement. Obtenez 70% cash + 15% bonus chaque vendredi.", driver_btn: "Rejoindre comme chauffeur", footer_tag: "Déplacez Tout, Vite", err_fill: "Veuillez remplir tous les champs: Ramassage, Livraison, et Service"},
+  de: {hero_title: "Alles in Sansibar sofort bewegen", hero_sub: "Bodaboda, Auto, LKW, Kran - in 1 Minute buchen. Kleine Anzahlung. Fahrer erhält Bargeld + Bonus.", ph_pickup: "Abholort 📍 Bsp: Stone Town", ph_dropoff: "Zielort 📍 Bsp: Mwanakwerekwe", opt_choose: "Service wählen", label_passenger: "🏍️ Passagiere", label_cargo_small: "📦 Kleine Fracht", label_cargo_big: "🚛 Große Fracht", label_crane: "🏗️ Kran-LKW", opt_boda_abiria: "Bodaboda - 1 Person", opt_tuk_abiria: "TukTuk - 3 Personen", opt_car_abiria: "Kleinwagen - 4 Personen", opt_van_abiria: "Van - 7 Personen", opt_boda_mzigo: "Bodaboda - 50kg Fracht", opt_035t: "0,35-Tonnen TukTuk", opt_1t: "1-Tonnen Pickup", opt_3t: "3-Tonnen Pickup", opt_10t: "10-Tonnen LKW", opt_20ft: "20ft Container", opt_cr20t: "20-Tonnen Kran - 2,7M TSh/Tag", opt_cr50t: "50-Tonnen Kran - 3,2M TSh/Tag", opt_cr80t: "80-Tonnen Kran - 4,5M TSh/Tag", ph_days: "Wie viele Tage? Min: 1", ph_passengers: "Wie viele Personen?", lbl_labor: "Ich brauche Ladehelfer", pay_method_title: "Zahlungsmethode wählen:", btn_calc: "Preis erhalten", notice_crane: "⚠️ Kran: Preis pro Tag (8 Stunden). 30% Anzahlung im Voraus.", notice_boda: "🏍️ Bodaboda Fracht: Für Ladungen unter 50kg. Nur 30% Anzahlung zahlen.", notice_abiria: "👥 Passagiere: 30% Anzahlung jetzt zahlen. 70% bar an Fahrer.", result_total: "Ihr Preis:", pay_title: "Wie bezahlen:", pay_deposit: "Anzahlung jetzt:", pay_deposit_note: "(30% an AMOT via", pay_cash: "Bargeld an Fahrer:", pay_cash_note: "(70% nach der Fahrt)", pay_bonus: "Fahrer-Bonus:", pay_bonus_note: "(15% freitags von AMOT gesendet)", btn_book: "Per WhatsApp buchen", how_title: "Wie AMOT funktioniert", how_sub: "Einfacher 3-Schritte-Prozess. Sicher, schnell, transparent.", how1_title: "1. Buchen & Anzahlung", how1_text: "30% im Voraus über jedes Netzwerk zahlen zur Bestätigung. Fahrerdetails sofort erhalten.", how2_title: "2. Fahrer bar bezahlen", how2_text: "70% bar an Fahrer nach sicherer Lieferung zahlen. Live auf Karte verfolgen.", how3_title: "3. Fahrer erhält Bonus", how3_text: "Jeden Freitag sendet AMOT 15% Bonus an Fahrer. Glückliche Fahrer = besserer Service.", price_title: "Startpreise - Sansibar", price_sub: "Transparente Preise. Keine versteckten Gebühren. Anzahlung 30% sichert Buchung.", tbl_service: "Service", tbl_total: "Gesamtpreis", tbl_deposit: "Anzahlung 30%", tbl_cash: "Bargeld an Fahrer", row_boda_a: "Bodaboda Passagier", row_tuk_a: "TukTuk Passagier", row_car_a: "Kleinwagen", row_van_a: "Van Passagier", row_boda_c: "Bodaboda Fracht", row_3t: "3T Pickup", row_cr20: "20T Kran", tbl_note: "Fahrer erhält 15% Bonus vom Gesamtpreis jeden Freitag von AMOT.", driver_title: "Haben Sie Bodaboda, Auto oder Kran?", driver_text: "Schließen Sie sich 500+ Fahrern an, die täglich verdienen. Erhalten Sie 70% bar + 15% Bonus jeden Freitag.", driver_btn: "Als Fahrer beitreten", footer_tag: "Alles schnell bewegen", err_fill: "Bitte alle Felder ausfüllen: Abholung, Lieferung und Service"},
+  it: {hero_title: "Muovi Tutto a Zanzibar, Istantaneamente", hero_sub: "Bodaboda, Auto, Camion, Gru - prenota in 1 minuto. Paga piccolo acconto. L'autista riceve contanti + bonus.", ph_pickup: "Luogo ritiro 📍 Es: Stone Town", ph_dropoff: "Luogo consegna 📍 Es: Mwanakwerekwe", opt_choose: "Scegli servizio", label_passenger: "🏍️ Passeggeri", label_cargo_small: "📦 Piccolo carico", label_cargo_big: "🚛 Grande carico", label_crane: "🏗️ Camion-gru", opt_boda_abiria: "Bodaboda - 1 Persona", opt_tuk_abiria: "TukTuk - 3 Persone", opt_car_abiria: "Auto piccola - 4 Persone", opt_van_abiria: "Van - 7 Persone", opt_boda_mzigo: "Bodaboda - Carico 50kg", opt_035t: "TukTuk 0,35 tonnellate", opt_1t: "Pickup 1 tonnellata", opt_3t: "Pickup 3 tonnellate", opt_10t: "Camion 10 tonnellate", opt_20ft: "Container 20ft", opt_cr20t: "Gru 20 tonnellate - 2,7M TSh/giorno", opt_cr50t: "Gru 50 tonnellate - 3,2M TSh/giorno", opt_cr80t: "Gru 80 tonnellate - 4,5M TSh/giorno", ph_days: "Quanti giorni? Min: 1", ph_passengers: "Quante persone?", lbl_labor: "Ho bisogno di manodopera", pay_method_title: "Scegli metodo di pagamento:", btn_calc: "Ottieni il prezzo", notice_crane: "⚠️ Gru: Prezzo al giorno (8 ore). Acconto 30% anticipato.", notice_boda: "🏍️ Bodaboda Carico: Per carichi sotto 50kg. Paga solo acconto 30%.", notice_abiria: "👥 Passeggeri: Paga acconto 30% ora. 70% contanti all'autista.", result_total: "Il tuo prezzo:", pay_title: "Come pagare:", pay_deposit: "Acconto ora:", pay_deposit_note: "(30% ad AMOT via", pay_cash: "Contanti all'autista:", pay_cash_note: "(70% dopo il viaggio)", pay_bonus: "Bonus autista:", pay_bonus_note: "(15% inviato venerdì da AMOT)", btn_book: "Prenota via WhatsApp", how_title: "Come funziona AMOT", how_sub: "Semplice processo in 3 fasi. Sicuro, veloce, trasparente.", how1_title: "1. Prenota e paga acconto", how1_text: "Paga 30% in anticipo tramite qualsiasi rete per confermare. Ottieni dettagli autista istantaneamente.", how2_title: "2. Paga autista in contanti", how2_text: "Paga 70% in contanti all'autista dopo consegna sicura. Traccia live su mappa.", how3_title: "3. L'autista riceve bonus", how3_text: "Ogni venerdì AMOT invia 15% di bonus all'autista. Autisti felici = servizio migliore.", price_title: "Prezzi iniziali - Zanzibar", price_sub: "Prezzi trasparenti. Nessuna commissione nascosta. Acconto 30% assicura prenotazione.", tbl_service: "Servizio", tbl_total: "Prezzo totale", tbl_deposit: "Acconto 30%", tbl_cash: "Contanti all'autista", row_boda_a: "Bodaboda Passeggero", row_tuk_a: "TukTuk Passeggero", row_car_a: "Auto piccola", row_van_a: "Van Passeggero", row_boda_c: "Bodaboda Carico", row_3t: "Pickup 3T", row_cr20: "Gru 20T", tbl_note: "L'autista riceve 15% di bonus del prezzo totale ogni venerdì da AMOT.", driver_title: "Hai Bodaboda, Auto o Gru?", driver_text: "Unisciti a 500+ autisti che guadagnano quotidianamente. Ottieni 70% contanti + 15% bonus ogni venerdì.", driver_btn: "Unisciti come autista", footer_tag: "Muovi Tutto, Velocemente", err_fill: "Compila tutti i campi: Ritiro, Consegna e Servizio"},
+  es: {hero_title: "Mueve Todo en Zanzíbar, Al Instante", hero_sub: "Bodaboda, Auto, Camión, Grúa - reserva en 1 minuto. Paga pequeño depósito. El conductor recibe efectivo + bono.", ph_pickup: "Lugar de recogida 📍 Ej: Stone Town", ph_dropoff: "Lugar de entrega 📍 Ej: Mwanakwerekwe", opt_choose: "Elegir servicio", label_passenger: "🏍️ Pasajeros", label_cargo_small: "📦 Carga pequeña", label_cargo_big: "🚛 Carga grande", label_crane: "🏗️ Camiones grúa", opt_boda_abiria: "Bodaboda - 1 Persona", opt_tuk_abiria: "TukTuk - 3 Personas", opt_car_abiria: "Auto pequeño - 4 Personas", opt_van_abiria: "Van - 7 Personas", opt_boda_mzigo: "Bodaboda - Carga 50kg", opt_035t: "TukTuk 0,35 toneladas", opt_1t: "Pickup 1 tonelada", opt_3t: "Pickup 3 toneladas", opt_10t: "Camión 10 toneladas", opt_20ft: "Contenedor 20ft", opt_cr20t: "Grúa 20 toneladas - 2,7M TSh/día", opt_cr50t: "Grúa 50 toneladas - 3,2M TSh/día", opt_cr80t: "Grúa 80 toneladas - 4,5M TSh/día", ph_days: "¿Cuántos días? Mín: 1", ph_passengers: "¿Cuántas personas?", lbl_labor: "Necesito mano de obra", pay_method_title: "Elegir método de pago:", btn_calc: "Obtener precio", notice_crane: "⚠️ Grúa: Precio por día (8 horas). Depósito 30% por adelantado.", notice_boda: "🏍️ Bodaboda Carga: Para cargas menos de 50kg. Paga solo depósito 30%.", notice_abiria: "👥 Pasajeros: Paga depósito 30% ahora. 70% efectivo al conductor.", result_total: "Tu Precio:", pay_title: "Cómo pagar:", pay_deposit: "Depósito ahora:", pay_deposit_note: "(30% a AMOT vía", pay_cash: "Efectivo al conductor:", pay_cash_note: "(70% después del viaje)", pay_bonus: "Bono del conductor:", pay_bonus_note: "(15% enviado viernes por AMOT)", btn_book: "Reservar por WhatsApp", how_title: "Cómo funciona AMOT", how_sub: "Proceso simple de 3 pasos. Seguro, rápido, transparente.", how1_title: "1. Reserva y paga depósito", how1_text: "Paga 30% por adelantado vía cualquier red para confirmar. Obtén detalles del conductor al instante.", how2_title: "2. Paga conductor en efectivo", how2_text: "Paga 70% en efectivo al conductor después de entrega segura. Rastrea en vivo en mapa.", how3_title: "3. El conductor recibe bono", how3_text: "Cada viernes AMOT envía 15% de bono al conductor. Conductores felices = mejor servicio.", price_title: "Precios iniciales - Zanzíbar", price_sub: "Precios transparentes. Sin tarifas ocultas. Depósito 30% asegura reserva.", tbl_service: "Servicio", tbl_total: "Precio total", tbl_deposit: "Depósito 30%", tbl_cash: "Efectivo al conductor", row_boda_a: "Bodaboda Pasajero", row_tuk_a: "TukTuk Pasajero", row_car_a: "Auto pequeño", row_van_a: "Van Pasajero", row_boda_c: "Bodaboda Carga", row_3t: "Pickup 3T", row_cr20: "Grúa 20T", tbl_note: "El conductor recibe 15% de bono del precio total cada viernes de AMOT.", driver_title: "¿Tienes Bodaboda, Auto o Grúa?", driver_text: "Únete a 500+ conductores ganando diariamente. Obtén 70% efectivo + 15% bono cada viernes.", driver_btn: "Únete como conductor", footer_tag: "Mueve Todo, Rápido", err_fill: "Completa todos los campos: Recogida, Entrega y Servicio"},
+  zh: {hero_title: "在桑给巴尔即刻搬运任何物品", hero_sub: "摩托车、汽车、卡车、起重机 - 1分钟预订。支付小额押金。司机获得现金+奖金。", ph_pickup: "取货地点 📍 例: 石头城", ph_dropoff: "送货地点 📍 例: Mwanakwerekwe", opt_choose: "选择服务", label_passenger: "🏍️ 乘客", label_cargo_small: "📦 小件货物", label_cargo_big: "🚛 大件货物", label_crane: "🏗️ 起重卡车", opt_boda_abiria: "摩托车 - 1人", opt_tuk_abiria: "嘟嘟车 - 3人", opt_car_abiria: "小汽车 - 4人", opt_van_abiria: "面包车 - 7人", opt_boda_mzigo: "摩托车 - 50公斤货物", opt_035t: "0.35吨嘟嘟车", opt_1t: "1吨皮卡", opt_3t: "3吨皮卡", opt_10t: "10吨卡车", opt_20ft: "20英尺集装箱", opt_cr20t: "20吨起重机 - 270万先令/天", opt_cr50t: "50吨起重机 - 320万先令/天", opt_cr80t: "80吨起重机 - 450万先令/天", ph_days: "多少天？最少: 1", ph_passengers: "多少人？", lbl_labor: "我需要装卸工人", pay_method_title: "选择支付方式:", btn_calc: "获取价格", notice_crane: "⚠️ 起重机: 按天计价（8小时）。预付30%押金。", notice_boda: "🏍️ 摩托车货运: 50公斤以下货物。仅付30%押金。", notice_abiria: "👥 乘客: 现在支付30%押金。70%现金给司机。", result_total: "您的价格:", pay_title: "如何支付:", pay_deposit: "现在押金:", pay_deposit_note: "(30% 给AMOT 通过", pay_cash: "现金给司机:", pay_cash_note: "(70% 行程结束后)", pay_bonus: "司机奖金:", pay_bonus_note: "(15% 周五由AMOT发送)", btn_book: "通过WhatsApp预订", how_title: "AMOT如何运作", how_sub: "简单3步流程。安全、快速、透明。", how1_title: "1. 预订并支付押金", how1_text: "通过任何网络预付30%确认。立即获取司机详情。", how2_title: "2. 现金支付司机", how2_text: "安全送达后支付70%现金给司机。在地图上实时跟踪。", how3_title: "3. 司机获得奖金", how3_text: "每周五AMOT向司机发送15%奖金。快乐的司机=更好的服务。", price_title: "起步价 - 桑给巴尔", price_sub: "透明定价。无隐藏费用。30%押金确保预订。", tbl_service: "服务", tbl_total: "总价", tbl_deposit: "押金30%", tbl_cash: "现金给司机", row_boda_a: "摩托车乘客", row_tuk_a: "嘟嘟车乘客", row_car_a: "小汽车", row_van_a: "面包车乘客", row_boda_c: "摩托车货运", row_3t: "3吨皮卡", row_cr20: "20吨起重机", tbl_note: "司机每周五从AMOT获得总价15%奖金。", driver_title: "您有摩托车、汽车或起重机吗？", driver_text: "加入500+名每天赚钱的司机。获得70%现金+每周五15%奖金。", driver_btn: "作为司机加入", footer_tag: "快速搬运一切", err_fill: "请填写所有字段：取货、送货和服务"}
+};
+
+const BASE_PRICE = {
+  BODA_ABIRIA: 2000, TUK_ABIRIA: 3000, CAR_ABIRIA: 8000, VAN_ABIRIA: 15000,
+  BODA_MZIGO: 2000, "0.35T": 3000, "1T": 15000, "3T": 42000, "10T": 80000, "20ft": 120000,
+  CR20T: 2700000, CR50T: 3200000, CR80T: 4500000
+};
+
+const PER_KM = {
+  BODA_ABIRIA: 100, TUK_ABIRIA: 150, CAR_ABIRIA: 400, VAN_ABIRIA: 600,
+  BODA_MZIGO: 100, "0.35T": 150, "1T": 600, "3T": 1000, "10T": 2000, "20ft": 2500,
+  CR20T: 0, CR50T: 0, CR80T: 0
+};
+
+const ABIRIA_TYPES = ['BODA_ABIRIA', 'TUK_ABIRIA', 'CAR_ABIRIA', 'VAN_ABIRIA'];
+const CRANE_TYPES = ['CR20T', 'CR50T', 'CR80T'];
+
+let currentLang = 'sw';
+let selectedPayment = 'mpesa';
+
+function setLang(lang) {
+  currentLang = lang;
+  document.documentElement.lang = lang;
+  document.documentElement.dir = lang === 'ar'? 'rtl' : 'ltr';
+  
+  document.querySelectorAll('[data-lang]').forEach(el => {
+    const key = el.getAttribute('data-lang');
+    if (T[lang] && T[lang][key]) el.textContent = T[lang][key];
+  });
+  
+  document.querySelectorAll('[data-ph]').forEach(el => {
+    const key = el.getAttribute('data-ph');
+    if (T[lang] && T[lang][key]) el.placeholder = T[lang][key];
+  });
+
+  document.querySelectorAll('optgroup').forEach(el => {
+    const key = el.getAttribute('data-label');
+    if (T[lang] && T[lang][key]) el.label = T[lang][key];
+  });
+
+  document.querySelectorAll('.lang-switch button').forEach(btn => btn.classList.remove('active'));
+  document.getElementById('btn' + lang.charAt(0).toUpperCase() + lang.slice(1)).classList.add('active');
+  
+  updateUIForService();
+}
+
+function updateUIForService() {
+  const type = document.getElementById('truckType').value;
+  const isCrane = CRANE_TYPES.includes(type);
+  const isAbiria = ABIRIA_TYPES.includes(type);
+  
+  document.getElementById('daysGroup').style.display = isCrane? 'block' : 'none';
+  document.getElementById('passengerGroup').style.display = isAbiria? 'block' : 'none';
+  document.getElementById('craneNotice').style.display = isCrane? 'block' : 'none';
+  document.getElementById('bodaNotice').style.display = type === 'BODA_MZIGO'? 'block' : 'none';
+  document.getElementById('abiriaNotice').style.display = isAbiria? 'block' : 'none';
+}
+
+function calculatePrice() {
+  const pickup = document.getElementById('pickup').value.trim();
+  const dropoff = document.getElementById('dropoff').value.trim();
+  const type = document.getElementById('truckType').value;
+  const errorMsg = document.getElementById('errorMsg');
+  const resultDiv = document.getElementById('priceResult');
+  
+  errorMsg.style.display = 'none';
+  resultDiv.style.display = 'none';
+  
+  if (!pickup ||!dropoff ||!type) {
+    errorMsg.textContent = T[currentLang].err_fill;
+    errorMsg.style.display = 'block';
+    return;
+  }
+  
+  const isCrane = CRANE_TYPES.includes(type);
+  let total = 0;
+  let distance = 0;
+  
+  if (isCrane) {
+    const days = parseInt(document.getElementById('days').value) || 1;
+    total = BASE_PRICE[type] * days;
+    document.getElementById('detailLine').textContent = days + ' ' + (currentLang === 'sw'? 'siku' : 'day(s)');
+  } else {
+    distance = Math.floor(Math.random() * 20) + 5;
+    total = BASE_PRICE[type] + (distance * PER_KM[type]);
+    if (document.getElementById('needLabor').checked) total += 10000;
+    document.getElementById('detailLine').textContent = 'Distance: ' + distance + ' km';
+  }
+  
+  const deposit = Math.round(total * 0.3);
+  const cashToDriver = total - deposit;
+  const driverBonus = Math.round(total * 0.15);
+  
+  document.getElementById('totalPrice').textContent = total.toLocaleString();
+  document.getElementById('deposit').textContent = deposit.toLocaleString();
+  document.getElementById('cashToDriver').textContent = cashToDriver.toLocaleString();
+  document.getElementById('driverBonus').textContent = driverBonus.toLocaleString();
+  document.getElementById('selectedMethod').textContent = selectedPayment.charAt(0).toUpperCase() + selectedPayment.slice(1);
+  
+  resultDiv.style.display = 'block';
+  
+  document.getElementById('whatsappBtn').onclick = function() {
+    const msg = AMOT Booking%0APickup: ${pickup}%0ADrop-off: ${dropoff}%0AService: ${type}%0ATotal: TSh ${total.toLocaleString()}%0ADeposit 30%: TSh ${deposit.toLocaleString()} via ${selectedPayment}%0ACash to Driver: TSh ${cashToDriver.toLocaleString()};
+    window.open('https://wa.me/255779771085?text=' + msg, '_blank');
+  };
+}
+
+document.getElementById('btnSw').onclick = () => setLang('sw');
+document.getElementById('btnEn').onclick = () => setLang('en');
+document.getElementById('btnAr').onclick = () => setLang('ar');
+document.getElementById('btnFr').onclick = () => setLang('fr');
+document.getElementById('btnDe').onclick = () => setLang('de');
+document.getElementById('btnIt').onclick = () => setLang('it');
+document.getElementById('btnEs').onclick = () => setLang('es');
+document.getElementById('btnZh').onclick = () => setLang('zh');
+
+document.getElementById('truckType').onchange = updateUIForService;
+document.getElementById('calcBtn').onclick = calculatePrice;
+
+document.querySelectorAll('.payment-method').forEach(el => {
+  el.onclick = function() {
+    document.querySelectorAll('.payment-method').forEach(p => p.classList.remove('active'));
+    this.classList.add('active');
+    selectedPayment = this.getAttribute('data-method');
+  };
+});
+
+setLang('sw');
+</script>
+</body>
+</html>
