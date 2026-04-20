@@ -1,16 +1,283 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <title>Test</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Amot Zanzibar - Taxi & Transport</title>
+  <style>
+    :root { --primary:#2563eb; --dark:#1e293b; --light:#f8fafc; --gray:#64748b; --success:#16a34a; --danger:#dc2626; }
+    * { margin:0; padding:0; box-sizing:border-box; font-family:system-ui, -apple-system, sans-serif; }
+    body { background:var(--light); color:var(--dark); line-height:1.6; }
+ .container { max-width:600px; margin:0 auto; padding:16px; }
+ .card { background:white; border-radius:12px; padding:20px; box-shadow:0 2px 8px rgba(0,0,0,0.08); margin-bottom:16px; }
+    h1 { font-size:1.5rem; margin-bottom:8px; }
+    h2 { font-size:1.25rem; margin-bottom:16px; }
+ .header { display:flex; justify-content:space-between; align-items:center; margin-bottom:20px; }
+ .lang-switch select { padding:8px 12px; border:1px solid #ddd; border-radius:8px; font-size:14px; }
+ .form-group { margin-bottom:16px; }
+    label { display:block; font-weight:600; margin-bottom:6px; font-size:14px; }
+    input[type="text"], select { width:100%; padding:12px; border:1px solid #ddd; border-radius:8px; font-size:16px; }
+    input[type="checkbox"] { margin-right:8px; }
+ .checkbox-group { display:flex; align-items:center; margin-bottom:16px; }
+ .btn-primary { width:100%; padding:14px; background:var(--primary); color:white; border:none; border-radius:8px; font-size:16px; font-weight:600; cursor:pointer; }
+ .btn-primary:hover { opacity:0.9; }
+ .btn-book { display:inline-block; margin-top:12px; padding:10px 16px; background:var(--success); color:white; text-decoration:none; border-radius:8px; font-weight:600; }
+ .error { background:#fee2e2; color:var(--danger); padding:12px; border-radius:8px; margin-bottom:16px; display:none; }
+ .price { background:#dcfce7; color:var(--success); padding:16px; border-radius:8px; margin-top:16px; display:none; font-weight:600; }
+ .payment { margin-bottom:16px; }
+ .payment button { padding:10px 16px; border:2px solid var(--primary); background:white; color:var(--primary); border-radius:8px; font-weight:600; cursor:pointer; }
+ .payment button.active { background:var(--primary); color:white; }
+    footer { text-align:center; margin-top:24px; color:var(--gray); font-size:14px; }
+    [dir="rtl"] { text-align:right; }
+    [dir="rtl"].header { flex-direction:row-reverse; }
+  </style>
 </head>
 <body>
-  <h1>Jaribio la Button</h1>
-  <button onclick="jaribu()">Bonyeza Hapa</button>
+  <div class="container">
+    <div class="header">
+      <h1 data-lang="title">Amot Zanzibar</h1>
+      <div class="lang-switch">
+        <select id="langselect" onchange="setLang(this.value)">
+          <option value="en">🇬🇧 English</option>
+          <option value="sw">🇹🇿 Kiswahili</option>
+          <option value="ar">🇸🇦 العربية</option>
+          <option value="fr">🇫🇷 Français</option>
+          <option value="it">🇮🇹 Italiano</option>
+          <option value="de">🇩🇪 Deutsch</option>
+          <option value="zh">🇨🇳 中文</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="card">
+      <h2 data-lang="form_title">Book Your Ride</h2>
+      <div class="error" id="errorBox"></div>
+
+      <div class="form-group">
+        <label data-lang="label_pickup">Pick-up Location</label>
+        <input type="text" id="pickup" data-ph="ph_pickup" autocomplete="off">
+      </div>
+
+      <div class="form-group">
+        <label data-lang="label_dropoff">Drop-off Location</label>
+        <input type="text" id="dropoff" data-ph="ph_dropoff" autocomplete="off">
+      </div>
+
+      <div class="form-group">
+        <label data-lang="label_vehicle">Vehicle Type</label>
+        <select id="trucktype">
+          <option value="" data-lang="opt_choose">-- Choose Vehicle --</option>
+          <option value="bodaboda">Bodaboda - 1 Person</option>
+          <option value="tuktuk">TukTuk - 3 People</option>
+          <option value="sedan">Sedan - 4 People</option>
+          <option value="van">Van - 8 People</option>
+          <option value="bus">Bus - 15+ People</option>
+        </select>
+      </div>
+
+      <div class="checkbox-group">
+        <input type="checkbox" id="loadingLabor">
+        <label for="loadingLabor" data-lang="label_labor">I need loading labor (+$5)</label>
+      </div>
+
+      <div class="payment">
+        <label data-lang="label_payment">Choose Payment Method:</label><br>
+        <button type="button" class="active">M-Pesa</button>
+      </div>
+
+      <button class="btn-primary" onclick="calculatePrice()" data-lang="btn_price">Get Your Price</button>
+      <div class="price" id="priceBox"></div>
+    </div>
+
+    <footer>
+      <p>© 2026 Amot Zanzibar. All rights reserved.</p>
+    </footer>
+  </div>
 
   <script>
-    function jaribu() {
-      alert('JavaScript inafanya kazi!');
+    var currentLang = 'en';
+
+    var T = {
+      en: {
+        title: "Amot Zanzibar",
+        form_title: "Book Your Ride",
+        label_pickup: "Pick-up Location",
+        label_dropoff: "Drop-off Location",
+        label_vehicle: "Vehicle Type",
+        label_labor: "I need loading labor (+$5)",
+        label_payment: "Choose Payment Method:",
+        opt_choose: "-- Choose Vehicle --",
+        ph_pickup: "e.g. Stone Town",
+        ph_dropoff: "e.g. Airport",
+        btn_price: "Get Your Price",
+        btn_book: "Book on WhatsApp",
+        error_fields: "Please fill all fields",
+        price_prefix: "Your estimated price is",
+        price_suffix: "Contact us on WhatsApp to confirm."
+      },
+      sw: {
+        title: "Amot Zanzibar",
+        form_title: "Weka Oda ya Safari",
+        label_pickup: "Mahali pa Kuchukuliwa",
+        label_dropoff: "Mahali pa Kushushwa",
+        label_vehicle: "Aina ya Gari",
+        label_labor: "Nahitaji msaidizi wa kubeba (+$5)",
+        label_payment: "Chagua Njia ya Malipo:",
+        opt_choose: "-- Chagua Gari --",
+        ph_pickup: "mf. Stone Town",
+        ph_dropoff: "mf. Uwanja wa Ndege",
+        btn_price: "Pata Bei Yako",
+        btn_book: "Weka Oda WhatsApp",
+        error_fields: "Tafadhali jaza sehemu zote",
+        price_prefix: "Bei yako ya makadirio ni",
+        price_suffix: "Wasiliana nasi WhatsApp kuthibitisha."
+      },
+      ar: {
+        title: "أموط زنجبار",
+        form_title: "احجز رحلتك",
+        label_pickup: "موقع الاستلام",
+        label_dropoff: "موقع التوصيل",
+        label_vehicle: "نوع المركبة",
+        label_labor: "أحتاج عمال تحميل (+$5)",
+        label_payment: "اختر طريقة الدفع:",
+        opt_choose: "-- اختر المركبة --",
+        ph_pickup: "مثال: ستون تاون",
+        ph_dropoff: "مثال: المطار",
+        btn_price: "احصل على السعر",
+        btn_book: "احجز عبر واتساب",
+        error_fields: "يرجى ملء جميع الحقول",
+        price_prefix: "سعرك المقدر هو",
+        price_suffix: "تواصل معنا عبر واتساب للتأكيد."
+      },
+      fr: {
+        title: "Amot Zanzibar",
+        form_title: "Réservez Votre Course",
+        label_pickup: "Lieu de prise en charge",
+        label_dropoff: "Lieu de dépose",
+        label_vehicle: "Type de Véhicule",
+        label_labor: "J'ai besoin d'aide pour charger (+$5)",
+        label_payment: "Choisissez le mode de paiement:",
+        opt_choose: "-- Choisir Véhicule --",
+        ph_pickup: "ex. Stone Town",
+        ph_dropoff: "ex. Aéroport",
+        btn_price: "Obtenir le Prix",
+        btn_book: "Réserver sur WhatsApp",
+        error_fields: "Veuillez remplir tous les champs",
+        price_prefix: "Votre prix estimé est",
+        price_suffix: "Contactez-nous sur WhatsApp pour confirmer."
+      },
+      it: {
+        title: "Amot Zanzibar",
+        form_title: "Prenota la Tua Corsa",
+        label_pickup: "Luogo di ritiro",
+        label_dropoff: "Luogo di consegna",
+        label_vehicle: "Tipo di Veicolo",
+        label_labor: "Ho bisogno di aiuto per caricare (+$5)",
+        label_payment: "Scegli Metodo di Pagamento:",
+        opt_choose: "-- Scegli Veicolo --",
+        ph_pickup: "es. Stone Town",
+        ph_dropoff: "es. Aeroporto",
+        btn_price: "Ottieni il Prezzo",
+        btn_book: "Prenota su WhatsApp",
+        error_fields: "Per favore compila tutti i campi",
+        price_prefix: "Il tuo prezzo stimato è",
+        price_suffix: "Contattaci su WhatsApp per confermare."
+      },
+      de: {
+        title: "Amot Zanzibar",
+        form_title: "Buchen Sie Ihre Fahrt",
+        label_pickup: "Abholort",
+        label_dropoff: "Zielort",
+        label_vehicle: "Fahrzeugtyp",
+        label_labor: "Ich brauche Hilfe beim Beladen (+$5)",
+        label_payment: "Zahlungsmethode wählen:",
+        opt_choose: "-- Fahrzeug wählen --",
+        ph_pickup: "z.B. Stone Town",
+        ph_dropoff: "z.B. Flughafen",
+        btn_price: "Preis Erhalten",
+        btn_book: "Per WhatsApp Buchen",
+        error_fields: "Bitte alle Felder ausfüllen",
+        price_prefix: "Ihr geschätzter Preis ist",
+        price_suffix: "Kontaktieren Sie uns per WhatsApp zur Bestätigung."
+      },
+      zh: {
+        title: "阿莫特桑给巴尔",
+        form_title: "预订您的行程",
+        label_pickup: "接送地点",
+        label_dropoff: "目的地",
+        label_vehicle: "车辆类型",
+        label_labor: "我需要装载帮助 (+$5)",
+        label_payment: "选择支付方式:",
+        opt_choose: "-- 选择车辆 --",
+        ph_pickup: "例如：石头城",
+        ph_dropoff: "例如：机场",
+        btn_price: "获取价格",
+        btn_book: "WhatsApp预订",
+        error_fields: "请填写所有字段",
+        price_prefix: "您的预估价格是",
+        price_suffix: "通过WhatsApp联系我们确认。"
+      }
+    };
+
+    function setLang(lang) {
+      currentLang = lang;
+      document.documentElement.lang = lang;
+      document.documentElement.dir = lang === 'ar'? 'rtl' : 'ltr';
+
+      var elements = document.querySelectorAll('[data-lang]');
+      for (var i = 0; i < elements.length; i++) {
+        var key = elements[i].getAttribute('data-lang');
+        if (T[currentLang] && T[currentLang][key]) {
+          elements[i].textContent = T[currentLang][key];
+        }
+      }
+
+      var placeholders = document.querySelectorAll('[data-ph]');
+      for (var j = 0; j < placeholders.length; j++) {
+        var key = placeholders[j].getAttribute('data-ph');
+        if (T[currentLang] && T[currentLang][key]) {
+          placeholders[j].placeholder = T[currentLang][key];
+        }
+      }
+
+      document.getElementById('langselect').value = lang;
     }
+
+    function calculatePrice() {
+      var pickup = document.getElementById('pickup').value.trim();
+      var dropoff = document.getElementById('dropoff').value.trim();
+      var truck = document.getElementById('trucktype').value;
+      var labor = document.getElementById('loadingLabor').checked;
+
+      var errorBox = document.getElementById('errorBox');
+      var priceBox = document.getElementById('priceBox');
+
+      errorBox.style.display = 'none';
+      priceBox.style.display = 'none';
+
+      if (!pickup ||!dropoff ||!truck) {
+        errorBox.textContent = T[currentLang].error_fields;
+        errorBox.style.display = 'block';
+        return;
+      }
+
+      var total = 0;
+
+      if (truck === 'bodaboda') total = 5;
+      else if (truck === 'tuktuk') total = 10;
+      else if (truck === 'sedan') total = 15;
+      else if (truck === 'van') total = 25;
+      else if (truck === 'bus') total = 40;
+      else total = 20;
+
+      if (labor) total = total + 5;
+
+      var msg = T[currentLang].price_prefix + ' $' + total + '. ' + T[currentLang].price_suffix;
+      priceBox.innerHTML = msg + '<br><a href="https://wa.me/255779771085?text=Nataka%20' + truck + '%20kutoka%20' + pickup + '%20kwenda%20' + dropoff + '%20kwa%20$' + total + '" class="btn-book">' + T[currentLang].btn_book + '</a>';
+      priceBox.style.display = 'block';
+    }
+
+    setLang(currentLang);
   </script>
 </body>
 </html>
