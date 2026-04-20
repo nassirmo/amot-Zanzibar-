@@ -70,22 +70,22 @@
         <label data-lang="label_service">Service Type</label>
         <select id="service">
           <option value="" data-lang="opt_choose">-- Choose Service --</option>
-          <option value="bodaboda" data-lang="opt_boda">Bodaboda - 1 Person - $5</option>
-          <option value="airport" data-lang="opt_airport">Airport Pickup/Drop-off - $15</option>
-          <option value="tour3" data-lang="opt_tour3">3-Hour City Tour - $40</option>
-          <option value="fullday" data-lang="opt_fullday">Full Day Charter - $70</option>
-          <option value="hourly" data-lang="opt_hourly">Hourly Service - $15/hr</option>
+          <option value="bodaboda" data-lang="opt_boda">Bodaboda - 1 Person - TSh2,000</option>
+          <option value="airport" data-lang="opt_airport">Airport Pickup/Drop-off - TSh35,000</option>
+          <option value="tour3" data-lang="opt_tour3">3-Hour City Tour - TShh100,000</option>
+          <option value="fullday" data-lang="opt_fullday">Full Day Charter - TSh180,000</option>
+          <option value="hourly" data-lang="opt_hourly">Hourly Service - TSh35,000/hr</option>
         </select>
       </div>
 
       <div class="checkbox-group">
         <input type="checkbox" id="loadingLabor">
-        <label for="loadingLabor" data-lang="label_labor">I need loading labor (+$5)</label>
+        <label for="loadingLabor" data-lang="label_labor">I need loading labor (+TSh10,000)</label>
       </div>
 
       <div class="payment">
         <div class="payment-label" data-lang="label_payment">Choose Payment Method:</div>
-        <button type="button" class="active">M-Pesa</button>
+        <button type="button" class="active">M-Pesa<>Tigo-Pesa<>Airtell-Money><Halo-Pesa</button>
       </div>
 
       <button class="btn-primary" onclick="calculatePrice()" data-lang="btn_price">Get Your Price</button>
@@ -302,17 +302,17 @@
       var total = 0;
 
       // BEI ZA MWANZO + BODABODA
-      if (service === 'bodaboda') total = 5;
-      else if (service === 'airport') total = 15;
-      else if (service === 'tour3') total = 40;
-      else if (service === 'fullday') total = 70;
-      else if (service === 'hourly') total = 15;
-      else total = 20;
+      if (service === 'bodaboda') total = 2000;
+      else if (service === 'airport') total = 35000;
+      else if (service === 'tour3') total = 100000;
+      else if (service === 'fullday') total = 180000;
+      else if (service === 'hourly') total = 35000;
+      else total = 50000//;
 
-      if (labor) total = total + 5;
+      if (labor) total = total + 10000;
 
-      var msg = T[currentLang].price_prefix + ' $' + total + '. ' + T[currentLang].price_suffix;
-      priceBox.innerHTML = msg + '<br><a href="https://wa.me/2557797710852?text=Nataka%20' + service + '%20kutoka%20' + pickup + '%20kwenda%20' + dropoff + '%20kwa%20$' + total + '" class="btn-book">' + T[currentLang].btn_book + '</a>';
+      var msg = T[currentLang].price_prefix + ' Tsh' + total.tolocaleString() + '. ' + T[currentLang].price_suffix;
+      priceBox.innerHTML = msg + '<br><a href="https://wa.me/2557797710852?text=Nataka%20' + service + '%20kutoka%20' + pickup + '%20kwenda%20' + dropoff + '%20kwa%20Tsh' + total + '" class="btn-book">' + T[currentLang].btn_book + '</a>';
       priceBox.style.display = 'block';
     }
 
