@@ -1,182 +1,347 @@
 <!DOCTYPE html>
-<html lang="sw">
+<html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>AMOT - Sogeza Mzigo Wako, Fast</title>
+  <title>Amot Zanzibar - Taxi & Transport</title>
   <style>
-    :root {--blue:#0A66FF; --black:#0D1117; --light:#E6F0FF;}
-    body {margin:0; font-family:Arial,sans-serif; color:var(--black);}
-   .container {max-width:1100px; margin:auto; padding:0 20px;}
-   .hero {background:var(--black); color:white; padding:80px 0; text-align:center;}
-   .hero h1 {font-size:2.5rem; margin:0 0 10px;}
-   .hero p {opacity:0.8; margin-bottom:30px;}
-   .form-box {background:white; padding:20px; border-radius:12px; color:var(--black); max-width:500px; margin:auto;}
-   .form-box input,.form-box select {width:100%; padding:12px; margin:8px 0; border:1px solid #ccc; border-radius:8px; box-sizing:border-box;}
-   .btn {background:var(--blue); color:white; border:none; padding:14px 24px; border-radius:8px; font-weight:bold; cursor:pointer; width:100%;}
-   .btn-black {background:var(--black);}
-   .btn:disabled {opacity:0.5; cursor:not-allowed;}
-   .section {padding:60px 0;}
-   .section-blue {background:var(--light);}
-   .section-dark {background:var(--blue); color:white;}
-   .grid3 {display:grid; grid-template-columns:repeat(auto-fit,minmax(250px,1fr)); gap:20px;}
-   .card {border:1px solid #eee; padding:20px; border-radius:12px;}
-    table {width:100%; border-collapse:collapse; margin-top:20px;}
-    th,td {padding:12px; border-bottom:1px solid #ddd; text-align:left;}
-    th {background:var(--light);}
-    footer {background:var(--black); color:white; text-align:center; padding:30px 0;}
-   .whatsapp {position:fixed; bottom:20px; right:20px; background:#25D366; color:white; padding:15px; border-radius:50px; text-decoration:none;}
-    #priceResult {margin-top:15px; padding:15px; background:var(--light); border-radius:8px; display:none;}
-    #priceResult h3 {margin:0 0 5px; color:var(--blue);}
-   .error {color:#d93025; font-size:0.9rem; margin-top:5px; display:none;}
+    :root { --primary:#2563eb; --primary-dark:#1d4ed8; --dark:#0f172a; --light:#f8fafc; --gray:#64748b; --success:#16a34a; --danger:#dc2626; --border:#e2e8f0; }
+    * { margin:0; padding:0; box-sizing:border-box; font-family:system-ui, -apple-system, sans-serif; }
+    body { background:linear-gradient(135deg, #667eea 0%, #764ba2 100%); min-height:100vh; padding:20px 0; }
+.container { max-width:480px; margin:0 auto; padding:0 16px; }
+.card { background:white; border-radius:20px; padding:28px; box-shadow:0 20px 60px rgba(0,0,0,0.15); }
+.header { display:flex; justify-content:space-between; align-items:center; margin-bottom:24px; }
+.logo { font-size:1.75rem; font-weight:800; color:var(--primary); }
+.lang-switch select { padding:10px 14px; border:2px solid var(--border); border-radius:12px; font-size:14px; font-weight:600; background:white; cursor:pointer; }
+    h2 { font-size:1.5rem; margin-bottom:20px; color:var(--dark); }
+.form-group { margin-bottom:18px; }
+    label { display:block; font-weight:700; margin-bottom:8px; font-size:14px; color:var(--dark); }
+    input[type="text"], select { width:100%; padding:14px; border:2px solid var(--border); border-radius:12px; font-size:16px; transition:all 0.2s; }
+    input[type="text"]:focus, select:focus { outline:none; border-color:var(--primary); box-shadow:0 0 0 3px rgba(37,99,235,0.1); }
+.checkbox-group { display:flex; align-items:center; margin-bottom:20px; background:#f1f5f9; padding:12px; border-radius:12px; }
+    input[type="checkbox"] { width:20px; height:20px; margin-right:10px; accent-color:var(--primary); }
+.btn-primary { width:100%; padding:16px; background:linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%); color:white; border:none; border-radius:12px; font-size:17px; font-weight:700; cursor:pointer; transition:transform 0.2s; box-shadow:0 4px 12px rgba(37,99,235,0.4); }
+.btn-primary:hover { transform:translateY(-2px); box-shadow:0 6px 16px rgba(37,99,235,0.5); }
+.btn-book { display:inline-block; margin-top:14px; padding:12px 24px; background:var(--success); color:white; text-decoration:none; border-radius:12px; font-weight:700; transition:all 0.2s; }
+.btn-book:hover { background:#15803d; transform:scale(1.05); }
+.error { background:#fef2f2; color:var(--danger); padding:14px; border-radius:12px; margin-bottom:16px; display:none; font-weight:600; border:2px solid #fecaca; }
+.price { background:linear-gradient(135deg, #d1fae5 0%, #a7f3d0 100%); color:#065f46; padding:18px; border-radius:12px; margin-top:18px; display:none; font-weight:700; border:2px solid #6ee7b7; }
+.payment { margin-bottom:20px; }
+.payment-label { font-weight:700; margin-bottom:8px; font-size:14px; color:var(--dark); }
+.payment button { padding:12px 20px; border:2px solid var(--primary); background:white; color:var(--primary); border-radius:12px; font-weight:700; cursor:pointer; transition:all 0.2s; }
+.payment button.active { background:var(--primary); color:white; }
+    footer { text-align:center; margin-top:24px; color:white; font-size:13px; font-weight:500; }
+    [dir="rtl"] { text-align:right; }
+    [dir="rtl"].header { flex-direction:row-reverse; }
   </style>
 </head>
 <body>
-
-  <section class="hero">
-    <div class="container">
-      <h1>Sogeza Mzigo Wako Haraka na AMOT</h1>
-      <p>Book a truck in 60 seconds. Live tracking. Lipa na M-Pesa, Tigo Pesa, Airtel Money.</p>
-      <div class="form-box">
-        <input type="text" id="pickup" placeholder="Weka Pickup 📍 Ex: Zanzibar Port">
-        <input type="text" id="dropoff" placeholder="Weka Drop-off 📍 Ex: Mwanakwerekwe">
-        <select id="truckType">
-          <option value="">Chagua Gari</option>
-          <option value="3T">3-Tonne Pickup</option>
-          <option value="10T">10-Tonne Truck</option>
-          <option value="20ft">20ft Container</option>
-        </select>
-        <label style="display:flex; align-items:center; margin:8px 0;">
-          <input type="checkbox" id="needLabor" style="width:auto; margin-right:8px;"> Nahitaji labor kupakia
-        </label>
-        <button class="btn" id="calcBtn" onclick="calculatePrice()">Pata Bei Yako</button>
-        <div class="error" id="errorMsg"></div>
-        <div id="priceResult">
-          <h3>Bei Yako: TSh <span id="totalPrice">0</span></h3>
-          <small>Distance: <span id="distance">0</span> km | Deposit 30%: TSh <span id="deposit">0</span></small><br>
-          <button class="btn" style="margin-top:10px;" onclick="bookWhatsApp()">Book Sasa via WhatsApp</button>
+  <div class="container">
+    <div class="card">
+      <div class="header">
+        <div class="logo" data-lang="title">Amot Zanzibar</div>
+        <div class="lang-switch">
+          <select id="langselect" onchange="setLang(this.value)">
+            <option value="en">🇬🇧 EN</option>
+            <option value="sw">🇹🇿 SW</option>
+            <option value="ar">🇸🇦 AR</option>
+            <option value="fr">🇫🇷 FR</option>
+            <option value="it">🇮🇹 IT</option>
+            <option value="de">🇩🇪 DE</option>
+            <option value="zh">🇨🇳 ZH</option>
+          </select>
         </div>
-        <small style="display:block; margin-top:10px; opacity:0.6;">Download AMOT App - Coming Soon iOS & Android</small>
       </div>
-    </div>
-  </section>
 
-  <section class="section">
-    <div class="container">
-      <h2 style="text-align:center;">Jinsi AMOT Inavyofanya Kazi</h2>
-      <div class="grid3">
-        <div class="card"><h3>1. Weka Order</h3><p>Set pickup, drop-off, aina ya mzigo on map.</p></div>
-        <div class="card"><h3>2. Pata Dereva Verified</h3><p>See upfront bei, lipa deposit kidogo tu.</p></div>
-        <div class="card"><h3>3. Track Live</h3><p>Fuata gari yako hadi ifike. Pokea POD photo.</p></div>
+      <h2 data-lang="form_title">Book Your Ride</h2>
+      <div class="error" id="errorBox"></div>
+
+      <div class="form-group">
+        <label data-lang="label_pickup">Pick-up Location</label>
+        <input type="text" id="pickup" data-ph="ph_pickup" autocomplete="off">
       </div>
+       
+      <div class="form-group">
+        <label data-lang="label_dropoff">Drop-off Location</label>
+        <input type="text" id="dropoff" data-ph="ph_dropoff" autocomplete="off">
+      </div>
+
+      label_distance: "Umbali (km)",
+      ph_distance: "mf. 15",
+      
+      <div class="form-group">
+  <label data-lang="label_distance">Umbali (km)</label>
+  <input type="number" id="distance" data-ph="ph_distance" min="1" autocomplete="off">
+</div>
+
+      <div class="form-group">
+        <label data-lang="label_service">Service Type</label>
+        <select id="service">
+          <option value="" data-lang="opt_choose">-- Chagua Huduma --</option>
+          <option value="bodaboda" data-lang="opt_boda">Bodaboda - Mtu 1 - TSh 2,000</option>
+          <option value="airport" data-lang="opt_airport">Kuchukua/Kushusha Uwanja wa Ndege - TSh 35,000</option>
+          <option value="tour3" data-lang="opt_tour3">Ziara ya Mji Saa 3 - TSh 100,000</option>
+          <option value="fullday" data-lang="opt_fullday">Kukodi Siku Nzima - TSh 180,000</option>
+          <option value="hourly" data-lang="opt_hourly">Huduma ya Kila Saa - TSh 35,000/saa</option>
+        </select>
+      </div>
+
+      <div class="checkbox-group">
+        <input type="checkbox" id="loadingLabor">
+        <label for="loadingLabor" data-lang="label_labor">Nahitaji msaidizi wa kubeba (+TSh 10,000)</label>
+      </div>
+
+      <div class="payment">
+        <div class="payment-label" data-lang="label_payment">Choose Payment Method:</div>
+        <button type="button" class="active">M-Pesa</button>
+      </div>
+
+      <button class="btn-primary" onclick="calculatePrice()" data-lang="btn_price">Get Your Price</button>
+      <div class="price" id="priceBox"></div>
     </div>
-  </section>
 
-  <section class="section section-blue">
-    <div class="container">
-      <h2 style="text-align:center;">Bei Za Kuanzia - Zanzibar</h2>
-      <table>
-        <tr><th>Gari</th><th>Port → Mwanakwerekwe</th><th>Port → Amani</th></tr>
-        <tr><td>3-Tonne Pickup</td><td>TSh 80,000</td><td>TSh 120,000</td></tr>
-        <tr><td>10-Tonne Truck</td><td>TSh 180,000</td><td>TSh 250,000</td></tr>
-        <tr><td>20ft Container</td><td>TSh 220,000</td><td>TSh 300,000</td></tr>
-      </table>
-      <small>Bei inajumuisha 1hr free kupakia. Extra time TSh 10k/hr.</small>
-    </div>
-  </section>
+    <footer>
+      <p>© 2026 Amot Zanzibar. All rights reserved.</p>
+    </footer>
+  </div>
 
-  <section class="section section-dark">
-    <div class="container" style="text-align:center;">
-      <h2>Una Lori? Join AMOT & Pata Kazi Daily</h2>
-      <p>Register gari yako. We charge 15% tu. Malipo kila Ijumaa via M-Pesa.</p>
-      <button class="btn btn-black">Jiunge Sasa Kama Dereva</button>
-    </div>
-  </section>
+  <script>
+    var currentLang = 'en';
 
-  <footer>
-    <div class="container">
-      <p><strong>AMOT</strong> - Sogeza Mzigo Wako, Fast</p>
-      <p>Zanzibar, Tanzania | info@amot.co.tz | +255 7XX XXX XXX</p>
-      <p>© 2026 AMOT. All rights reserved.</p>
-    </div>
-  </footer>
-
-  <a href="https://wa.me/255700000000" class="whatsapp">WhatsApp Us</a>
-
-<script>
-  // AMOT Pricing Engine
-  const baseFare = { '3T': 30000, '10T': 60000, '20ft': 80000 };
-  const perKm = { '3T': 1500, '10T': 2000, '20ft': 2500 };
-  const laborFee = 20000;
-
-  let currentBooking = {};
-
-  async function calculatePrice() {
-    const pickup = document.getElementById('pickup').value.trim();
-    const dropoff = document.getElementById('dropoff').value.trim();
-    const truckType = document.getElementById('truckType').value;
-    const needLabor = document.getElementById('needLabor').checked;
-    const errorMsg = document.getElementById('errorMsg');
-    const calcBtn = document.getElementById('calcBtn');
-
-    errorMsg.style.display = 'none';
-
-    if (!pickup ||!dropoff ||!truckType) {
-      errorMsg.innerText = 'Tafadhali jaza sehemu zote: Pickup, Drop-off, na Aina ya Gari';
-      errorMsg.style.display = 'block';
-      return;
-    }
-
-    calcBtn.innerText = 'Inatafuta...';
-    calcBtn.disabled = true;
-
-    // For now we estimate distance. Replace with Google Maps API later
-    // Rough Zanzibar distances for demo
-    const knownRoutes = {
-      'zanzibar port-mwanakwerekwe': 8,
-      'zanzibar port-amani': 15,
-      'zanzibar port-mtoni': 12
+    var T = {
+      en: {
+        title: "Amot Zanzibar",
+        form_title: "Book Your Ride",
+        label_pickup: "Pick-up Location",
+        label_dropoff: "Drop-off Location",
+        label_distance: "Umbali (km)",
+        ph_distance: "mf. 15",
+        label_service: "Service Type",
+        label_labor: "I need loading labor (+TSh 10,000)",
+        label_payment: "Choose Payment Method:",
+        opt_choose: "-- Choose Service --",
+        opt_boda: "Bodaboda - 1 Person - TSh 2,000",
+        opt_airport: "Airport Pickup/Drop-off - TSh 35,000",
+        opt_tour3: "3-Hour City Tour - TSh 100,000",
+        opt_fullday: "Full Day Charter - TSh 180,000",
+        opt_hourly: "Hourly Service - TSh 35,000/hr",
+        ph_pickup: "e.g. Stone Town",
+        ph_dropoff: "e.g. Airport",
+        btn_price: "Get Your Price",
+        btn_book: "Book on WhatsApp",
+        error_fields: "Please fill all fields",
+        price_prefix: "Your actual price is",
+        price_suffix: "Contact us on WhatsApp to confirm."
+      },
+      sw: {
+        title: "Amot Zanzibar",
+        form_title: "Weka Oda ya Safari",
+        label_pickup: "Mahali pa Kuchukuliwa",
+        label_dropoff: "Mahali pa Kushushwa",
+        label_distance: "Umbali (km)",
+        ph_distance: "mf. 15",
+        label_service: "Aina ya Huduma",
+        label_labor: "Nahitaji msaidizi wa kubeba (+TSh 10,000)",
+        label_payment: "Chagua Njia ya Malipo:",
+        opt_choose: "-- Chagua Huduma --",
+        opt_boda: "Bodaboda - Mtu 1 - TSh 2,000",
+        opt_airport: "Kuchukua/Kushusha Uwanja wa Ndege - TSh 35,000",
+        opt_tour3: "Ziara ya Mji Saa 3 - TSh 100,000",
+        opt_fullday: "Kukodi Siku Nzima - TSh 180,000",
+        opt_hourly: "Huduma ya Kila Saa - TSh 35,000/saa",
+        ph_pickup: "mf. Stone Town",
+        ph_dropoff: "mf. Uwanja wa Ndege",
+        btn_price: "Pata Bei Yako",
+        btn_book: "Weka Oda WhatsApp",
+        error_fields: "Tafadhali jaza sehemu zote",
+        price_prefix: "Bei yako halisi ni",
+        price_suffix: "Wasiliana nasi WhatsApp kuthibitisha."
+      },
+      ar: {
+        title: "أموط زنجبار",
+        form_title: "احجز رحلتك",
+        label_pickup: "موقع الاستلام",
+        label_dropoff: "موقع التوصيل",
+        label_distance: "Umbali (km)",
+        ph_distance: "mf. 15",
+        label_service: "نوع الخدمة",
+        label_labor: "أحتاج عمال تحميل (+TSh 10,000)",
+        label_payment: "اختر طريقة الدفع:",
+        opt_choose: "-- اختر الخدمة --",
+        opt_boda: "بودابودا - شخص واحد - TSh 2,000",
+        opt_airport: "استقبال/توصيل المطار - TSh 35,000",
+        opt_tour3: "جولة المدينة 3 ساعات - TSh 100,000",
+        opt_fullday: "تأجير يوم كامل - TSh 180,000",
+        opt_hourly: "خدمة بالساعة - TSh 35,000/ساعة",
+        ph_pickup: "مثال: ستون تاون",
+        ph_dropoff: "مثال: المطار",
+        btn_price: "احصل على السعر",
+        btn_book: "احجز عبر واتساب",
+        error_fields: "يرجى ملء جميع الحقول",
+        price_prefix: "سعرك الفعلي هو",
+        price_suffix: "تواصل معنا عبر واتساب للتأكيد."
+      },
+      fr: {
+        title: "Amot Zanzibar",
+        form_title: "Réservez Votre Course",
+        label_pickup: "Lieu de prise en charge",
+        label_dropoff: "Lieu de dépose",
+        label_distance: "Umbali (km)",
+        ph_distance: "mf. 15",
+        label_service: "Type de Service",
+        label_labor: "J'ai besoin d'aide pour charger (+TSh 10,000)",
+        label_payment: "Choisissez le mode de paiement:",
+        opt_choose: "-- Choisir Service --",
+        opt_boda: "Bodaboda - 1 Personne - TSh 2,000",
+        opt_airport: "Prise/Dépose Aéroport - TSh 35,000",
+        opt_tour3: "Tour de Ville 3h - TSh 100,000",
+        opt_fullday: "Location Journée Complète - TSh 180,000",
+        opt_hourly: "Service Horaire - TSh 35,000/h",
+        ph_pickup: "ex. Stone Town",
+        ph_dropoff: "ex. Aéroport",
+        btn_price: "Obtenir le Prix",
+        btn_book: "Réserver sur WhatsApp",
+        error_fields: "Veuillez remplir tous les champs",
+        price_prefix: "Votre prix réel est",
+        price_suffix: "Contactez-nous sur WhatsApp pour confirmer."
+      },
+      it: {
+        title: "Amot Zanzibar",
+        form_title: "Prenota la Tua Corsa",
+        label_pickup: "Luogo di ritiro",
+        label_dropoff: "Luogo di consegna",
+        label_distance: "Umbali (km)",
+        ph_distance: "mf. 15",
+        label_service: "Tipo di Servizio",
+        label_labor: "Ho bisogno di aiuto per caricare (+TSh 10,000)",
+        label_payment: "Scegli Metodo di Pagamento:",
+        opt_choose: "-- Scegli Servizio --",
+        opt_boda: "Bodaboda - 1 Persona - TSh 2,000",
+        opt_airport: "Ritiro/Rilascio Aeroporto - TSh 35,000",
+        opt_tour3: "Tour Città 3 Ore - TSh 100,000",
+        opt_fullday: "Noleggio Giornata Intera - TSh 180,000",
+        opt_hourly: "Servizio Orario - TSh 35,000/ora",
+        ph_pickup: "es. Stone Town",
+        ph_dropoff: "es. Aeroporto",
+        btn_price: "Ottieni il Prezzo",
+        btn_book: "Prenota su WhatsApp",
+        error_fields: "Per favore compila tutti i campi",
+        price_prefix: "Il tuo prezzo reale è",
+        price_suffix: "Contattaci su WhatsApp per confermare."
+      },
+      de: {
+        title: "Amot Zanzibar",
+        form_title: "Buchen Sie Ihre Fahrt",
+        label_pickup: "Abholort",
+        label_dropoff: "Zielort",
+        label_distance: "Umbali (km)",
+        ph_distance: "mf. 15",
+        label_service: "Service-Typ",
+        label_labor: "Ich brauche Hilfe beim Beladen (+TSh 10,000)",
+        label_payment: "Zahlungsmethode wählen:",
+        opt_choose: "-- Service wählen --",
+        opt_boda: "Bodaboda - 1 Person - TSh 2,000",
+        opt_airport: "Flughafen Abholung/Absetzen - TSh 35,000",
+        opt_tour3: "3-Stunden Stadttour - TSh 100,000",
+        opt_fullday: "Ganztägige Charter - TSh 180,000",
+        opt_hourly: "Stundenservice - TSh 35,000/Std",
+        ph_pickup: "z.B. Stone Town",
+        ph_dropoff: "z.B. Flughafen",
+        btn_price: "Preis Erhalten",
+        btn_book: "Per WhatsApp Buchen",
+        error_fields: "Bitte alle Felder ausfüllen",
+        price_prefix: "Ihr tatsächlicher Preis ist",
+        price_suffix: "Kontaktieren Sie uns per WhatsApp zur Bestätigung."
+      },
+      zh: {
+        title: "阿莫特桑给巴尔",
+        form_title: "预订您的行程",
+        label_pickup: "接送地点",
+        label_dropoff: "目的地",
+        label_distance: "Umbali (km)",
+        ph_distance: "mf. 15",
+        label_service: "服务类型",
+        label_labor: "我需要装载帮助 (+TSh 10,000)",
+        label_payment: "选择支付方式:",
+        opt_choose: "-- 选择服务 --",
+        opt_boda: "摩托车 - 1人 - TSh 2,000",
+        opt_airport: "机场接送 - TSh 35,000",
+        opt_tour3: "3小时城市游 - TSh 100,000",
+        opt_fullday: "全天包车 - TSh 180,000",
+        opt_hourly: "按小时服务 - TSh 35,000/小时",
+        ph_pickup: "例如：石头城",
+        ph_dropoff: "例如：机场",
+        btn_price: "获取价格",
+        btn_book: "WhatsApp预订",
+        error_fields: "请填写所有字段",
+        price_prefix: "您的实际价格是",
+        price_suffix: "通过WhatsApp联系我们确认。"
+      }
     };
 
-    let distance = knownRoutes[${pickup.toLowerCase()}-${dropoff.toLowerCase()}];
-    if (!distance) {
-      // Fallback: random 5-25km for demo. Replace with real API
-      distance = Math.floor(Math.random() * 20) + 5;
+    function setLang(lang) {
+      currentLang = lang;
+      document.documentElement.lang = lang;
+      document.documentElement.dir = lang === 'ar'? 'rtl' : 'ltr';
+
+      var elements = document.querySelectorAll('[data-lang]');
+      for (var i = 0; i < elements.length; i++) {
+        var key = elements[i].getAttribute('data-lang');
+        if (T[currentLang] && T[currentLang][key]) {
+          elements[i].textContent = T[currentLang][key];
+        }
+      }
+
+      var placeholders = document.querySelectorAll('[data-ph]');
+      for (var j = 0; j < placeholders.length; j++) {
+        var key = placeholders[j].getAttribute('data-ph');
+        if (T[currentLang] && T[currentLang][key]) {
+          placeholders[j].placeholder = T[currentLang][key];
+        }
+      }
+
+      document.getElementById('langselect').value = lang;
     }
 
-    // Calculate price using AMOT formula
-    let total = baseFare[truckType] + (distance * perKm[truckType]);
-    if (needLabor) total += laborFee;
-    total = Math.round(total / 1000) * 1000; // round to nearest 1k
+    function calculatePrice() {
+  var pickup = document.getElementById('pickup').value.trim();
+  var dropoff = document.getElementById('dropoff').value.trim();
+  var service = document.getElementById('service').value;
+  var distance = parseFloat(document.getElementById('distance').value);
+  var labor = document.getElementById('loadingLabor').checked;
 
-    const deposit = Math.round(total * 0.3 / 1000) * 1000;
+  var errorBox = document.getElementById('errorBox');
+  var priceBox = document.getElementById('priceBox');
 
-    currentBooking = {pickup, dropoff, truckType, distance, total, deposit, needLabor};
+  errorBox.style.display = 'none';
+  priceBox.style.display = 'none';
 
-    document.getElementById('totalPrice').innerText = total.toLocaleString();
-    document.getElementById('distance').innerText = distance;
-    document.getElementById('deposit').innerText = deposit.toLocaleString();
-    document.getElementById('priceResult').style.display = 'block';
-
-    calcBtn.innerText = 'Pata Bei Yako';
-    calcBtn.disabled = false;
+  if (!pickup ||!dropoff ||!service ||!distance || distance <= 0) {
+    errorBox.textContent = T[currentLang].error_fields;
+    errorBox.style.display = 'block';
+    return;
   }
 
-  function bookWhatsApp() {
-    const msg = `Habari AMOT! Nataka kubook gari:
-🚛 Gari: ${currentBooking.truckType}
-📍 Kutoka: ${currentBooking.pickup}
-📍 Kwenda: ${currentBooking.dropoff}
-📏 Distance: ${currentBooking.distance}km
-💰 Bei: TSh ${currentBooking.total.toLocaleString()}
-💵 Deposit: TSh ${currentBooking.deposit.toLocaleString()}
-${currentBooking.needLabor? '✅ Na labor kupakia' : ''}
-Tafadhali nithibitishie.`;
+  var base = 0;
+  var perKm = 0;
 
-    const phone = '255700000000'; // Badilisha namba yako hapa
-    window.open(https://wa.me/${phone}?text=${encodeURIComponent(msg)}, '_blank');
-  }
-</script>
+  // BEI ZA UMBALI - BADILISHA HAPA KAMA UNAVYO
+  if (service === 'bodaboda') { base = 1000; perKm = 500; }
+  else if (service === 'tuktuk') { base = 2000; perKm = 800; }
+  else if (service === 'sedan') { base = 3000; perKm = 1000; }
+  else if (service === 'van') { base = 5000; perKm = 1500; }
+  else if (service === 'bus') { base = 8000; perKm = 2000; }
+  else { base = 3000; perKm = 1000; }
 
+  var total = base + (perKm * distance);
+  if (labor) total = total + 10000;
+
+  var msg = T[currentLang].price_prefix + ' TSh ' + total.toLocaleString() + '. ' + T[currentLang].price_suffix;
+  priceBox.innerHTML = msg + '<br><small>' + distance + 'km × TSh ' + perKm.toLocaleString() + '/km + TSh ' + base.toLocaleString() + ' base</small><br><a href="https://wa.me/255773165432?text=Nataka%20' + service + '%20kutoka%20' + pickup + '%20kwenda%20' + dropoff + '%20(' + distance + 'km)%20kwa%20TSh' + total + '" class="btn-book">' + T[currentLang].btn_book + '</a>';
+  priceBox.style.display = 'block';
+}
+
+    setLang(currentLang);
+  </script>
 </body>
 </html>
