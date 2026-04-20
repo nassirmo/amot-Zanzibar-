@@ -8,28 +8,28 @@
     :root { --primary:#2563eb; --primary-dark:#1d4ed8; --dark:#0f172a; --light:#f8fafc; --gray:#64748b; --success:#16a34a; --danger:#dc2626; --border:#e2e8f0; }
     * { margin:0; padding:0; box-sizing:border-box; font-family:system-ui, -apple-system, sans-serif; }
     body { background:linear-gradient(135deg, #667eea 0%, #764ba2 100%); min-height:100vh; padding:20px 0; }
-   .container { max-width:480px; margin:0 auto; padding:0 16px; }
-   .card { background:white; border-radius:20px; padding:28px; box-shadow:0 20px 60px rgba(0,0,0,0.15); }
-   .header { display:flex; justify-content:space-between; align-items:center; margin-bottom:24px; }
-   .logo { font-size:1.75rem; font-weight:800; color:var(--primary); }
-   .lang-switch select { padding:10px 14px; border:2px solid var(--border); border-radius:12px; font-size:14px; font-weight:600; background:white; cursor:pointer; }
+.container { max-width:480px; margin:0 auto; padding:0 16px; }
+.card { background:white; border-radius:20px; padding:28px; box-shadow:0 20px 60px rgba(0,0,0,0.15); }
+.header { display:flex; justify-content:space-between; align-items:center; margin-bottom:24px; }
+.logo { font-size:1.75rem; font-weight:800; color:var(--primary); }
+.lang-switch select { padding:10px 14px; border:2px solid var(--border); border-radius:12px; font-size:14px; font-weight:600; background:white; cursor:pointer; }
     h2 { font-size:1.5rem; margin-bottom:20px; color:var(--dark); }
-   .form-group { margin-bottom:18px; }
+.form-group { margin-bottom:18px; }
     label { display:block; font-weight:700; margin-bottom:8px; font-size:14px; color:var(--dark); }
     input[type="text"], select { width:100%; padding:14px; border:2px solid var(--border); border-radius:12px; font-size:16px; transition:all 0.2s; }
     input[type="text"]:focus, select:focus { outline:none; border-color:var(--primary); box-shadow:0 0 0 3px rgba(37,99,235,0.1); }
-   .checkbox-group { display:flex; align-items:center; margin-bottom:20px; background:#f1f5f9; padding:12px; border-radius:12px; }
+.checkbox-group { display:flex; align-items:center; margin-bottom:20px; background:#f1f5f9; padding:12px; border-radius:12px; }
     input[type="checkbox"] { width:20px; height:20px; margin-right:10px; accent-color:var(--primary); }
-   .btn-primary { width:100%; padding:16px; background:linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%); color:white; border:none; border-radius:12px; font-size:17px; font-weight:700; cursor:pointer; transition:transform 0.2s; box-shadow:0 4px 12px rgba(37,99,235,0.4); }
-   .btn-primary:hover { transform:translateY(-2px); box-shadow:0 6px 16px rgba(37,99,235,0.5); }
-   .btn-book { display:inline-block; margin-top:14px; padding:12px 24px; background:var(--success); color:white; text-decoration:none; border-radius:12px; font-weight:700; transition:all 0.2s; }
-   .btn-book:hover { background:#15803d; transform:scale(1.05); }
-   .error { background:#fef2f2; color:var(--danger); padding:14px; border-radius:12px; margin-bottom:16px; display:none; font-weight:600; border:2px solid #fecaca; }
-   .price { background:linear-gradient(135deg, #d1fae5 0%, #a7f3d0 100%); color:#065f46; padding:18px; border-radius:12px; margin-top:18px; display:none; font-weight:700; border:2px solid #6ee7b7; }
-   .payment { margin-bottom:20px; }
-   .payment-label { font-weight:700; margin-bottom:8px; font-size:14px; color:var(--dark); }
-   .payment button { padding:12px 20px; border:2px solid var(--primary); background:white; color:var(--primary); border-radius:12px; font-weight:700; cursor:pointer; transition:all 0.2s; }
-   .payment button.active { background:var(--primary); color:white; }
+.btn-primary { width:100%; padding:16px; background:linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%); color:white; border:none; border-radius:12px; font-size:17px; font-weight:700; cursor:pointer; transition:transform 0.2s; box-shadow:0 4px 12px rgba(37,99,235,0.4); }
+.btn-primary:hover { transform:translateY(-2px); box-shadow:0 6px 16px rgba(37,99,235,0.5); }
+.btn-book { display:inline-block; margin-top:14px; padding:12px 24px; background:var(--success); color:white; text-decoration:none; border-radius:12px; font-weight:700; transition:all 0.2s; }
+.btn-book:hover { background:#15803d; transform:scale(1.05); }
+.error { background:#fef2f2; color:var(--danger); padding:14px; border-radius:12px; margin-bottom:16px; display:none; font-weight:600; border:2px solid #fecaca; }
+.price { background:linear-gradient(135deg, #d1fae5 0%, #a7f3d0 100%); color:#065f46; padding:18px; border-radius:12px; margin-top:18px; display:none; font-weight:700; border:2px solid #6ee7b7; }
+.payment { margin-bottom:20px; }
+.payment-label { font-weight:700; margin-bottom:8px; font-size:14px; color:var(--dark); }
+.payment button { padding:12px 20px; border:2px solid var(--primary); background:white; color:var(--primary); border-radius:12px; font-weight:700; cursor:pointer; transition:all 0.2s; }
+.payment button.active { background:var(--primary); color:white; }
     footer { text-align:center; margin-top:24px; color:white; font-size:13px; font-weight:500; }
     [dir="rtl"] { text-align:right; }
     [dir="rtl"].header { flex-direction:row-reverse; }
@@ -69,23 +69,23 @@
       <div class="form-group">
         <label data-lang="label_service">Service Type</label>
         <select id="service">
-          <option value="" data-lang="opt_choose">-- Choose Service --</option>
-          <option value="bodaboda" data-lang="opt_boda">Bodaboda - 1 Person - TSh2,000</option>
-          <option value="airport" data-lang="opt_airport">Airport Pickup/Drop-off - TSh35,000</option>
-          <option value="tour3" data-lang="opt_tour3">3-Hour City Tour - TShh100,000</option>
-          <option value="fullday" data-lang="opt_fullday">Full Day Charter - TSh180,000</option>
-          <option value="hourly" data-lang="opt_hourly">Hourly Service - TSh35,000/hr</option>
+          <option value="" data-lang="opt_choose">-- Chagua Huduma --</option>
+          <option value="bodaboda" data-lang="opt_boda">Bodaboda - Mtu 1 - TSh 2,000</option>
+          <option value="airport" data-lang="opt_airport">Kuchukua/Kushusha Uwanja wa Ndege - TSh 35,000</option>
+          <option value="tour3" data-lang="opt_tour3">Ziara ya Mji Saa 3 - TSh 100,000</option>
+          <option value="fullday" data-lang="opt_fullday">Kukodi Siku Nzima - TSh 180,000</option>
+          <option value="hourly" data-lang="opt_hourly">Huduma ya Kila Saa - TSh 35,000/saa</option>
         </select>
       </div>
 
       <div class="checkbox-group">
         <input type="checkbox" id="loadingLabor">
-        <label for="loadingLabor" data-lang="label_labor">I need loading labor (+TSh10,000)</label>
+        <label for="loadingLabor" data-lang="label_labor">Nahitaji msaidizi wa kubeba (+TSh 10,000)</label>
       </div>
 
       <div class="payment">
         <div class="payment-label" data-lang="label_payment">Choose Payment Method:</div>
-        <button type="button" class="active">M-Pesa<">Tigo-Pesa<">Airtell-Money>"<Halo-Pesa</button>
+        <button type="button" class="active">M-Pesa</button>
       </div>
 
       <button class="btn-primary" onclick="calculatePrice()" data-lang="btn_price">Get Your Price</button>
@@ -107,20 +107,20 @@
         label_pickup: "Pick-up Location",
         label_dropoff: "Drop-off Location",
         label_service: "Service Type",
-        label_labor: "I need loading labor (+$5)",
+        label_labor: "I need loading labor (+TSh 10,000)",
         label_payment: "Choose Payment Method:",
         opt_choose: "-- Choose Service --",
-        opt_boda: "Bodaboda - 1 Person - $5",
-        opt_airport: "Airport Pickup/Drop-off - $15",
-        opt_tour3: "3-Hour City Tour - $40",
-        opt_fullday: "Full Day Charter - $70",
-        opt_hourly: "Hourly Service - $15/hr",
+        opt_boda: "Bodaboda - 1 Person - TSh 2,000",
+        opt_airport: "Airport Pickup/Drop-off - TSh 35,000",
+        opt_tour3: "3-Hour City Tour - TSh 100,000",
+        opt_fullday: "Full Day Charter - TSh 180,000",
+        opt_hourly: "Hourly Service - TSh 35,000/hr",
         ph_pickup: "e.g. Stone Town",
         ph_dropoff: "e.g. Airport",
         btn_price: "Get Your Price",
         btn_book: "Book on WhatsApp",
         error_fields: "Please fill all fields",
-        price_prefix: "Your estimated price is",
+        price_prefix: "Your actual price is",
         price_suffix: "Contact us on WhatsApp to confirm."
       },
       sw: {
@@ -129,20 +129,20 @@
         label_pickup: "Mahali pa Kuchukuliwa",
         label_dropoff: "Mahali pa Kushushwa",
         label_service: "Aina ya Huduma",
-        label_labor: "Nahitaji msaidizi wa kubeba (+$5)",
+        label_labor: "Nahitaji msaidizi wa kubeba (+TSh 10,000)",
         label_payment: "Chagua Njia ya Malipo:",
         opt_choose: "-- Chagua Huduma --",
-        opt_boda: "Bodaboda - Mtu 1 - $5",
-        opt_airport: "Kuchukua/Kushusha Uwanja wa Ndege - $15",
-        opt_tour3: "Ziara ya Mji Saa 3 - $40",
-        opt_fullday: "Kukodi Siku Nzima - $70",
-        opt_hourly: "Huduma ya Kila Saa - $15/saa",
+        opt_boda: "Bodaboda - Mtu 1 - TSh 2,000",
+        opt_airport: "Kuchukua/Kushusha Uwanja wa Ndege - TSh 35,000",
+        opt_tour3: "Ziara ya Mji Saa 3 - TSh 100,000",
+        opt_fullday: "Kukodi Siku Nzima - TSh 180,000",
+        opt_hourly: "Huduma ya Kila Saa - TSh 35,000/saa",
         ph_pickup: "mf. Stone Town",
         ph_dropoff: "mf. Uwanja wa Ndege",
         btn_price: "Pata Bei Yako",
         btn_book: "Weka Oda WhatsApp",
         error_fields: "Tafadhali jaza sehemu zote",
-        price_prefix: "Bei yako ya makadirio ni",
+        price_prefix: "Bei yako halisi ni",
         price_suffix: "Wasiliana nasi WhatsApp kuthibitisha."
       },
       ar: {
@@ -151,20 +151,20 @@
         label_pickup: "موقع الاستلام",
         label_dropoff: "موقع التوصيل",
         label_service: "نوع الخدمة",
-        label_labor: "أحتاج عمال تحميل (+$5)",
+        label_labor: "أحتاج عمال تحميل (+TSh 10,000)",
         label_payment: "اختر طريقة الدفع:",
         opt_choose: "-- اختر الخدمة --",
-        opt_boda: "بودابودا - شخص واحد - $5",
-        opt_airport: "استقبال/توصيل المطار - $15",
-        opt_tour3: "جولة المدينة 3 ساعات - $40",
-        opt_fullday: "تأجير يوم كامل - $70",
-        opt_hourly: "خدمة بالساعة - $15/ساعة",
+        opt_boda: "بودابودا - شخص واحد - TSh 2,000",
+        opt_airport: "استقبال/توصيل المطار - TSh 35,000",
+        opt_tour3: "جولة المدينة 3 ساعات - TSh 100,000",
+        opt_fullday: "تأجير يوم كامل - TSh 180,000",
+        opt_hourly: "خدمة بالساعة - TSh 35,000/ساعة",
         ph_pickup: "مثال: ستون تاون",
         ph_dropoff: "مثال: المطار",
         btn_price: "احصل على السعر",
         btn_book: "احجز عبر واتساب",
         error_fields: "يرجى ملء جميع الحقول",
-        price_prefix: "سعرك المقدر هو",
+        price_prefix: "سعرك الفعلي هو",
         price_suffix: "تواصل معنا عبر واتساب للتأكيد."
       },
       fr: {
@@ -173,20 +173,20 @@
         label_pickup: "Lieu de prise en charge",
         label_dropoff: "Lieu de dépose",
         label_service: "Type de Service",
-        label_labor: "J'ai besoin d'aide pour charger (+$5)",
+        label_labor: "J'ai besoin d'aide pour charger (+TSh 10,000)",
         label_payment: "Choisissez le mode de paiement:",
         opt_choose: "-- Choisir Service --",
-        opt_boda: "Bodaboda - 1 Personne - $5",
-        opt_airport: "Prise/Dépose Aéroport - $15",
-        opt_tour3: "Tour de Ville 3h - $40",
-        opt_fullday: "Location Journée Complète - $70",
-        opt_hourly: "Service Horaire - $15/h",
+        opt_boda: "Bodaboda - 1 Personne - TSh 2,000",
+        opt_airport: "Prise/Dépose Aéroport - TSh 35,000",
+        opt_tour3: "Tour de Ville 3h - TSh 100,000",
+        opt_fullday: "Location Journée Complète - TSh 180,000",
+        opt_hourly: "Service Horaire - TSh 35,000/h",
         ph_pickup: "ex. Stone Town",
         ph_dropoff: "ex. Aéroport",
         btn_price: "Obtenir le Prix",
         btn_book: "Réserver sur WhatsApp",
         error_fields: "Veuillez remplir tous les champs",
-        price_prefix: "Votre prix estimé est",
+        price_prefix: "Votre prix réel est",
         price_suffix: "Contactez-nous sur WhatsApp pour confirmer."
       },
       it: {
@@ -195,20 +195,20 @@
         label_pickup: "Luogo di ritiro",
         label_dropoff: "Luogo di consegna",
         label_service: "Tipo di Servizio",
-        label_labor: "Ho bisogno di aiuto per caricare (+$5)",
+        label_labor: "Ho bisogno di aiuto per caricare (+TSh 10,000)",
         label_payment: "Scegli Metodo di Pagamento:",
         opt_choose: "-- Scegli Servizio --",
-        opt_boda: "Bodaboda - 1 Persona - $5",
-        opt_airport: "Ritiro/Rilascio Aeroporto - $15",
-        opt_tour3: "Tour Città 3 Ore - $40",
-        opt_fullday: "Noleggio Giornata Intera - $70",
-        opt_hourly: "Servizio Orario - $15/ora",
+        opt_boda: "Bodaboda - 1 Persona - TSh 2,000",
+        opt_airport: "Ritiro/Rilascio Aeroporto - TSh 35,000",
+        opt_tour3: "Tour Città 3 Ore - TSh 100,000",
+        opt_fullday: "Noleggio Giornata Intera - TSh 180,000",
+        opt_hourly: "Servizio Orario - TSh 35,000/ora",
         ph_pickup: "es. Stone Town",
         ph_dropoff: "es. Aeroporto",
         btn_price: "Ottieni il Prezzo",
         btn_book: "Prenota su WhatsApp",
         error_fields: "Per favore compila tutti i campi",
-        price_prefix: "Il tuo prezzo stimato è",
+        price_prefix: "Il tuo prezzo reale è",
         price_suffix: "Contattaci su WhatsApp per confermare."
       },
       de: {
@@ -217,20 +217,20 @@
         label_pickup: "Abholort",
         label_dropoff: "Zielort",
         label_service: "Service-Typ",
-        label_labor: "Ich brauche Hilfe beim Beladen (+$5)",
+        label_labor: "Ich brauche Hilfe beim Beladen (+TSh 10,000)",
         label_payment: "Zahlungsmethode wählen:",
         opt_choose: "-- Service wählen --",
-        opt_boda: "Bodaboda - 1 Person - $5",
-        opt_airport: "Flughafen Abholung/Absetzen - $15",
-        opt_tour3: "3-Stunden Stadttour - $40",
-        opt_fullday: "Ganztägige Charter - $70",
-        opt_hourly: "Stundenservice - $15/Std",
+        opt_boda: "Bodaboda - 1 Person - TSh 2,000",
+        opt_airport: "Flughafen Abholung/Absetzen - TSh 35,000",
+        opt_tour3: "3-Stunden Stadttour - TSh 100,000",
+        opt_fullday: "Ganztägige Charter - TSh 180,000",
+        opt_hourly: "Stundenservice - TSh 35,000/Std",
         ph_pickup: "z.B. Stone Town",
         ph_dropoff: "z.B. Flughafen",
         btn_price: "Preis Erhalten",
         btn_book: "Per WhatsApp Buchen",
         error_fields: "Bitte alle Felder ausfüllen",
-        price_prefix: "Ihr geschätzter Preis ist",
+        price_prefix: "Ihr tatsächlicher Preis ist",
         price_suffix: "Kontaktieren Sie uns per WhatsApp zur Bestätigung."
       },
       zh: {
@@ -239,20 +239,20 @@
         label_pickup: "接送地点",
         label_dropoff: "目的地",
         label_service: "服务类型",
-        label_labor: "我需要装载帮助 (+$5)",
+        label_labor: "我需要装载帮助 (+TSh 10,000)",
         label_payment: "选择支付方式:",
         opt_choose: "-- 选择服务 --",
-        opt_boda: "摩托车 - 1人 - $5",
-        opt_airport: "机场接送 - $15",
-        opt_tour3: "3小时城市游 - $40",
-        opt_fullday: "全天包车 - $70",
-        opt_hourly: "按小时服务 - $15/小时",
+        opt_boda: "摩托车 - 1人 - TSh 2,000",
+        opt_airport: "机场接送 - TSh 35,000",
+        opt_tour3: "3小时城市游 - TSh 100,000",
+        opt_fullday: "全天包车 - TSh 180,000",
+        opt_hourly: "按小时服务 - TSh 35,000/小时",
         ph_pickup: "例如：石头城",
         ph_dropoff: "例如：机场",
         btn_price: "获取价格",
         btn_book: "WhatsApp预订",
         error_fields: "请填写所有字段",
-        price_prefix: "您的预估价格是",
+        price_prefix: "您的实际价格是",
         price_suffix: "通过WhatsApp联系我们确认。"
       }
     };
@@ -301,18 +301,17 @@
 
       var total = 0;
 
-      // BEI ZA MWANZO + BODABODA
       if (service === 'bodaboda') total = 2000;
       else if (service === 'airport') total = 35000;
       else if (service === 'tour3') total = 100000;
       else if (service === 'fullday') total = 180000;
       else if (service === 'hourly') total = 35000;
-      else total = 50000//;
+      else total = 50000;
 
       if (labor) total = total + 10000;
 
-      var msg = T[currentLang].price_prefix + ' Tsh' + total.tolocaleString() + '. ' + T[currentLang].price_suffix;
-      priceBox.innerHTML = msg + '<br><a href="https://wa.me/2557797710852?text=Nataka%20' + service + '%20kutoka%20' + pickup + '%20kwenda%20' + dropoff + '%20kwa%20Tsh' + total + '" class="btn-book">' + T[currentLang].btn_book + '</a>';
+      var msg = T[currentLang].price_prefix + ' TSh ' + total.toLocaleString() + '. ' + T[currentLang].price_suffix;
+      priceBox.innerHTML = msg + '<br><a href="https://wa.me/255779771085?text=Nataka%20' + service + '%20kutoka%20' + pickup + '%20kwenda%20' + dropoff + '%20kwa%20TSh' + total + '" class="btn-book">' + T[currentLang].btn_book + '</a>';
       priceBox.style.display = 'block';
     }
 
