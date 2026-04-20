@@ -8,25 +8,25 @@
     :root { --primary:#2563eb; --dark:#1e293b; --light:#f8fafc; --gray:#64748b; --success:#16a34a; --danger:#dc2626; }
     * { margin:0; padding:0; box-sizing:border-box; font-family:system-ui, -apple-system, sans-serif; }
     body { background:var(--light); color:var(--dark); line-height:1.6; }
-   .container { max-width:600px; margin:0 auto; padding:16px; }
-   .card { background:white; border-radius:12px; padding:20px; box-shadow:0 2px 8px rgba(0,0,0,0.08); margin-bottom:16px; }
+  .container { max-width:600px; margin:0 auto; padding:16px; }
+  .card { background:white; border-radius:12px; padding:20px; box-shadow:0 2px 8px rgba(0,0,0,0.08); margin-bottom:16px; }
     h1 { font-size:1.5rem; margin-bottom:8px; }
     h2 { font-size:1.25rem; margin-bottom:16px; }
-   .header { display:flex; justify-content:space-between; align-items:center; margin-bottom:20px; }
-   .lang-switch select { padding:8px 12px; border:1px solid #ddd; border-radius:8px; font-size:14px; }
-   .form-group { margin-bottom:16px; }
+  .header { display:flex; justify-content:space-between; align-items:center; margin-bottom:20px; }
+  .lang-switch select { padding:8px 12px; border:1px solid #ddd; border-radius:8px; font-size:14px; }
+  .form-group { margin-bottom:16px; }
     label { display:block; font-weight:600; margin-bottom:6px; font-size:14px; }
     input[type="text"], select { width:100%; padding:12px; border:1px solid #ddd; border-radius:8px; font-size:16px; }
     input[type="checkbox"] { margin-right:8px; }
-   .checkbox-group { display:flex; align-items:center; margin-bottom:16px; }
-   .btn-primary { width:100%; padding:14px; background:var(--primary); color:white; border:none; border-radius:8px; font-size:16px; font-weight:600; cursor:pointer; }
-   .btn-primary:hover { opacity:0.9; }
-   .btn-book { display:inline-block; margin-top:12px; padding:10px 16px; background:var(--success); color:white; text-decoration:none; border-radius:8px; font-weight:600; }
-   .error { background:#fee2e2; color:var(--danger); padding:12px; border-radius:8px; margin-bottom:16px; display:none; }
-   .price { background:#dcfce7; color:var(--success); padding:16px; border-radius:8px; margin-top:16px; display:none; font-weight:600; }
-   .payment { margin-bottom:16px; }
-   .payment button { padding:10px 16px; border:2px solid var(--primary); background:white; color:var(--primary); border-radius:8px; font-weight:600; cursor:pointer; }
-   .payment button.active { background:var(--primary); color:white; }
+  .checkbox-group { display:flex; align-items:center; margin-bottom:16px; }
+  .btn-primary { width:100%; padding:14px; background:var(--primary); color:white; border:none; border-radius:8px; font-size:16px; font-weight:600; cursor:pointer; }
+  .btn-primary:hover { opacity:0.9; }
+  .btn-book { display:inline-block; margin-top:12px; padding:10px 16px; background:var(--success); color:white; text-decoration:none; border-radius:8px; font-weight:600; }
+  .error { background:#fee2e2; color:var(--danger); padding:12px; border-radius:8px; margin-bottom:16px; display:none; }
+  .price { background:#dcfce7; color:var(--success); padding:16px; border-radius:8px; margin-top:16px; display:none; font-weight:600; }
+  .payment { margin-bottom:16px; }
+  .payment button { padding:10px 16px; border:2px solid var(--primary); background:white; color:var(--primary); border-radius:8px; font-weight:600; cursor:pointer; }
+  .payment button.active { background:var(--primary); color:white; }
     footer { text-align:center; margin-top:24px; color:var(--gray); font-size:14px; }
     [dir="rtl"] { text-align:right; }
     [dir="rtl"].header { flex-direction:row-reverse; }
@@ -67,6 +67,7 @@
         <label data-lang="label_vehicle">Vehicle Type</label>
         <select id="trucktype">
           <option value="" data-lang="opt_choose">-- Choose Vehicle --</option>
+          <option value="bodaboda">Bodaboda - 1 Person</option>
           <option value="tuktuk">TukTuk - 3 People</option>
           <option value="sedan">Sedan - 4 People</option>
           <option value="van">Van - 8 People</option>
@@ -257,7 +258,8 @@
       let total = 0;
 
       // BADILISHA BEI HAPA KULINGANA NA GARI ZAKO
-      if (truck === 'tuktuk') total = 10;
+      if (truck === 'bodaboda') total = 5;
+      else if (truck === 'tuktuk') total = 10;
       else if (truck === 'sedan') total = 15;
       else if (truck === 'van') total = 25;
       else if (truck === 'bus') total = 40;
@@ -270,7 +272,6 @@
       priceBox.style.display = 'block';
     }
 
-    // Load default language
     setLang(currentLang);
   </script>
 </body>
