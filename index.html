@@ -5,51 +5,54 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Amot Zanzibar - Taxi & Transport</title>
   <style>
-    :root { --primary:#2563eb; --dark:#1e293b; --light:#f8fafc; --gray:#64748b; --success:#16a34a; --danger:#dc2626; }
+    :root { --primary:#2563eb; --primary-dark:#1d4ed8; --dark:#0f172a; --light:#f8fafc; --gray:#64748b; --success:#16a34a; --danger:#dc2626; --border:#e2e8f0; }
     * { margin:0; padding:0; box-sizing:border-box; font-family:system-ui, -apple-system, sans-serif; }
-    body { background:var(--light); color:var(--dark); line-height:1.6; }
- .container { max-width:600px; margin:0 auto; padding:16px; }
- .card { background:white; border-radius:12px; padding:20px; box-shadow:0 2px 8px rgba(0,0,0,0.08); margin-bottom:16px; }
-    h1 { font-size:1.5rem; margin-bottom:8px; }
-    h2 { font-size:1.25rem; margin-bottom:16px; }
- .header { display:flex; justify-content:space-between; align-items:center; margin-bottom:20px; }
- .lang-switch select { padding:8px 12px; border:1px solid #ddd; border-radius:8px; font-size:14px; }
- .form-group { margin-bottom:16px; }
-    label { display:block; font-weight:600; margin-bottom:6px; font-size:14px; }
-    input[type="text"], select { width:100%; padding:12px; border:1px solid #ddd; border-radius:8px; font-size:16px; }
-    input[type="checkbox"] { margin-right:8px; }
- .checkbox-group { display:flex; align-items:center; margin-bottom:16px; }
- .btn-primary { width:100%; padding:14px; background:var(--primary); color:white; border:none; border-radius:8px; font-size:16px; font-weight:600; cursor:pointer; }
- .btn-primary:hover { opacity:0.9; }
- .btn-book { display:inline-block; margin-top:12px; padding:10px 16px; background:var(--success); color:white; text-decoration:none; border-radius:8px; font-weight:600; }
- .error { background:#fee2e2; color:var(--danger); padding:12px; border-radius:8px; margin-bottom:16px; display:none; }
- .price { background:#dcfce7; color:var(--success); padding:16px; border-radius:8px; margin-top:16px; display:none; font-weight:600; }
- .payment { margin-bottom:16px; }
- .payment button { padding:10px 16px; border:2px solid var(--primary); background:white; color:var(--primary); border-radius:8px; font-weight:600; cursor:pointer; }
- .payment button.active { background:var(--primary); color:white; }
-    footer { text-align:center; margin-top:24px; color:var(--gray); font-size:14px; }
+    body { background:linear-gradient(135deg, #667eea 0%, #764ba2 100%); min-height:100vh; padding:20px 0; }
+   .container { max-width:480px; margin:0 auto; padding:0 16px; }
+   .card { background:white; border-radius:20px; padding:28px; box-shadow:0 20px 60px rgba(0,0,0,0.15); }
+   .header { display:flex; justify-content:space-between; align-items:center; margin-bottom:24px; }
+   .logo { font-size:1.75rem; font-weight:800; color:var(--primary); }
+   .lang-switch select { padding:10px 14px; border:2px solid var(--border); border-radius:12px; font-size:14px; font-weight:600; background:white; cursor:pointer; }
+    h2 { font-size:1.5rem; margin-bottom:20px; color:var(--dark); }
+   .form-group { margin-bottom:18px; }
+    label { display:block; font-weight:700; margin-bottom:8px; font-size:14px; color:var(--dark); }
+    input[type="text"], select { width:100%; padding:14px; border:2px solid var(--border); border-radius:12px; font-size:16px; transition:all 0.2s; }
+    input[type="text"]:focus, select:focus { outline:none; border-color:var(--primary); box-shadow:0 0 0 3px rgba(37,99,235,0.1); }
+   .checkbox-group { display:flex; align-items:center; margin-bottom:20px; background:#f1f5f9; padding:12px; border-radius:12px; }
+    input[type="checkbox"] { width:20px; height:20px; margin-right:10px; accent-color:var(--primary); }
+   .btn-primary { width:100%; padding:16px; background:linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%); color:white; border:none; border-radius:12px; font-size:17px; font-weight:700; cursor:pointer; transition:transform 0.2s; box-shadow:0 4px 12px rgba(37,99,235,0.4); }
+   .btn-primary:hover { transform:translateY(-2px); box-shadow:0 6px 16px rgba(37,99,235,0.5); }
+   .btn-book { display:inline-block; margin-top:14px; padding:12px 24px; background:var(--success); color:white; text-decoration:none; border-radius:12px; font-weight:700; transition:all 0.2s; }
+   .btn-book:hover { background:#15803d; transform:scale(1.05); }
+   .error { background:#fef2f2; color:var(--danger); padding:14px; border-radius:12px; margin-bottom:16px; display:none; font-weight:600; border:2px solid #fecaca; }
+   .price { background:linear-gradient(135deg, #d1fae5 0%, #a7f3d0 100%); color:#065f46; padding:18px; border-radius:12px; margin-top:18px; display:none; font-weight:700; border:2px solid #6ee7b7; }
+   .payment { margin-bottom:20px; }
+   .payment-label { font-weight:700; margin-bottom:8px; font-size:14px; color:var(--dark); }
+   .payment button { padding:12px 20px; border:2px solid var(--primary); background:white; color:var(--primary); border-radius:12px; font-weight:700; cursor:pointer; transition:all 0.2s; }
+   .payment button.active { background:var(--primary); color:white; }
+    footer { text-align:center; margin-top:24px; color:white; font-size:13px; font-weight:500; }
     [dir="rtl"] { text-align:right; }
     [dir="rtl"].header { flex-direction:row-reverse; }
   </style>
 </head>
 <body>
   <div class="container">
-    <div class="header">
-      <h1 data-lang="title">Amot Zanzibar</h1>
-      <div class="lang-switch">
-        <select id="langselect" onchange="setLang(this.value)">
-          <option value="en">🇬🇧 English</option>
-          <option value="sw">🇹🇿 Kiswahili</option>
-          <option value="ar">🇸🇦 العربية</option>
-          <option value="fr">🇫🇷 Français</option>
-          <option value="it">🇮🇹 Italiano</option>
-          <option value="de">🇩🇪 Deutsch</option>
-          <option value="zh">🇨🇳 中文</option>
-        </select>
-      </div>
-    </div>
-
     <div class="card">
+      <div class="header">
+        <div class="logo" data-lang="title">Amot Zanzibar</div>
+        <div class="lang-switch">
+          <select id="langselect" onchange="setLang(this.value)">
+            <option value="en">🇬🇧 EN</option>
+            <option value="sw">🇹🇿 SW</option>
+            <option value="ar">🇸🇦 AR</option>
+            <option value="fr">🇫🇷 FR</option>
+            <option value="it">🇮🇹 IT</option>
+            <option value="de">🇩🇪 DE</option>
+            <option value="zh">🇨🇳 ZH</option>
+          </select>
+        </div>
+      </div>
+
       <h2 data-lang="form_title">Book Your Ride</h2>
       <div class="error" id="errorBox"></div>
 
@@ -64,14 +67,14 @@
       </div>
 
       <div class="form-group">
-        <label data-lang="label_vehicle">Vehicle Type</label>
-        <select id="trucktype">
-          <option value="" data-lang="opt_choose">-- Choose Vehicle --</option>
-          <option value="bodaboda">Bodaboda - 1 Person</option>
-          <option value="tuktuk">TukTuk - 3 People</option>
-          <option value="sedan">Sedan - 4 People</option>
-          <option value="van">Van - 8 People</option>
-          <option value="bus">Bus - 15+ People</option>
+        <label data-lang="label_service">Service Type</label>
+        <select id="service">
+          <option value="" data-lang="opt_choose">-- Choose Service --</option>
+          <option value="bodaboda" data-lang="opt_boda">Bodaboda - 1 Person - $5</option>
+          <option value="airport" data-lang="opt_airport">Airport Pickup/Drop-off - $15</option>
+          <option value="tour3" data-lang="opt_tour3">3-Hour City Tour - $40</option>
+          <option value="fullday" data-lang="opt_fullday">Full Day Charter - $70</option>
+          <option value="hourly" data-lang="opt_hourly">Hourly Service - $15/hr</option>
         </select>
       </div>
 
@@ -81,7 +84,7 @@
       </div>
 
       <div class="payment">
-        <label data-lang="label_payment">Choose Payment Method:</label><br>
+        <div class="payment-label" data-lang="label_payment">Choose Payment Method:</div>
         <button type="button" class="active">M-Pesa</button>
       </div>
 
@@ -103,10 +106,15 @@
         form_title: "Book Your Ride",
         label_pickup: "Pick-up Location",
         label_dropoff: "Drop-off Location",
-        label_vehicle: "Vehicle Type",
+        label_service: "Service Type",
         label_labor: "I need loading labor (+$5)",
         label_payment: "Choose Payment Method:",
-        opt_choose: "-- Choose Vehicle --",
+        opt_choose: "-- Choose Service --",
+        opt_boda: "Bodaboda - 1 Person - $5",
+        opt_airport: "Airport Pickup/Drop-off - $15",
+        opt_tour3: "3-Hour City Tour - $40",
+        opt_fullday: "Full Day Charter - $70",
+        opt_hourly: "Hourly Service - $15/hr",
         ph_pickup: "e.g. Stone Town",
         ph_dropoff: "e.g. Airport",
         btn_price: "Get Your Price",
@@ -120,10 +128,15 @@
         form_title: "Weka Oda ya Safari",
         label_pickup: "Mahali pa Kuchukuliwa",
         label_dropoff: "Mahali pa Kushushwa",
-        label_vehicle: "Aina ya Gari",
+        label_service: "Aina ya Huduma",
         label_labor: "Nahitaji msaidizi wa kubeba (+$5)",
         label_payment: "Chagua Njia ya Malipo:",
-        opt_choose: "-- Chagua Gari --",
+        opt_choose: "-- Chagua Huduma --",
+        opt_boda: "Bodaboda - Mtu 1 - $5",
+        opt_airport: "Kuchukua/Kushusha Uwanja wa Ndege - $15",
+        opt_tour3: "Ziara ya Mji Saa 3 - $40",
+        opt_fullday: "Kukodi Siku Nzima - $70",
+        opt_hourly: "Huduma ya Kila Saa - $15/saa",
         ph_pickup: "mf. Stone Town",
         ph_dropoff: "mf. Uwanja wa Ndege",
         btn_price: "Pata Bei Yako",
@@ -137,10 +150,15 @@
         form_title: "احجز رحلتك",
         label_pickup: "موقع الاستلام",
         label_dropoff: "موقع التوصيل",
-        label_vehicle: "نوع المركبة",
+        label_service: "نوع الخدمة",
         label_labor: "أحتاج عمال تحميل (+$5)",
         label_payment: "اختر طريقة الدفع:",
-        opt_choose: "-- اختر المركبة --",
+        opt_choose: "-- اختر الخدمة --",
+        opt_boda: "بودابودا - شخص واحد - $5",
+        opt_airport: "استقبال/توصيل المطار - $15",
+        opt_tour3: "جولة المدينة 3 ساعات - $40",
+        opt_fullday: "تأجير يوم كامل - $70",
+        opt_hourly: "خدمة بالساعة - $15/ساعة",
         ph_pickup: "مثال: ستون تاون",
         ph_dropoff: "مثال: المطار",
         btn_price: "احصل على السعر",
@@ -154,10 +172,15 @@
         form_title: "Réservez Votre Course",
         label_pickup: "Lieu de prise en charge",
         label_dropoff: "Lieu de dépose",
-        label_vehicle: "Type de Véhicule",
+        label_service: "Type de Service",
         label_labor: "J'ai besoin d'aide pour charger (+$5)",
         label_payment: "Choisissez le mode de paiement:",
-        opt_choose: "-- Choisir Véhicule --",
+        opt_choose: "-- Choisir Service --",
+        opt_boda: "Bodaboda - 1 Personne - $5",
+        opt_airport: "Prise/Dépose Aéroport - $15",
+        opt_tour3: "Tour de Ville 3h - $40",
+        opt_fullday: "Location Journée Complète - $70",
+        opt_hourly: "Service Horaire - $15/h",
         ph_pickup: "ex. Stone Town",
         ph_dropoff: "ex. Aéroport",
         btn_price: "Obtenir le Prix",
@@ -171,10 +194,15 @@
         form_title: "Prenota la Tua Corsa",
         label_pickup: "Luogo di ritiro",
         label_dropoff: "Luogo di consegna",
-        label_vehicle: "Tipo di Veicolo",
+        label_service: "Tipo di Servizio",
         label_labor: "Ho bisogno di aiuto per caricare (+$5)",
         label_payment: "Scegli Metodo di Pagamento:",
-        opt_choose: "-- Scegli Veicolo --",
+        opt_choose: "-- Scegli Servizio --",
+        opt_boda: "Bodaboda - 1 Persona - $5",
+        opt_airport: "Ritiro/Rilascio Aeroporto - $15",
+        opt_tour3: "Tour Città 3 Ore - $40",
+        opt_fullday: "Noleggio Giornata Intera - $70",
+        opt_hourly: "Servizio Orario - $15/ora",
         ph_pickup: "es. Stone Town",
         ph_dropoff: "es. Aeroporto",
         btn_price: "Ottieni il Prezzo",
@@ -188,10 +216,15 @@
         form_title: "Buchen Sie Ihre Fahrt",
         label_pickup: "Abholort",
         label_dropoff: "Zielort",
-        label_vehicle: "Fahrzeugtyp",
+        label_service: "Service-Typ",
         label_labor: "Ich brauche Hilfe beim Beladen (+$5)",
         label_payment: "Zahlungsmethode wählen:",
-        opt_choose: "-- Fahrzeug wählen --",
+        opt_choose: "-- Service wählen --",
+        opt_boda: "Bodaboda - 1 Person - $5",
+        opt_airport: "Flughafen Abholung/Absetzen - $15",
+        opt_tour3: "3-Stunden Stadttour - $40",
+        opt_fullday: "Ganztägige Charter - $70",
+        opt_hourly: "Stundenservice - $15/Std",
         ph_pickup: "z.B. Stone Town",
         ph_dropoff: "z.B. Flughafen",
         btn_price: "Preis Erhalten",
@@ -205,10 +238,15 @@
         form_title: "预订您的行程",
         label_pickup: "接送地点",
         label_dropoff: "目的地",
-        label_vehicle: "车辆类型",
+        label_service: "服务类型",
         label_labor: "我需要装载帮助 (+$5)",
         label_payment: "选择支付方式:",
-        opt_choose: "-- 选择车辆 --",
+        opt_choose: "-- 选择服务 --",
+        opt_boda: "摩托车 - 1人 - $5",
+        opt_airport: "机场接送 - $15",
+        opt_tour3: "3小时城市游 - $40",
+        opt_fullday: "全天包车 - $70",
+        opt_hourly: "按小时服务 - $15/小时",
         ph_pickup: "例如：石头城",
         ph_dropoff: "例如：机场",
         btn_price: "获取价格",
@@ -246,7 +284,7 @@
     function calculatePrice() {
       var pickup = document.getElementById('pickup').value.trim();
       var dropoff = document.getElementById('dropoff').value.trim();
-      var truck = document.getElementById('trucktype').value;
+      var service = document.getElementById('service').value;
       var labor = document.getElementById('loadingLabor').checked;
 
       var errorBox = document.getElementById('errorBox');
@@ -255,7 +293,7 @@
       errorBox.style.display = 'none';
       priceBox.style.display = 'none';
 
-      if (!pickup ||!dropoff ||!truck) {
+      if (!pickup ||!dropoff ||!service) {
         errorBox.textContent = T[currentLang].error_fields;
         errorBox.style.display = 'block';
         return;
@@ -263,17 +301,18 @@
 
       var total = 0;
 
-      if (truck === 'bodaboda') total = 5;
-      else if (truck === 'tuktuk') total = 10;
-      else if (truck === 'sedan') total = 15;
-      else if (truck === 'van') total = 25;
-      else if (truck === 'bus') total = 40;
+      // BEI ZA MWANZO + BODABODA
+      if (service === 'bodaboda') total = 5;
+      else if (service === 'airport') total = 15;
+      else if (service === 'tour3') total = 40;
+      else if (service === 'fullday') total = 70;
+      else if (service === 'hourly') total = 15;
       else total = 20;
 
       if (labor) total = total + 5;
 
       var msg = T[currentLang].price_prefix + ' $' + total + '. ' + T[currentLang].price_suffix;
-      priceBox.innerHTML = msg + '<br><a href="https://wa.me/255779771085?text=Nataka%20' + truck + '%20kutoka%20' + pickup + '%20kwenda%20' + dropoff + '%20kwa%20$' + total + '" class="btn-book">' + T[currentLang].btn_book + '</a>';
+      priceBox.innerHTML = msg + '<br><a href="https://wa.me/2557797710852?text=Nataka%20' + service + '%20kutoka%20' + pickup + '%20kwenda%20' + dropoff + '%20kwa%20$' + total + '" class="btn-book">' + T[currentLang].btn_book + '</a>';
       priceBox.style.display = 'block';
     }
 
