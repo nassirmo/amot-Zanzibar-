@@ -16,8 +16,8 @@
     h2 { font-size:1.5rem; margin-bottom:20px; color:var(--dark); }
 .form-group { margin-bottom:18px; }
     label { display:block; font-weight:700; margin-bottom:8px; font-size:14px; color:var(--dark); }
-    input[type="text"], select { width:100%; padding:14px; border:2px solid var(--border); border-radius:12px; font-size:16px; transition:all 0.2s; }
-    input[type="text"]:focus, select:focus { outline:none; border-color:var(--primary); box-shadow:0 0 0 3px rgba(37,99,235,0.1); }
+    input[type="text"], input[type="number"], select { width:100%; padding:14px; border:2px solid var(--border); border-radius:12px; font-size:16px; transition:all 0.2s; }
+    input:focus, select:focus { outline:none; border-color:var(--primary); box-shadow:0 0 0 3px rgba(37,99,235,0.1); }
 .checkbox-group { display:flex; align-items:center; margin-bottom:20px; background:#f1f5f9; padding:12px; border-radius:12px; }
     input[type="checkbox"] { width:20px; height:20px; margin-right:10px; accent-color:var(--primary); }
 .btn-primary { width:100%; padding:16px; background:linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%); color:white; border:none; border-radius:12px; font-size:17px; font-weight:700; cursor:pointer; transition:transform 0.2s; box-shadow:0 4px 12px rgba(37,99,235,0.4); }
@@ -26,6 +26,7 @@
 .btn-book:hover { background:#15803d; transform:scale(1.05); }
 .error { background:#fef2f2; color:var(--danger); padding:14px; border-radius:12px; margin-bottom:16px; display:none; font-weight:600; border:2px solid #fecaca; }
 .price { background:linear-gradient(135deg, #d1fae5 0%, #a7f3d0 100%); color:#065f46; padding:18px; border-radius:12px; margin-top:18px; display:none; font-weight:700; border:2px solid #6ee7b7; }
+.price small { display:block; font-weight:500; margin:6px 0; color:#047857; }
 .payment { margin-bottom:20px; }
 .payment-label { font-weight:700; margin-bottom:8px; font-size:14px; color:var(--dark); }
 .payment button { padding:12px 20px; border:2px solid var(--primary); background:white; color:var(--primary); border-radius:12px; font-weight:700; cursor:pointer; transition:all 0.2s; }
@@ -60,35 +61,32 @@
         <label data-lang="label_pickup">Pick-up Location</label>
         <input type="text" id="pickup" data-ph="ph_pickup" autocomplete="off">
       </div>
-       
+
       <div class="form-group">
         <label data-lang="label_dropoff">Drop-off Location</label>
         <input type="text" id="dropoff" data-ph="ph_dropoff" autocomplete="off">
       </div>
 
-      label_distance: "Umbali (km)",
-      ph_distance: "mf. 15",
-      
       <div class="form-group">
-  <label data-lang="label_distance">Umbali (km)</label>
-  <input type="number" id="distance" data-ph="ph_distance" min="1" autocomplete="off">
-</div>
+        <label data-lang="label_distance">Distance (km)</label>
+        <input type="number" id="distance" data-ph="ph_distance" min="1" autocomplete="off">
+      </div>
 
       <div class="form-group">
-        <label data-lang="label_service">Service Type</label>
-        <select id="service">
-          <option value="" data-lang="opt_choose">-- Chagua Huduma --</option>
-          <option value="bodaboda" data-lang="opt_boda">Bodaboda - Mtu 1 - TSh 2,000</option>
-          <option value="airport" data-lang="opt_airport">Kuchukua/Kushusha Uwanja wa Ndege - TSh 35,000</option>
-          <option value="tour3" data-lang="opt_tour3">Ziara ya Mji Saa 3 - TSh 100,000</option>
-          <option value="fullday" data-lang="opt_fullday">Kukodi Siku Nzima - TSh 180,000</option>
-          <option value="hourly" data-lang="opt_hourly">Huduma ya Kila Saa - TSh 35,000/saa</option>
+        <label data-lang="label_vehicle">Vehicle Type</label>
+        <select id="vehicle">
+          <option value="" data-lang="opt_choose">-- Choose Vehicle --</option>
+          <option value="bodaboda" data-lang="opt_boda">Bodaboda - 1 Person</option>
+          <option value="tuktuk" data-lang="opt_tuktuk">TukTuk - 3 People</option>
+          <option value="sedan" data-lang="opt_sedan">Sedan - 4 People</option>
+          <option value="van" data-lang="opt_van">Van - 8 People</option>
+          <option value="bus" data-lang="opt_bus">Bus - 15+ People</option>
         </select>
       </div>
 
       <div class="checkbox-group">
         <input type="checkbox" id="loadingLabor">
-        <label for="loadingLabor" data-lang="label_labor">Nahitaji msaidizi wa kubeba (+TSh 10,000)</label>
+        <label for="loadingLabor" data-lang="label_labor">I need loading labor (+TSh 10,000)</label>
       </div>
 
       <div class="payment">
@@ -114,23 +112,23 @@
         form_title: "Book Your Ride",
         label_pickup: "Pick-up Location",
         label_dropoff: "Drop-off Location",
-        label_distance: "Umbali (km)",
-        ph_distance: "mf. 15",
-        label_service: "Service Type",
+        label_distance: "Distance (km)",
+        label_vehicle: "Vehicle Type",
         label_labor: "I need loading labor (+TSh 10,000)",
         label_payment: "Choose Payment Method:",
-        opt_choose: "-- Choose Service --",
-        opt_boda: "Bodaboda - 1 Person - TSh 2,000",
-        opt_airport: "Airport Pickup/Drop-off - TSh 35,000",
-        opt_tour3: "3-Hour City Tour - TSh 100,000",
-        opt_fullday: "Full Day Charter - TSh 180,000",
-        opt_hourly: "Hourly Service - TSh 35,000/hr",
+        opt_choose: "-- Choose Vehicle --",
+        opt_boda: "Bodaboda - 1 Person",
+        opt_tuktuk: "TukTuk - 3 People",
+        opt_sedan: "Sedan - 4 People",
+        opt_van: "Van - 8 People",
+        opt_bus: "Bus - 15+ People",
         ph_pickup: "e.g. Stone Town",
         ph_dropoff: "e.g. Airport",
+        ph_distance: "e.g. 15",
         btn_price: "Get Your Price",
         btn_book: "Book on WhatsApp",
         error_fields: "Please fill all fields",
-        price_prefix: "Your actual price is",
+        price_prefix: "Your price is",
         price_suffix: "Contact us on WhatsApp to confirm."
       },
       sw: {
@@ -139,22 +137,22 @@
         label_pickup: "Mahali pa Kuchukuliwa",
         label_dropoff: "Mahali pa Kushushwa",
         label_distance: "Umbali (km)",
-        ph_distance: "mf. 15",
-        label_service: "Aina ya Huduma",
+        label_vehicle: "Aina ya Gari",
         label_labor: "Nahitaji msaidizi wa kubeba (+TSh 10,000)",
         label_payment: "Chagua Njia ya Malipo:",
-        opt_choose: "-- Chagua Huduma --",
-        opt_boda: "Bodaboda - Mtu 1 - TSh 2,000",
-        opt_airport: "Kuchukua/Kushusha Uwanja wa Ndege - TSh 35,000",
-        opt_tour3: "Ziara ya Mji Saa 3 - TSh 100,000",
-        opt_fullday: "Kukodi Siku Nzima - TSh 180,000",
-        opt_hourly: "Huduma ya Kila Saa - TSh 35,000/saa",
+        opt_choose: "-- Chagua Gari --",
+        opt_boda: "Bodaboda - Mtu 1",
+        opt_tuktuk: "TukTuk - Watu 3",
+        opt_sedan: "Sedan - Watu 4",
+        opt_van: "Van - Watu 8",
+        opt_bus: "Bus - Watu 15+",
         ph_pickup: "mf. Stone Town",
         ph_dropoff: "mf. Uwanja wa Ndege",
+        ph_distance: "mf. 15",
         btn_price: "Pata Bei Yako",
         btn_book: "Weka Oda WhatsApp",
         error_fields: "Tafadhali jaza sehemu zote",
-        price_prefix: "Bei yako halisi ni",
+        price_prefix: "Bei yako ni",
         price_suffix: "Wasiliana nasi WhatsApp kuthibitisha."
       },
       ar: {
@@ -162,23 +160,23 @@
         form_title: "احجز رحلتك",
         label_pickup: "موقع الاستلام",
         label_dropoff: "موقع التوصيل",
-        label_distance: "Umbali (km)",
-        ph_distance: "mf. 15",
-        label_service: "نوع الخدمة",
+        label_distance: "المسافة (كم)",
+        label_vehicle: "نوع المركبة",
         label_labor: "أحتاج عمال تحميل (+TSh 10,000)",
         label_payment: "اختر طريقة الدفع:",
-        opt_choose: "-- اختر الخدمة --",
-        opt_boda: "بودابودا - شخص واحد - TSh 2,000",
-        opt_airport: "استقبال/توصيل المطار - TSh 35,000",
-        opt_tour3: "جولة المدينة 3 ساعات - TSh 100,000",
-        opt_fullday: "تأجير يوم كامل - TSh 180,000",
-        opt_hourly: "خدمة بالساعة - TSh 35,000/ساعة",
+        opt_choose: "-- اختر المركبة --",
+        opt_boda: "بودابودا - شخص واحد",
+        opt_tuktuk: "توك توك - 3 أشخاص",
+        opt_sedan: "سيدان - 4 أشخاص",
+        opt_van: "فان - 8 أشخاص",
+        opt_bus: "باص - 15+ شخص",
         ph_pickup: "مثال: ستون تاون",
         ph_dropoff: "مثال: المطار",
+        ph_distance: "مثال: 15",
         btn_price: "احصل على السعر",
         btn_book: "احجز عبر واتساب",
         error_fields: "يرجى ملء جميع الحقول",
-        price_prefix: "سعرك الفعلي هو",
+        price_prefix: "سعرك هو",
         price_suffix: "تواصل معنا عبر واتساب للتأكيد."
       },
       fr: {
@@ -186,23 +184,23 @@
         form_title: "Réservez Votre Course",
         label_pickup: "Lieu de prise en charge",
         label_dropoff: "Lieu de dépose",
-        label_distance: "Umbali (km)",
-        ph_distance: "mf. 15",
-        label_service: "Type de Service",
+        label_distance: "Distance (km)",
+        label_vehicle: "Type de Véhicule",
         label_labor: "J'ai besoin d'aide pour charger (+TSh 10,000)",
         label_payment: "Choisissez le mode de paiement:",
-        opt_choose: "-- Choisir Service --",
-        opt_boda: "Bodaboda - 1 Personne - TSh 2,000",
-        opt_airport: "Prise/Dépose Aéroport - TSh 35,000",
-        opt_tour3: "Tour de Ville 3h - TSh 100,000",
-        opt_fullday: "Location Journée Complète - TSh 180,000",
-        opt_hourly: "Service Horaire - TSh 35,000/h",
+        opt_choose: "-- Choisir Véhicule --",
+        opt_boda: "Bodaboda - 1 Personne",
+        opt_tuktuk: "TukTuk - 3 Personnes",
+        opt_sedan: "Sedan - 4 Personnes",
+        opt_van: "Van - 8 Personnes",
+        opt_bus: "Bus - 15+ Personnes",
         ph_pickup: "ex. Stone Town",
         ph_dropoff: "ex. Aéroport",
+        ph_distance: "ex. 15",
         btn_price: "Obtenir le Prix",
         btn_book: "Réserver sur WhatsApp",
         error_fields: "Veuillez remplir tous les champs",
-        price_prefix: "Votre prix réel est",
+        price_prefix: "Votre prix est",
         price_suffix: "Contactez-nous sur WhatsApp pour confirmer."
       },
       it: {
@@ -210,23 +208,23 @@
         form_title: "Prenota la Tua Corsa",
         label_pickup: "Luogo di ritiro",
         label_dropoff: "Luogo di consegna",
-        label_distance: "Umbali (km)",
-        ph_distance: "mf. 15",
-        label_service: "Tipo di Servizio",
+        label_distance: "Distanza (km)",
+        label_vehicle: "Tipo di Veicolo",
         label_labor: "Ho bisogno di aiuto per caricare (+TSh 10,000)",
         label_payment: "Scegli Metodo di Pagamento:",
-        opt_choose: "-- Scegli Servizio --",
-        opt_boda: "Bodaboda - 1 Persona - TSh 2,000",
-        opt_airport: "Ritiro/Rilascio Aeroporto - TSh 35,000",
-        opt_tour3: "Tour Città 3 Ore - TSh 100,000",
-        opt_fullday: "Noleggio Giornata Intera - TSh 180,000",
-        opt_hourly: "Servizio Orario - TSh 35,000/ora",
+        opt_choose: "-- Scegli Veicolo --",
+        opt_boda: "Bodaboda - 1 Persona",
+        opt_tuktuk: "TukTuk - 3 Persone",
+        opt_sedan: "Sedan - 4 Persone",
+        opt_van: "Van - 8 Persone",
+        opt_bus: "Bus - 15+ Persone",
         ph_pickup: "es. Stone Town",
         ph_dropoff: "es. Aeroporto",
+        ph_distance: "es. 15",
         btn_price: "Ottieni il Prezzo",
         btn_book: "Prenota su WhatsApp",
         error_fields: "Per favore compila tutti i campi",
-        price_prefix: "Il tuo prezzo reale è",
+        price_prefix: "Il tuo prezzo è",
         price_suffix: "Contattaci su WhatsApp per confermare."
       },
       de: {
@@ -234,23 +232,23 @@
         form_title: "Buchen Sie Ihre Fahrt",
         label_pickup: "Abholort",
         label_dropoff: "Zielort",
-        label_distance: "Umbali (km)",
-        ph_distance: "mf. 15",
-        label_service: "Service-Typ",
+        label_distance: "Entfernung (km)",
+        label_vehicle: "Fahrzeugtyp",
         label_labor: "Ich brauche Hilfe beim Beladen (+TSh 10,000)",
         label_payment: "Zahlungsmethode wählen:",
-        opt_choose: "-- Service wählen --",
-        opt_boda: "Bodaboda - 1 Person - TSh 2,000",
-        opt_airport: "Flughafen Abholung/Absetzen - TSh 35,000",
-        opt_tour3: "3-Stunden Stadttour - TSh 100,000",
-        opt_fullday: "Ganztägige Charter - TSh 180,000",
-        opt_hourly: "Stundenservice - TSh 35,000/Std",
+        opt_choose: "-- Fahrzeug wählen --",
+        opt_boda: "Bodaboda - 1 Person",
+        opt_tuktuk: "TukTuk - 3 Personen",
+        opt_sedan: "Sedan - 4 Personen",
+        opt_van: "Van - 8 Personen",
+        opt_bus: "Bus - 15+ Personen",
         ph_pickup: "z.B. Stone Town",
         ph_dropoff: "z.B. Flughafen",
+        ph_distance: "z.B. 15",
         btn_price: "Preis Erhalten",
         btn_book: "Per WhatsApp Buchen",
         error_fields: "Bitte alle Felder ausfüllen",
-        price_prefix: "Ihr tatsächlicher Preis ist",
+        price_prefix: "Ihr Preis ist",
         price_suffix: "Kontaktieren Sie uns per WhatsApp zur Bestätigung."
       },
       zh: {
@@ -258,23 +256,23 @@
         form_title: "预订您的行程",
         label_pickup: "接送地点",
         label_dropoff: "目的地",
-        label_distance: "Umbali (km)",
-        ph_distance: "mf. 15",
-        label_service: "服务类型",
+        label_distance: "距离 (公里)",
+        label_vehicle: "车辆类型",
         label_labor: "我需要装载帮助 (+TSh 10,000)",
         label_payment: "选择支付方式:",
-        opt_choose: "-- 选择服务 --",
-        opt_boda: "摩托车 - 1人 - TSh 2,000",
-        opt_airport: "机场接送 - TSh 35,000",
-        opt_tour3: "3小时城市游 - TSh 100,000",
-        opt_fullday: "全天包车 - TSh 180,000",
-        opt_hourly: "按小时服务 - TSh 35,000/小时",
+        opt_choose: "-- 选择车辆 --",
+        opt_boda: "摩托车 - 1人",
+        opt_tuktuk: "突突车 - 3人",
+        opt_sedan: "轿车 - 4人",
+        opt_van: "面包车 - 8人",
+        opt_bus: "巴士 - 15+人",
         ph_pickup: "例如：石头城",
         ph_dropoff: "例如：机场",
+        ph_distance: "例如：15",
         btn_price: "获取价格",
         btn_book: "WhatsApp预订",
         error_fields: "请填写所有字段",
-        price_prefix: "您的实际价格是",
+        price_prefix: "您的价格是",
         price_suffix: "通过WhatsApp联系我们确认。"
       }
     };
@@ -304,42 +302,41 @@
     }
 
     function calculatePrice() {
-  var pickup = document.getElementById('pickup').value.trim();
-  var dropoff = document.getElementById('dropoff').value.trim();
-  var service = document.getElementById('service').value;
-  var distance = parseFloat(document.getElementById('distance').value);
-  var labor = document.getElementById('loadingLabor').checked;
+      var pickup = document.getElementById('pickup').value.trim();
+      var dropoff = document.getElementById('dropoff').value.trim();
+      var distance = parseFloat(document.getElementById('distance').value);
+      var vehicle = document.getElementById('vehicle').value;
+      var labor = document.getElementById('loadingLabor').checked;
 
-  var errorBox = document.getElementById('errorBox');
-  var priceBox = document.getElementById('priceBox');
+      var errorBox = document.getElementById('errorBox');
+      var priceBox = document.getElementById('priceBox');
 
-  errorBox.style.display = 'none';
-  priceBox.style.display = 'none';
+      errorBox.style.display = 'none';
+      priceBox.style.display = 'none';
 
-  if (!pickup ||!dropoff ||!service ||!distance || distance <= 0) {
-    errorBox.textContent = T[currentLang].error_fields;
-    errorBox.style.display = 'block';
-    return;
-  }
+      if (!pickup ||!dropoff ||!vehicle ||!distance || distance <= 0) {
+        errorBox.textContent = T[currentLang].error_fields;
+        errorBox.style.display = 'block';
+        return;
+      }
 
-  var base = 0;
-  var perKm = 0;
+      var base = 0;
+      var perKm = 0;
 
-  // BEI ZA UMBALI - BADILISHA HAPA KAMA UNAVYO
-  if (service === 'bodaboda') { base = 1000; perKm = 500; }
-  else if (service === 'tuktuk') { base = 2000; perKm = 800; }
-  else if (service === 'sedan') { base = 3000; perKm = 1000; }
-  else if (service === 'van') { base = 5000; perKm = 1500; }
-  else if (service === 'bus') { base = 8000; perKm = 2000; }
-  else { base = 3000; perKm = 1000; }
+      if (vehicle === 'bodaboda') { base = 1000; perKm = 500; }
+      else if (vehicle === 'tuktuk') { base = 2000; perKm = 800; }
+      else if (vehicle === 'sedan') { base = 3000; perKm = 1000; }
+      else if (vehicle === 'van') { base = 5000; perKm = 1500; }
+      else if (vehicle === 'bus') { base = 8000; perKm = 2000; }
+      else { base = 3000; perKm = 1000; }
 
-  var total = base + (perKm * distance);
-  if (labor) total = total + 10000;
+      var total = base + (perKm * distance);
+      if (labor) total = total + 10000;
 
-  var msg = T[currentLang].price_prefix + ' TSh ' + total.toLocaleString() + '. ' + T[currentLang].price_suffix;
-  priceBox.innerHTML = msg + '<br><small>' + distance + 'km × TSh ' + perKm.toLocaleString() + '/km + TSh ' + base.toLocaleString() + ' base</small><br><a href="https://wa.me/255773165432?text=Nataka%20' + service + '%20kutoka%20' + pickup + '%20kwenda%20' + dropoff + '%20(' + distance + 'km)%20kwa%20TSh' + total + '" class="btn-book">' + T[currentLang].btn_book + '</a>';
-  priceBox.style.display = 'block';
-}
+      var msg = T[currentLang].price_prefix + ' TSh ' + total.toLocaleString() + '. ' + T[currentLang].price_suffix;
+      priceBox.innerHTML = msg + '<br><small>' + distance + 'km × TSh ' + perKm.toLocaleString() + '/km + TSh ' + base.toLocaleString() + ' base</small><br><a href="https://wa.me/255773165432?text=Nataka%20' + vehicle + '%20kutoka%20' + pickup + '%20kwenda%20' + dropoff + '%20(' + distance + 'km)%20kwa%20TSh' + total + '" class="btn-book">' + T[currentLang].btn_book + '</a>';
+      priceBox.style.display = 'block';
+    }
 
     setLang(currentLang);
   </script>
