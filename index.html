@@ -155,7 +155,7 @@
       });
     }
 
-async function hesabuBei() {
+window.hesabuBei = async function() {
   const pickup = document.getElementById('pickup').value.trim();
   const dropoff = document.getElementById('dropoff').value.trim();
   const vehicle = document.getElementById('vehicleType').value;
@@ -172,21 +172,18 @@ async function hesabuBei() {
     return;
   }
 
-  // Onyesha loading
   priceBtn.innerText = "Inapima umbali...";
   priceBtn.disabled = true;
 
   try {
-    // Hatua 1: Pata coordinates za pickup
     const pickupRes = await fetch(https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(pickup + ', Zanzibar')});
     const pickupData = await pickupRes.json();
 
-    // Hatua 2: Pata coordinates za dropoff
     const dropoffRes = await fetch(https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(dropoff + ', Zanzibar')});
     const dropoffData = await dropoffRes.json();
 
     if(pickupData.length === 0 || dropoffData.length === 0) {
-      throw new Error("Eneo halijapatikana. Jaribu kuandika jina maarufu kama 'Stone Town' au 'Airport'");
+      throw new Error("Eneo halijapatikana. Tumia jina maarufu kama 'Stone Town' au 'Airport'");
     }
 
     const startLon = pickupData[0].lon;
@@ -194,17 +191,15 @@ async function hesabuBei() {
     const endLon = dropoffData[0].lon;
     const endLat = dropoffData[0].lat;
 
-    // Hatua 3: Pima umbali wa barabara
     const routeRes = await fetch(https://router.project-osrm.org/route/v1/driving/${startLon},${startLat};${endLon},${endLat}?overview=false);
     const routeData = await routeRes.json();
 
     if(routeData.code!== 'Ok') {
-      throw new Error("Imeshindikana kupima umbali. Jaribu tena");
+      throw new Error("Imeshindikana kupima umbali");
     }
 
-    const distanceKm = routeData.routes[0].distance / 1000; // mita kuwa km
+    const distanceKm = routeData.routes[0].distance / 1000;
 
-    // Hatua 4: Hesabu bei
     let beiPerKm = 0, basePrice = 2000;
     if(vehicle === "Bodaboda") beiPerKm = 800;
     if(vehicle === "Bajaji") beiPerKm = 1500;
@@ -213,13 +208,11 @@ async function hesabuBei() {
     beiYaMwisho = Math.round(basePrice + (beiPerKm * distanceKm));
     if(labor) beiYaMwisho += 10000;
 
-    // Onyesha bei
     document.getElementById('onyeshaBei').innerText = beiYaMwisho.toLocaleString();
     document.getElementById('onyeshaDeposit').innerText = (beiYaMwisho * 0.3).toLocaleString();
     document.getElementById('beiContainer').style.display = 'block';
     document.getElementById('maelekezoMalipo').style.display = 'none';
 
-    // Onyesha umbali uliopimwa
     const t = tafsiri[document.getElementById('langSelect').value];
     alert(${t.labelDistance}: ${distanceKm.toFixed(1)} km);
 
@@ -227,12 +220,10 @@ async function hesabuBei() {
     alert("Kosa: " + error.message);
     beiYaMwisho = 0;
   } finally {
-    // Rudisha button kawaida
     priceBtn.innerText = tafsiri[document.getElementById('langSelect').value].priceBtn;
     priceBtn.disabled = false;
   }
 }
-
     function onyeshaMaelekezoYaMalipo() {
       const pickup = document.getElementById('pickup').value;
       const dropoff = document.getElementById('dropoff').value;
