@@ -10,15 +10,15 @@
       font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
       background: #1a1a1a; padding: 20px; min-height: 100vh;
     }
-.card {
+   .card {
       max-width: 420px; margin: 0 auto; background: white;
       border-radius: 20px; padding: 24px; box-shadow: 0 8px 30px rgba(0,0,0,0.3);
     }
-.header {
+   .header {
       display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;
     }
-.logo-img { width: 120px; height: auto; }
-.lang-select {
+   .logo-img { width: 120px; height: auto; }
+   .lang-select {
       padding: 6px 10px; border: 1px solid #ddd; border-radius: 8px;
       font-size: 14px; background: #f8f8f8;
     }
@@ -30,36 +30,36 @@
     }
     input:focus, select:focus { border-color: #00a651; outline: none; }
     input:disabled { background: #f5f5f5; color: #333; font-weight: 600; }
-.hint { font-size: 12px; color: #666; margin-top: 4px; }
-.checkbox-row { display: flex; align-items: center; margin: 18px 0; }
-.checkbox-row input { width: 20px; height: 20px; margin-right: 10px; }
-.checkbox-row label { margin: 0; font-weight: 500; font-size: 15px; }
-.payment-title { font-size: 17px; font-weight: 700; margin: 20px 0 12px; color: #1a1a1a; }
-.payment-grid {
+   .hint { font-size: 12px; color: #666; margin-top: 4px; }
+   .checkbox-row { display: flex; align-items: center; margin: 18px 0; }
+   .checkbox-row input { width: 20px; height: 20px; margin-right: 10px; }
+   .checkbox-row label { margin: 0; font-weight: 500; font-size: 15px; }
+   .payment-title { font-size: 17px; font-weight: 700; margin: 20px 0 12px; color: #1a1a1a; }
+   .payment-grid {
       display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-bottom: 8px;
     }
-.payment-btn {
+   .payment-btn {
       padding: 12px 8px; border: none; border-radius: 10px; font-weight: 700;
       font-size: 14px; cursor: pointer; transition: all 0.2s; color: white;
     }
-.payment-btn:active { transform: scale(0.95); }
-.mpesa { background: #00a651; }.tigo { background: #0066cc; }
-.airtel { background: #e31e24; }.halopesa { background: #ff6f00; }
-.payment-btn.selected { box-shadow: 0 0 0 3px #1a1a1a; }
-.selected-text { font-size: 15px; font-weight: 600; color: #00a651; margin: 8px 0 16px; }
-.btn-price {
+   .payment-btn:active { transform: scale(0.95); }
+   .mpesa { background: #00a651; }.tigo { background: #0066cc; }
+   .airtel { background: #e31e24; }.halopesa { background: #ff6f00; }
+   .payment-btn.selected { box-shadow: 0 0 0 3px #1a1a1a; }
+   .selected-text { font-size: 15px; font-weight: 600; color: #00a651; margin: 8px 0 16px; }
+   .btn-price {
       width: 100%; padding: 16px; font-size: 17px; font-weight: 700;
       background: #00a651; color: white; border: none; border-radius: 12px;
       cursor: pointer; margin-top: 8px;
     }
-.btn-price:active { transform: scale(0.98); }
+   .btn-price:active { transform: scale(0.98); }
     #beiContainer {
       display: none; margin-top: 24px; padding: 20px;
       background: #f0fdf4; border-radius: 12px; border: 2px solid #00a651;
     }
-.price-big { font-size: 28px; font-weight: 800; color: #00a651; text-align: center; }
-.price-small { text-align: center; margin-top: 8px; color: #666; }
-.deposit { text-align: center; margin-top: 12px; font-weight: 700; color: #d97706; }
+   .price-big { font-size: 28px; font-weight: 800; color: #00a651; text-align: center; }
+   .price-small { text-align: center; margin-top: 8px; color: #666; }
+   .deposit { text-align: center; margin-top: 12px; font-weight: 700; color: #d97706; }
   </style>
 </head>
 <body>
@@ -146,48 +146,38 @@
 <script>
 let njiaYaMalipo = "";
 
-// 1. AUTO DISTANCE: GPS Coordinates za maeneo
 const coordinates = {
-  "Stone Town": [-6.1659, 39.1919],
-  "Airport": [-6.2186, 39.2231],
-  "Mwanakwerekwe": [-6.1717, 39.2186],
-  "Michenzani": [-6.1650, 39.2050],
-  "Mlandege": [-6.1500, 39.2200],
-  "Mkokotoni": [-5.9333, 39.2667],
-  "Nungwi": [-5.7261, 39.2950],
-  "Kendwa": [-5.7444, 39.2847],
-  "Paje": [-6.2667, 39.5333],
-  "Jambiani": [-6.3167, 39.5500]
+  "Stone Town": [-6.1659, 39.1919], "Airport": [-6.2186, 39.2231],
+  "Mwanakwerekwe": [-6.1717, 39.2186], "Michenzani": [-6.1650, 39.2050],
+  "Mlandege": [-6.1500, 39.2200], "Mkokotoni": [-5.9333, 39.2667],
+  "Nungwi": [-5.7261, 39.2950], "Kendwa": [-5.7444, 39.2847],
+  "Paje": [-6.2667, 39.5333], "Jambiani": [-6.3167, 39.5500]
 };
 
-// Haversine Formula - Inapima km moja kwa moja bila API
 function pimaUmbali(lat1, lon1, lat2, lon2) {
-  const R = 6371; // Radius ya dunia kwa km
+  const R = 6371;
   const dLat = (lat2 - lat1) * Math.PI / 180;
   const dLon = (lon2 - lon1) * Math.PI / 180;
   const a = Math.sin(dLat/2) * Math.sin(dLat/2) +
             Math.cos(lat1 * Math.PI / 180) * Math.cos(lat2 * Math.PI / 180) *
             Math.sin(dLon/2) * Math.sin(dLon/2);
   const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
-  return Math.round(R * c * 10) / 10; // Rounded to 1 decimal
+  return Math.round(R * c * 10) / 10;
 }
 
 window.hesabuUmbali = function() {
   const pickup = document.getElementById('pickup').value;
   const dropoff = document.getElementById('dropoff').value;
   const distanceField = document.getElementById('distance');
-
   if(pickup && dropoff && pickup!== dropoff) {
     const [lat1, lon1] = coordinates[pickup];
     const [lat2, lon2] = coordinates[dropoff];
-    const km = pimaUmbali(lat1, lon1, lat2, lon2);
-    distanceField.value = km;
+    distanceField.value = pimaUmbali(lat1, lon1, lat2, lon2);
   } else {
     distanceField.value = "";
   }
 }
 
-// 2. LUGHA 7
 const tafsiri = {
   en: { title: "Book Your Ride", labelPickup: "Pick-up Location", labelDropoff: "Drop-off Location", labelDistance: "Distance (km)", distanceHint: "Distance is calculated automatically", labelVehicle: "Vehicle Type", labelLabor: "I need loading labor (+TSh 5,000)", labelPayment: "Choose Payment Method:", priceBtn: "Get Your Price", selected: "Selected", alertPickup: "Please select pickup location", alertDropoff: "Please select dropoff location", alertPayment: "Please choose payment method first", alertSame: "Pickup and dropoff cannot be the same" },
   sw: { title: "Agiza Safari Yako", labelPickup: "Anapotaka Kuchukuliwa", labelDropoff: "Anakoenda", labelDistance: "Umbali (km)", distanceHint: "Umbali unapimwa moja kwa moja", labelVehicle: "Chagua Chombo", labelLabor: "Naomba msaada wa kubeba (+TSh 5,000)", labelPayment: "Chagua Njia ya Malipo:", priceBtn: "Pata Bei Yako", selected: "Umechagua", alertPickup: "Tafadhali chagua anapotaka kuchukuliwa", alertDropoff: "Tafadhali chagua anakoenda", alertPayment: "Chagua njia ya malipo kwanza", alertSame: "Sehemu za kuchukulia na kupeleka zisiwe sawa" },
@@ -200,7 +190,7 @@ const tafsiri = {
 
 window.badiliLugha = function() {
   const lang = document.getElementById('langSelect').value;
-  const t = tafsiri[lang];
+  const t = tafsiri;
   document.getElementById('title').innerText = t.title;
   document.getElementById('labelPickup').innerText = t.labelPickup;
   document.getElementById('labelDropoff').innerText = t.labelDropoff;
@@ -218,12 +208,12 @@ window.chaguaMalipo = function(mtandao, element) {
   document.querySelectorAll('.payment-btn').forEach(el => el.classList.remove('selected'));
   element.classList.add('selected');
   const lang = document.getElementById('langSelect').value;
-  document.getElementById('selectedText').innerText = ${tafsiri[lang].selected}: ${mtandao};
+  document.getElementById('selectedText').innerText = ${tafsiri.selected}: ${mtandao};
 }
 
 window.hesabuBei = function() {
   const lang = document.getElementById('langSelect').value;
-  const t = tafsiri[lang];
+  const t = tafsiri;
   const pickup = document.getElementById('pickup').value;
   const dropoff = document.getElementById('dropoff').value;
   const distanceKm = parseFloat(document.getElementById('distance').value);
