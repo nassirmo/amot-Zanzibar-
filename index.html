@@ -10,16 +10,16 @@
       font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
       background: #1a1a1a; padding: 20px; min-height: 100vh;
     }
- .card {
+.card {
       max-width: 420px; margin: 0 auto; background: white;
       border-radius: 20px; padding: 24px; box-shadow: 0 8px 30px rgba(0,0,0,0.3);
       position: relative;
     }
- .logo-text {
+.logo-text {
       font-size: 28px; font-weight: 800; color: #00a651; line-height: 1.1;
       text-align: center; width: 100%; padding: 8px 0; margin-bottom: 8px;
     }
- .lang-select {
+.lang-select {
       position: absolute; top: 12px; right: 12px;
       padding: 4px 6px; border: 1px solid #ddd; border-radius: 6px;
       font-size: 12px; background: #f8f8f8; width: auto;
@@ -32,41 +32,42 @@
     }
     input:focus, select:focus { border-color: #00a651; outline: none; }
     input:disabled { background: #f5f5f5; color: #333; font-weight: 600; }
- .hint { font-size: 12px; color: #666; margin-top: 4px; }
- .checkbox-row { display: flex; align-items: center; margin: 18px 0; }
- .checkbox-row input { width: 20px; height: 20px; margin-right: 10px; }
- .checkbox-row label { margin: 0; font-weight: 500; font-size: 15px; }
- .payment-title { font-size: 17px; font-weight: 700; margin: 20px 0 12px; color: #1a1a1a; }
- .payment-grid {
+.hint { font-size: 12px; color: #666; margin-top: 4px; }
+.checkbox-row { display: flex; align-items: center; margin: 18px 0; }
+.checkbox-row input { width: 20px; height: 20px; margin-right: 10px; }
+.checkbox-row label { margin: 0; font-weight: 500; font-size: 15px; }
+.payment-title { font-size: 17px; font-weight: 700; margin: 20px 0 12px; color: #1a1a1a; }
+.payment-grid {
       display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-bottom: 8px;
     }
- .payment-btn {
+.payment-btn {
       padding: 12px 8px; border: none; border-radius: 10px; font-weight: 700;
       font-size: 14px; cursor: pointer; transition: all 0.2s; color: white;
     }
- .payment-btn:active { transform: scale(0.95); }
- .mpesa { background: #00a651; }.tigo { background: #0066cc; }
- .airtel { background: #e31e24; }.halopesa { background: #ff6f00; }
- .payment-btn.selected { box-shadow: 0 0 0 3px #1a1a1a; }
- .selected-text { font-size: 15px; font-weight: 600; color: #00a651; margin: 8px 0 16px; }
- .btn-price {
+.payment-btn:active { transform: scale(0.95); }
+.mpesa { background: #00a651; }.tigo { background: #0066cc; }
+.airtel { background: #e31e24; }.halopesa { background: #ff6f00; }
+.payment-btn.selected { box-shadow: 0 0 0 3px #1a1a1a; }
+.selected-text { font-size: 15px; font-weight: 600; color: #00a651; margin: 8px 0 16px; }
+.btn-price {
       width: 100%; padding: 16px; font-size: 17px; font-weight: 700;
       background: #00a651; color: white; border: none; border-radius: 12px;
       cursor: pointer; margin-top: 8px;
     }
- .btn-price:active { transform: scale(0.98); }
+.btn-price:active { transform: scale(0.98); }
     #beiContainer {
       display: none; margin-top: 24px; padding: 20px;
       background: #f0fdf4; border-radius: 12px; border: 2px solid #00a651;
     }
- .price-big { font-size: 28px; font-weight: 800; color: #00a651; text-align: center; }
- .price-small { text-align: center; margin-top: 8px; color: #666; }
- .deposit { text-align: center; margin-top: 12px; font-weight: 700; color: #d97706; }
+.price-big { font-size: 28px; font-weight: 800; color: #00a651; text-align: center; }
+.price-small { text-align: center; margin-top: 8px; color: #666; }
+.deposit { text-align: center; margin-top: 12px; font-weight: 700; color: #d97706; }
+ #debug { font-size: 10px; color: red; text-align: center; margin-top: 5px; }
   </style>
 </head>
 <body>
   <div class="card">
-    <select class="lang-select" id="langSelect" onchange="badiliLugha()">
+    <select class="lang-select" id="langSelect">
       <option value="en">🇬🇧 EN</option>
       <option value="sw">🇹🇿 SW</option>
       <option value="ar">🇸🇦 AR</option>
@@ -77,10 +78,11 @@
     </select>
 
     <div class="logo-text">Amot Zanzibar</div>
+    <div id="debug">JS: Loading...</div>
     <h2 id="title">Book Your Ride</h2>
 
     <label id="labelPickup">Pick-up Location</label>
-    <select id="pickup" onchange="hesabuUmbali()">
+    <select id="pickup">
       <option value="">-- Select --</option>
       <option value="Stone Town">Stone Town</option>
       <option value="Airport">Airport</option>
@@ -95,7 +97,7 @@
     </select>
 
     <label id="labelDropoff">Drop-off Location</label>
-    <select id="dropoff" onchange="hesabuUmbali()">
+    <select id="dropoff">
       <option value="">-- Select --</option>
       <option value="Stone Town">Stone Town</option>
       <option value="Airport">Airport</option>
@@ -127,14 +129,14 @@
 
     <div class="payment-title" id="labelPayment">Choose Payment Method:</div>
     <div class="payment-grid">
-      <button class="payment-btn mpesa" onclick="chaguaMalipo('M-Pesa', this)">M-Pesa</button>
-      <button class="payment-btn tigo" onclick="chaguaMalipo('Tigo Pesa', this)">Tigo Pesa</button>
-      <button class="payment-btn airtel" onclick="chaguaMalipo('Airtel Money', this)">Airtel Money</button>
-      <button class="payment-btn halopesa" onclick="chaguaMalipo('Halopesa', this)">Halopesa</button>
+      <button class="payment-btn mpesa" data-method="M-Pesa">M-Pesa</button>
+      <button class="payment-btn tigo" data-method="Tigo Pesa">Tigo Pesa</button>
+      <button class="payment-btn airtel" data-method="Airtel Money">Airtel Money</button>
+      <button class="payment-btn halopesa" data-method="Halopesa">Halopesa</button>
     </div>
     <div class="selected-text" id="selectedText">Selected: None</div>
 
-    <button class="btn-price" id="priceBtn" onclick="hesabuBei()">Get Your Price</button>
+    <button class="btn-price" id="priceBtn">Get Your Price</button>
 
     <div id="beiContainer">
       <div class="price-big">TZS <span id="onyeshaBei">0</span></div>
@@ -144,7 +146,7 @@
   </div>
 
 <script>
-console.log("JS Imeanza"); // Kama huoni hii kwenye Console, JS haiendi kabisa
+document.getElementById('debug').innerText = 'JS: Loaded';
 
 let njiaYaMalipo = "";
 
@@ -167,8 +169,8 @@ function pimaUmbali(lat1, lon1, lat2, lon2) {
   return Math.round(R * c * 10) / 10;
 }
 
-window.hesabuUmbali = function() {
-  console.log("hesabuUmbali imeitwa");
+function hesabuUmbali() {
+  document.getElementById('debug').innerText = 'JS: Calculating...';
   const pickup = document.getElementById('pickup').value;
   const dropoff = document.getElementById('dropoff').value;
   const distanceField = document.getElementById('distance');
@@ -177,11 +179,12 @@ window.hesabuUmbali = function() {
     const [lat2, lon2] = coordinates[dropoff];
     const km = pimaUmbali(lat1, lon1, lat2, lon2);
     distanceField.value = km;
-    console.log("Umbali:", km);
+    document.getElementById('debug').innerText = 'JS: OK. Distance = ' + km;
   } else {
     distanceField.value = "";
+    document.getElementById('debug').innerText = 'JS: OK. Waiting for 2 locations';
   }
-};
+}
 
 const tafsiri = {
   en: { title: "Book Your Ride", labelPickup: "Pick-up Location", labelDropoff: "Drop-off Location", labelDistance: "Distance (km)", distanceHint: "Distance is calculated automatically", labelVehicle: "Vehicle Type", labelLabor: "I need loading labor (+TSh 5,000)", labelPayment: "Choose Payment Method:", priceBtn: "Get Your Price", selected: "Selected", alertPickup: "Please select pickup location", alertDropoff: "Please select dropoff location", alertPayment: "Please choose payment method first", alertSame: "Pickup and dropoff cannot be the same" },
@@ -193,7 +196,7 @@ const tafsiri = {
   zh: { title: "预订您的行程", labelPickup: "接送地点", labelDropoff: "目的地", labelDistance: "距离（公里）", distanceHint: "距离自动计算", labelVehicle: "车辆类型", labelLabor: "我需要装载帮助 (+5,000 先令)", labelPayment: "选择付款方式：", priceBtn: "获取您的价格", selected: "已选择", alertPickup: "请选择接送地点", alertDropoff: "请选择目的地", alertPayment: "请先选择付款方式", alertSame: "接送地点和目的地不能相同" }
 };
 
-window.badiliLugha = function() {
+function badiliLugha() {
   const lang = document.getElementById('langSelect').value;
   const t = tafsiri;
   document.getElementById('title').innerText = t.title;
@@ -206,19 +209,19 @@ window.badiliLugha = function() {
   document.getElementById('labelPayment').innerText = t.labelPayment;
   document.getElementById('priceBtn').innerText = t.priceBtn;
   document.getElementById('selectedText').innerText = ${t.selected}: ${njiaYaMalipo || 'None'};
-};
+}
 
-window.chaguaMalipo = function(mtandao, element) {
-  console.log("Malipo yamechaguliwa:", mtandao);
+function chaguaMalipo(mtandao, element) {
   njiaYaMalipo = mtandao;
   document.querySelectorAll('.payment-btn').forEach(el => el.classList.remove('selected'));
   element.classList.add('selected');
   const lang = document.getElementById('langSelect').value;
   document.getElementById('selectedText').innerText = ${tafsiri.selected}: ${mtandao};
-};
+  document.getElementById('debug').innerText = 'JS: Payment = ' + mtandao;
+}
 
-window.hesabuBei = function() {
-  console.log("hesabuBei imebonyezwa");
+function hesabuBei() {
+  document.getElementById('debug').innerText = 'JS: Price button clicked';
   const lang = document.getElementById('langSelect').value;
   const t = tafsiri;
   const pickup = document.getElementById('pickup').value;
@@ -245,8 +248,21 @@ window.hesabuBei = function() {
   document.getElementById('onyeshaDeposit').innerText = (beiYaMwisho * 0.3).toLocaleString();
   document.getElementById('onyeshaUmbali').innerText = distanceKm;
   document.getElementById('beiContainer').style.display = 'block';
-  console.log("Bei:", beiYaMwisho);
-};
+  document.getElementById('debug').innerText = 'JS: Price = ' + beiYaMwisho;
+}
+
+// MUHIMU: Tunatumia addEventListener badala ya onchange=""
+document.getElementById('pickup').addEventListener('change', hesabuUmbali);
+document.getElementById('dropoff').addEventListener('change', hesabuUmbali);
+document.getElementById('langSelect').addEventListener('change', badiliLugha);
+document.getElementById('priceBtn').addEventListener('click', hesabuBei);
+document.querySelectorAll('.payment-btn').forEach(btn => {
+  btn.addEventListener('click', function() {
+    chaguaMalipo(this.dataset.method, this);
+  });
+});
+
+document.getElementById('debug').innerText = 'JS: Ready. Select 2 locations';
 </script>
 
 </body>
