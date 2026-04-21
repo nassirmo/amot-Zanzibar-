@@ -8,102 +8,110 @@
     * { box-sizing: border-box; margin: 0; padding: 0; }
     body {
       font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-      background: #1a1a1a;
-      padding: 20px;
-      min-height: 100vh;
+      background: #1a1a1a; padding: 20px; min-height: 100vh;
     }
- .card {
-      max-width: 420px;
-      margin: 0 auto;
-      background: white;
-      border-radius: 20px;
-      padding: 24px;
-      box-shadow: 0 8px 30px rgba(0,0,0,0.3);
+.card {
+      max-width: 420px; margin: 0 auto; background: white;
+      border-radius: 20px; padding: 24px; box-shadow: 0 8px 30px rgba(0,0,0,0.3);
     }
- .header {
-      display: flex;
-      justify-content: space-between;
-      align-items: flex-start;
-      margin-bottom: 8px;
+.header {
+      display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;
     }
- .logo {
-      font-size: 28px;
-      font-weight: 800;
-      color: #00a651;
-      line-height: 1.1;
-    }
- .lang-select {
-      padding: 6px 10px;
-      border: 1px solid #ddd;
-      border-radius: 8px;
-      font-size: 14px;
-      background: #f8f8f8;
+.logo-img { width: 120px; height: auto; }
+.lang-select {
+      padding: 6px 10px; border: 1px solid #ddd; border-radius: 8px;
+      font-size: 14px; background: #f8f8f8;
     }
     h2 { font-size: 22px; margin: 16px 0 20px; color: #1a1a1a; }
     label { display: block; font-size: 15px; font-weight: 700; margin: 18px 0 8px; color: #2c3e50; }
     input, select {
       width: 100%; padding: 14px; font-size: 16px;
-      border: 2px solid #e8eaed; border-radius: 12px;
-      background: #fff;
+      border: 2px solid #e8eaed; border-radius: 12px; background: #fff;
     }
     input:focus, select:focus { border-color: #00a651; outline: none; }
- .hint { font-size: 12px; color: #666; margin-top: 4px; }
- .checkbox-row { display: flex; align-items: center; margin: 18px 0; }
- .checkbox-row input { width: 20px; height: 20px; margin-right: 10px; }
- .checkbox-row label { margin: 0; font-weight: 500; font-size: 15px; }
- .payment-title { font-size: 17px; font-weight: 700; margin: 20px 0 12px; color: #1a1a1a; }
- .payment-grid {
-      display: grid; grid-template-columns: repeat(3, 1fr);
-      gap: 8px; margin-bottom: 8px;
+    input:disabled { background: #f5f5f5; color: #333; font-weight: 600; }
+.hint { font-size: 12px; color: #666; margin-top: 4px; }
+.checkbox-row { display: flex; align-items: center; margin: 18px 0; }
+.checkbox-row input { width: 20px; height: 20px; margin-right: 10px; }
+.checkbox-row label { margin: 0; font-weight: 500; font-size: 15px; }
+.payment-title { font-size: 17px; font-weight: 700; margin: 20px 0 12px; color: #1a1a1a; }
+.payment-grid {
+      display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-bottom: 8px;
     }
- .payment-btn {
-      padding: 12px 8px; border: none; border-radius: 10px;
-      font-weight: 700; font-size: 14px; cursor: pointer;
-      transition: all 0.2s; color: white;
+.payment-btn {
+      padding: 12px 8px; border: none; border-radius: 10px; font-weight: 700;
+      font-size: 14px; cursor: pointer; transition: all 0.2s; color: white;
     }
- .payment-btn:active { transform: scale(0.95); }
- .mpesa { background: #00a651; }
- .tigo { background: #0066cc; }
- .airtel { background: #e31e24; }
- .halopesa { background: #ff6f00; grid-column: span 1; }
- .payment-btn.selected { box-shadow: 0 0 0 3px #1a1a1a; }
- .selected-text { font-size: 15px; font-weight: 600; color: #00a651; margin: 8px 0 16px; }
- .btn-price {
+.payment-btn:active { transform: scale(0.95); }
+.mpesa { background: #00a651; }.tigo { background: #0066cc; }
+.airtel { background: #e31e24; }.halopesa { background: #ff6f00; }
+.payment-btn.selected { box-shadow: 0 0 0 3px #1a1a1a; }
+.selected-text { font-size: 15px; font-weight: 600; color: #00a651; margin: 8px 0 16px; }
+.btn-price {
       width: 100%; padding: 16px; font-size: 17px; font-weight: 700;
       background: #00a651; color: white; border: none; border-radius: 12px;
       cursor: pointer; margin-top: 8px;
     }
- .btn-price:active { transform: scale(0.98); }
+.btn-price:active { transform: scale(0.98); }
     #beiContainer {
       display: none; margin-top: 24px; padding: 20px;
       background: #f0fdf4; border-radius: 12px; border: 2px solid #00a651;
     }
- .price-big { font-size: 28px; font-weight: 800; color: #00a651; text-align: center; }
- .price-small { text-align: center; margin-top: 8px; color: #666; }
- .deposit { text-align: center; margin-top: 12px; font-weight: 700; color: #d97706; }
+.price-big { font-size: 28px; font-weight: 800; color: #00a651; text-align: center; }
+.price-small { text-align: center; margin-top: 8px; color: #666; }
+.deposit { text-align: center; margin-top: 12px; font-weight: 700; color: #d97706; }
   </style>
 </head>
 <body>
   <div class="card">
     <div class="header">
-      <div class="logo">Amot<br>Zanzibar</div>
+      <img src="logo.png" alt="Amot Zanzibar" class="logo-img">
       <select class="lang-select" id="langSelect" onchange="badiliLugha()">
         <option value="en">🇬🇧 EN</option>
         <option value="sw">🇹🇿 SW</option>
+        <option value="ar">🇸🇦 AR</option>
+        <option value="fr">🇫🇷 FR</option>
+        <option value="es">🇪🇸 ES</option>
+        <option value="de">🇩🇪 DE</option>
+        <option value="zh">🇨🇳 ZH</option>
       </select>
     </div>
 
     <h2 id="title">Book Your Ride</h2>
 
     <label id="labelPickup">Pick-up Location</label>
-    <input type="text" id="pickup" placeholder="e.g. Stone Town, Mlandege, etc">
+    <select id="pickup" onchange="hesabuUmbali()">
+      <option value="">-- Select --</option>
+      <option value="Stone Town">Stone Town</option>
+      <option value="Airport">Airport</option>
+      <option value="Mwanakwerekwe">Mwanakwerekwe</option>
+      <option value="Michenzani">Michenzani</option>
+      <option value="Mlandege">Mlandege</option>
+      <option value="Mkokotoni">Mkokotoni</option>
+      <option value="Nungwi">Nungwi</option>
+      <option value="Kendwa">Kendwa</option>
+      <option value="Paje">Paje</option>
+      <option value="Jambiani">Jambiani</option>
+    </select>
 
     <label id="labelDropoff">Drop-off Location</label>
-    <input type="text" id="dropoff" placeholder="e.g. Airport, Nungwi, etc">
+    <select id="dropoff" onchange="hesabuUmbali()">
+      <option value="">-- Select --</option>
+      <option value="Stone Town">Stone Town</option>
+      <option value="Airport">Airport</option>
+      <option value="Mwanakwerekwe">Mwanakwerekwe</option>
+      <option value="Michenzani">Michenzani</option>
+      <option value="Mlandege">Mlandege</option>
+      <option value="Mkokotoni">Mkokotoni</option>
+      <option value="Nungwi">Nungwi</option>
+      <option value="Kendwa">Kendwa</option>
+      <option value="Paje">Paje</option>
+      <option value="Jambiani">Jambiani</option>
+    </select>
 
     <label id="labelDistance">Distance (km)</label>
-    <input type="number" id="distance" placeholder="e.g. 15" min="1" max="200">
-    <div class="hint" id="distanceHint">Weka makisio ya umbali. Dereva atathibitisha</div>
+    <input type="number" id="distance" placeholder="Auto-calculated" disabled>
+    <div class="hint" id="distanceHint">Distance is calculated automatically</div>
 
     <label id="labelVehicle">Vehicle Type</label>
     <select id="vehicleType">
@@ -114,7 +122,7 @@
 
     <div class="checkbox-row">
       <input type="checkbox" id="labor">
-      <label for="labor" id="labelLabor">I need loading labor (+TSh 10,000)</label>
+      <label for="labor" id="labelLabor">I need loading labor (+TSh 5,000)</label>
     </div>
 
     <div class="payment-title" id="labelPayment">Choose Payment Method:</div>
@@ -138,23 +146,56 @@
 <script>
 let njiaYaMalipo = "";
 
-const tafsiri = {
-  en: {
-    title: "Book Your Ride",
-    labelPickup: "Pick-up Location", labelDropoff: "Drop-off Location",
-    labelDistance: "Distance (km)", distanceHint: "Enter estimated distance. Driver will confirm",
-    labelVehicle: "Vehicle Type", labelLabor: "I need loading labor (+TSh 10,000)",
-    labelPayment: "Choose Payment Method:", priceBtn: "Get Your Price",
-    selected: "Selected"
-  },
-  sw: {
-    title: "Agiza Safari Yako",
-    labelPickup: "Anapotaka Kuchukuliwa", labelDropoff: "Anakoenda",
-    labelDistance: "Umbali (km)", distanceHint: "Weka makisio ya umbali. Dereva atathibitisha",
-    labelVehicle: "Chagua Chombo", labelLabor: "Naomba msaada wa kubeba (+TSh 10,000)",
-    labelPayment: "Chagua Njia ya Malipo:", priceBtn: "Pata Bei Yako",
-    selected: "Umechagua"
+// 1. AUTO DISTANCE: GPS Coordinates za maeneo
+const coordinates = {
+  "Stone Town": [-6.1659, 39.1919],
+  "Airport": [-6.2186, 39.2231],
+  "Mwanakwerekwe": [-6.1717, 39.2186],
+  "Michenzani": [-6.1650, 39.2050],
+  "Mlandege": [-6.1500, 39.2200],
+  "Mkokotoni": [-5.9333, 39.2667],
+  "Nungwi": [-5.7261, 39.2950],
+  "Kendwa": [-5.7444, 39.2847],
+  "Paje": [-6.2667, 39.5333],
+  "Jambiani": [-6.3167, 39.5500]
+};
+
+// Haversine Formula - Inapima km moja kwa moja bila API
+function pimaUmbali(lat1, lon1, lat2, lon2) {
+  const R = 6371; // Radius ya dunia kwa km
+  const dLat = (lat2 - lat1) * Math.PI / 180;
+  const dLon = (lon2 - lon1) * Math.PI / 180;
+  const a = Math.sin(dLat/2) * Math.sin(dLat/2) +
+            Math.cos(lat1 * Math.PI / 180) * Math.cos(lat2 * Math.PI / 180) *
+            Math.sin(dLon/2) * Math.sin(dLon/2);
+  const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+  return Math.round(R * c * 10) / 10; // Rounded to 1 decimal
+}
+
+window.hesabuUmbali = function() {
+  const pickup = document.getElementById('pickup').value;
+  const dropoff = document.getElementById('dropoff').value;
+  const distanceField = document.getElementById('distance');
+
+  if(pickup && dropoff && pickup!== dropoff) {
+    const [lat1, lon1] = coordinates[pickup];
+    const [lat2, lon2] = coordinates[dropoff];
+    const km = pimaUmbali(lat1, lon1, lat2, lon2);
+    distanceField.value = km;
+  } else {
+    distanceField.value = "";
   }
+}
+
+// 2. LUGHA 7
+const tafsiri = {
+  en: { title: "Book Your Ride", labelPickup: "Pick-up Location", labelDropoff: "Drop-off Location", labelDistance: "Distance (km)", distanceHint: "Distance is calculated automatically", labelVehicle: "Vehicle Type", labelLabor: "I need loading labor (+TSh 5,000)", labelPayment: "Choose Payment Method:", priceBtn: "Get Your Price", selected: "Selected", alertPickup: "Please select pickup location", alertDropoff: "Please select dropoff location", alertPayment: "Please choose payment method first", alertSame: "Pickup and dropoff cannot be the same" },
+  sw: { title: "Agiza Safari Yako", labelPickup: "Anapotaka Kuchukuliwa", labelDropoff: "Anakoenda", labelDistance: "Umbali (km)", distanceHint: "Umbali unapimwa moja kwa moja", labelVehicle: "Chagua Chombo", labelLabor: "Naomba msaada wa kubeba (+TSh 5,000)", labelPayment: "Chagua Njia ya Malipo:", priceBtn: "Pata Bei Yako", selected: "Umechagua", alertPickup: "Tafadhali chagua anapotaka kuchukuliwa", alertDropoff: "Tafadhali chagua anakoenda", alertPayment: "Chagua njia ya malipo kwanza", alertSame: "Sehemu za kuchukulia na kupeleka zisiwe sawa" },
+  ar: { title: "احجز رحلتك", labelPickup: "موقع الالتقاط", labelDropoff: "موقع التوصيل", labelDistance: "المسافة (كم)", distanceHint: "يتم حساب المسافة تلقائيًا", labelVehicle: "نوع السيارة", labelLabor: "أحتاج إلى عمالة تحميل (+5,000 شلن)", labelPayment: "اختر طريقة الدفع:", priceBtn: "احصل على سعرك", selected: "المحدد", alertPickup: "الرجاء تحديد موقع الالتقاط", alertDropoff: "الرجاء تحديد موقع التوصيل", alertPayment: "الرجاء اختيار طريقة الدفع أولاً", alertSame: "لا يمكن أن يكون الالتقاط والتوصيل في نفس المكان" },
+  fr: { title: "Réservez votre course", labelPickup: "Lieu de prise en charge", labelDropoff: "Lieu de dépose", labelDistance: "Distance (km)", distanceHint: "La distance est calculée automatiquement", labelVehicle: "Type de véhicule", labelLabor: "J'ai besoin d'aide au chargement (+5 000 TSh)", labelPayment: "Choisissez le mode de paiement:", priceBtn: "Obtenir votre prix", selected: "Sélectionné", alertPickup: "Veuillez sélectionner le lieu de prise en charge", alertDropoff: "Veuillez sélectionner le lieu de dépose", alertPayment: "Veuillez d'abord choisir le mode de paiement", alertSame: "La prise en charge et la dépose ne peuvent pas être identiques" },
+  es: { title: "Reserva tu viaje", labelPickup: "Lugar de recogida", labelDropoff: "Lugar de destino", labelDistance: "Distancia (km)", distanceHint: "La distancia se calcula automáticamente", labelVehicle: "Tipo de vehículo", labelLabor: "Necesito ayuda para cargar (+5.000 TSh)", labelPayment: "Elige método de pago:", priceBtn: "Obtener tu precio", selected: "Seleccionado", alertPickup: "Por favor selecciona el lugar de recogida", alertDropoff: "Por favor selecciona el lugar de destino", alertPayment: "Por favor elige el método de pago primero", alertSame: "La recogida y el destino no pueden ser iguales" },
+  de: { title: "Buchen Sie Ihre Fahrt", labelPickup: "Abholort", labelDropoff: "Zielort", labelDistance: "Entfernung (km)", distanceHint: "Die Entfernung wird automatisch berechnet", labelVehicle: "Fahrzeugtyp", labelLabor: "Ich benötige Ladehilfe (+5.000 TSh)", labelPayment: "Zahlungsmethode wählen:", priceBtn: "Preis erhalten", selected: "Ausgewählt", alertPickup: "Bitte Abholort auswählen", alertDropoff: "Bitte Zielort auswählen", alertPayment: "Bitte zuerst Zahlungsmethode wählen", alertSame: "Abhol- und Zielort dürfen nicht identisch sein" },
+  zh: { title: "预订您的行程", labelPickup: "接送地点", labelDropoff: "目的地", labelDistance: "距离（公里）", distanceHint: "距离自动计算", labelVehicle: "车辆类型", labelLabor: "我需要装载帮助 (+5,000 先令)", labelPayment: "选择付款方式：", priceBtn: "获取您的价格", selected: "已选择", alertPickup: "请选择接送地点", alertDropoff: "请选择目的地", alertPayment: "请先选择付款方式", alertSame: "接送地点和目的地不能相同" }
 };
 
 window.badiliLugha = function() {
@@ -181,24 +222,27 @@ window.chaguaMalipo = function(mtandao, element) {
 }
 
 window.hesabuBei = function() {
-  const pickup = document.getElementById('pickup').value.trim();
-  const dropoff = document.getElementById('dropoff').value.trim();
+  const lang = document.getElementById('langSelect').value;
+  const t = tafsiri[lang];
+  const pickup = document.getElementById('pickup').value;
+  const dropoff = document.getElementById('dropoff').value;
   const distanceKm = parseFloat(document.getElementById('distance').value);
   const vehicle = document.getElementById('vehicleType').value;
   const labor = document.getElementById('labor').checked;
 
-  if(pickup === "" || dropoff === "") return alert("Tafadhali jaza maeneo yote");
-  if(!distanceKm || distanceKm <= 0) return alert("Weka umbali sahihi zaidi ya 0 km");
-  if(njiaYaMalipo === "") return alert("Chagua njia ya malipo kwanza");
-  if(pickup === dropoff) return alert("Sehemu za kuchukulia na kupeleka zisiwe sawa");
+  if(pickup === "") return alert(t.alertPickup);
+  if(dropoff === "") return alert(t.alertDropoff);
+  if(!distanceKm || distanceKm <= 0) return alert("Distance not calculated");
+  if(njiaYaMalipo === "") return alert(t.alertPayment);
+  if(pickup === dropoff) return alert(t.alertSame);
 
-  let beiPerKm = 0, basePrice = 2000;
-  if(vehicle === "Bodaboda") beiPerKm = 800;
-  if(vehicle === "Bajaji") beiPerKm = 1500;
-  if(vehicle === "Sedan") beiPerKm = 2500;
+  let beiPerKm = 0, basePrice = 0;
+  if(vehicle === "Bodaboda") { basePrice = 500; beiPerKm = 600; }
+  if(vehicle === "Bajaji") { basePrice = 1000; beiPerKm = 1000; }
+  if(vehicle === "Sedan") { basePrice = 2000; beiPerKm = 1500; }
 
   let beiYaMwisho = Math.round(basePrice + (beiPerKm * distanceKm));
-  if(labor) beiYaMwisho += 10000;
+  if(labor) beiYaMwisho += 5000;
 
   document.getElementById('onyeshaBei').innerText = beiYaMwisho.toLocaleString();
   document.getElementById('onyeshaDeposit').innerText = (beiYaMwisho * 0.3).toLocaleString();
