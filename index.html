@@ -155,35 +155,83 @@
       });
     }
 
-    function hesabuBei() {
-      const pickup = document.getElementById('pickup').value;
-      const dropoff = document.getElementById('dropoff').value;
-      const distance = parseFloat(document.getElementById('distance').value);
-      const vehicle = document.getElementById('vehicleType').value;
-      const labor = document.getElementById('labor').checked;
+async function hesabuBei() {
+  const pickup = document.getElementById('pickup').value.trim();
+  const dropoff = document.getElementById('dropoff').value.trim();
+  const vehicle = document.getElementById('vehicleType').value;
+  const labor = document.getElementById('labor').checked;
+  const priceBtn = document.getElementById('priceBtn');
 
-      if(pickup === "" || dropoff === "" || isNaN(distance) || distance <= 0) {
-        alert("Tafadhali jaza Pick-up, Drop-off, na Distance vizuri");
-        return;
-      }
-      if(njiaYaMalipo === "") {
-        alert("Tafadhali chagua njia ya malipo kwanza");
-        return;
-      }
+  if(pickup === "" || dropoff === "") {
+    alert("Tafadhali jaza Anapotaka Kuchukuliwa na Anakoenda");
+    return;
+  }
 
-      let beiPerKm = 0, basePrice = 2000;
-      if(vehicle === "Bodaboda") beiPerKm = 800;
-      if(vehicle === "Bajaji") beiPerKm = 1500;
-      if(vehicle === "Sedan") beiPerKm = 2500;
+  if(njiaYaMalipo === "") {
+    alert("Tafadhali chagua njia ya malipo kwanza");
+    return;
+  }
 
-      beiYaMwisho = basePrice + (beiPerKm * distance);
-      if(labor) beiYaMwisho += 10000;
+  // Onyesha loading
+  priceBtn.innerText = "Inapima umbali...";
+  priceBtn.disabled = true;
 
-      document.getElementById('onyeshaBei').innerText = beiYaMwisho.toLocaleString();
-      document.getElementById('onyeshaDeposit').innerText = (beiYaMwisho * 0.3).toLocaleString();
-      document.getElementById('beiContainer').style.display = 'block';
-      document.getElementById('maelekezoMalipo').style.display = 'none';
+  try {
+    // Hatua 1: Pata coordinates za pickup
+    const pickupRes = await fetch(https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(pickup + ', Zanzibar')});
+    const pickupData = await pickupRes.json();
+
+    // Hatua 2: Pata coordinates za dropoff
+    const dropoffRes = await fetch(https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(dropoff + ', Zanzibar')});
+    const dropoffData = await dropoffRes.json();
+
+    if(pickupData.length === 0 || dropoffData.length === 0) {
+      throw new Error("Eneo halijapatikana. Jaribu kuandika jina maarufu kama 'Stone Town' au 'Airport'");
     }
+
+    const startLon = pickupData[0].lon;
+    const startLat = pickupData[0].lat;
+    const endLon = dropoffData[0].lon;
+    const endLat = dropoffData[0].lat;
+
+    // Hatua 3: Pima umbali wa barabara
+    const routeRes = await fetch(https://router.project-osrm.org/route/v1/driving/${startLon},${startLat};${endLon},${endLat}?overview=false);
+    const routeData = await routeRes.json();
+
+    if(routeData.code!== 'Ok') {
+      throw new Error("Imeshindikana kupima umbali. Jaribu tena");
+    }
+
+    const distanceKm = routeData.routes[0].distance / 1000; // mita kuwa km
+
+    // Hatua 4: Hesabu bei
+    let beiPerKm = 0, basePrice = 2000;
+    if(vehicle === "Bodaboda") beiPerKm = 800;
+    if(vehicle === "Bajaji") beiPerKm = 1500;
+    if(vehicle === "Sedan") beiPerKm = 2500;
+
+    beiYaMwisho = Math.round(basePrice + (beiPerKm * distanceKm));
+    if(labor) beiYaMwisho += 10000;
+
+    // Onyesha bei
+    document.getElementById('onyeshaBei').innerText = beiYaMwisho.toLocaleString();
+    document.getElementById('onyeshaDeposit').innerText = (beiYaMwisho * 0.3).toLocaleString();
+    document.getElementById('beiContainer').style.display = 'block';
+    document.getElementById('maelekezoMalipo').style.display = 'none';
+
+    // Onyesha umbali uliopimwa
+    const t = tafsiri[document.getElementById('langSelect').value];
+    alert(${t.labelDistance}: ${distanceKm.toFixed(1)} km);
+
+  } catch (error) {
+    alert("Kosa: " + error.message);
+    beiYaMwisho = 0;
+  } finally {
+    // Rudisha button kawaida
+    priceBtn.innerText = tafsiri[document.getElementById('langSelect').value].priceBtn;
+    priceBtn.disabled = false;
+  }
+}
 
     function onyeshaMaelekezoYaMalipo() {
       const pickup = document.getElementById('pickup').value;
