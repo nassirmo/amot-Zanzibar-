@@ -177,7 +177,7 @@ const tafsiri = {
   }
 };
 
-function badiliLugha() {
+window.badiliLugha=function() {
   const lang = document.getElementById('langSelect').value;
   const t = tafsiri[lang];
   document.getElementById('title').innerText = t.title;
