@@ -163,43 +163,36 @@ window.hesabuBei = async function() {
   const priceBtn = document.getElementById('priceBtn');
 
   if(pickup === "" || dropoff === "") {
-    alert("Tafadhali jaza Anapotaka Kuchukuliwa na Anakoenda");
+    alert("Tafadhali jaza maeneo yote");
     return;
   }
 
   if(njiaYaMalipo === "") {
-    alert("Tafadhali chagua njia ya malipo kwanza");
+    alert("Chagua njia ya malipo kwanza");
     return;
   }
 
-  priceBtn.innerText = "Inapima umbali...";
+  priceBtn.innerText = "Inapima...";
   priceBtn.disabled = true;
 
   try {
-    const pickupRes = await fetch(https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(pickup + ', Zanzibar')});
-    const pickupData = await pickupRes.json();
+    const url1 = https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(pickup + ', Zanzibar')};
+    const url2 = https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(dropoff + ', Zanzibar')};
 
-    const dropoffRes = await fetch(https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(dropoff + ', Zanzibar')});
-    const dropoffData = await dropoffRes.json();
+    const [res1, res2] = await Promise.all([fetch(url1), fetch(url2)]);
+    const [data1, data2] = await Promise.all([res1.json(), res2.json()]);
 
-    if(pickupData.length === 0 || dropoffData.length === 0) {
-      throw new Error("Eneo halijapatikana. Tumia jina maarufu kama 'Stone Town' au 'Airport'");
+    if(data1.length === 0 || data2.length === 0) {
+      throw new Error("Eneo moja halijapatikana. Jaribu 'Stone Town' au 'Airport'");
     }
 
-    const startLon = pickupData[0].lon;
-    const startLat = pickupData[0].lat;
-    const endLon = dropoffData[0].lon;
-    const endLat = dropoffData[0].lat;
-
-    const routeRes = await fetch(https://router.project-osrm.org/route/v1/driving/${startLon},${startLat};${endLon},${endLat}?overview=false);
+    const routeUrl = https://router.project-osrm.org/route/v1/driving/${data1[0].lon},${data1[0].lat};${data2[0].lon},${data2[0].lat}?overview=false;
+    const routeRes = await fetch(routeUrl);
     const routeData = await routeRes.json();
 
-    if(routeData.code!== 'Ok') {
-      throw new Error("Imeshindikana kupima umbali");
-    }
+    if(routeData.code!== 'Ok') throw new Error("Imeshindikana kupima umbali");
 
     const distanceKm = routeData.routes[0].distance / 1000;
-
     let beiPerKm = 0, basePrice = 2000;
     if(vehicle === "Bodaboda") beiPerKm = 800;
     if(vehicle === "Bajaji") beiPerKm = 1500;
@@ -211,19 +204,18 @@ window.hesabuBei = async function() {
     document.getElementById('onyeshaBei').innerText = beiYaMwisho.toLocaleString();
     document.getElementById('onyeshaDeposit').innerText = (beiYaMwisho * 0.3).toLocaleString();
     document.getElementById('beiContainer').style.display = 'block';
-    document.getElementById('maelekezoMalipo').style.display = 'none';
 
     const t = tafsiri[document.getElementById('langSelect').value];
     alert(${t.labelDistance}: ${distanceKm.toFixed(1)} km);
 
   } catch (error) {
     alert("Kosa: " + error.message);
-    beiYaMwisho = 0;
   } finally {
     priceBtn.innerText = tafsiri[document.getElementById('langSelect').value].priceBtn;
     priceBtn.disabled = false;
   }
 }
+    
     function onyeshaMaelekezoYaMalipo() {
       const pickup = document.getElementById('pickup').value;
       const dropoff = document.getElementById('dropoff').value;
