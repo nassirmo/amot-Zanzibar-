@@ -339,6 +339,52 @@
     }
 
     setLang(currentLang);
-  </script>
+  
+  <script type="module">
+  // 1. Import Firebase
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+  import { getDatabase, ref, push, set } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-database.js";
+
+  // 2. Config yako ya AMOT - Ipo tayari
+  const firebaseConfig = {
+    apiKey: "AIzaSyDLTKQngZ5GiefIzJkB9Vu9KqFnDf0o2qQ",
+    authDomain: "amot-zanzibar-8a40a.firebaseapp.com",
+    databaseURL: "https://amot-zanzibar-8a40a-default-rtdb.europe-west1.firebasedatabase.app",
+    projectId: "amot-zanzibar-8a40a",
+    storageBucket: "amot-zanzibar-8a40a.firebasestorage.app",
+    messagingSenderId: "480555547300",
+    appId: "1:480555547300:web:aa7ae140897884a7950431"
+  };
+
+  // 3. Anzisha Firebase
+  const app = initializeApp(firebaseConfig);
+  const db = getDatabase(app);
+
+  // 4. Function ya kutuma oda kwa dereva Juma
+  window.tumaOdaKwaDereva = function(ainaYaGari, anapotakaKuchukuliwa, anakoenda, beiKamili) {
+    const deposit = beiKamili * 0.3;
+    const odaMpya = {
+      anapotaka_kuchukuliwa: anapotakaKuchukuliwa,
+      anakoenda: anakoenda,
+      aina_ya_gari: ainaYaGari,
+      bei_kamili: beiKamili,
+      deposit_aliolipa: deposit,
+      status: "inasaka_dereva",
+      muda: new Date().toISOString()
+    };
+
+    // Tuma oda kwenye Firebase
+    const odaRef = push(ref(db, 'oda'));
+    set(odaRef, odaMpya).then(() => {
+      // Fungua WhatsApp ya Juma na ujumbe - NAMBA SAHI
+      const msg = *ODA MPYA AMOT*%0A%0AAina: ${ainaYaGari}%0AKutoka: ${anapotakaKuchukuliwa}%0AKwenda: ${anakoenda}%0ABei: TZS ${beiKamili.toLocaleString()}%0ADeposit: TZS ${deposit.toLocaleString()}%0A%0AKubali kazi? Jibu NDIYO;
+      const link = https://wa.me/255776218038?text=${msg};
+      window.open(link, '_blank');
+      alert("Oda imetumwa kwa Juma! Subiri akubali.");
+    }).catch((error) => {
+      alert("Imeshindikana kutuma oda: " + error);
+    });
+  }
+</script>
 </body>
 </html>
