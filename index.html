@@ -10,19 +10,16 @@
       font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
       background: #1a1a1a; padding: 20px; min-height: 100vh;
     }
-  .card {
+ .card {
       max-width: 420px; margin: 0 auto; background: white;
       border-radius: 20px; padding: 24px; box-shadow: 0 8px 30px rgba(0,0,0,0.3);
       position: relative;
     }
-  .header {
-      margin-bottom: 8px;
-    }
-  .logo-text {
+ .logo-text {
       font-size: 28px; font-weight: 800; color: #00a651; line-height: 1.1;
-      text-align: center; width: 100%; padding: 8px 0;
+      text-align: center; width: 100%; padding: 8px 0; margin-bottom: 8px;
     }
-  .lang-select {
+ .lang-select {
       position: absolute; top: 12px; right: 12px;
       padding: 4px 6px; border: 1px solid #ddd; border-radius: 6px;
       font-size: 12px; background: #f8f8f8; width: auto;
@@ -35,36 +32,36 @@
     }
     input:focus, select:focus { border-color: #00a651; outline: none; }
     input:disabled { background: #f5f5f5; color: #333; font-weight: 600; }
-  .hint { font-size: 12px; color: #666; margin-top: 4px; }
-  .checkbox-row { display: flex; align-items: center; margin: 18px 0; }
-  .checkbox-row input { width: 20px; height: 20px; margin-right: 10px; }
-  .checkbox-row label { margin: 0; font-weight: 500; font-size: 15px; }
-  .payment-title { font-size: 17px; font-weight: 700; margin: 20px 0 12px; color: #1a1a1a; }
-  .payment-grid {
+ .hint { font-size: 12px; color: #666; margin-top: 4px; }
+ .checkbox-row { display: flex; align-items: center; margin: 18px 0; }
+ .checkbox-row input { width: 20px; height: 20px; margin-right: 10px; }
+ .checkbox-row label { margin: 0; font-weight: 500; font-size: 15px; }
+ .payment-title { font-size: 17px; font-weight: 700; margin: 20px 0 12px; color: #1a1a1a; }
+ .payment-grid {
       display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-bottom: 8px;
     }
-  .payment-btn {
+ .payment-btn {
       padding: 12px 8px; border: none; border-radius: 10px; font-weight: 700;
       font-size: 14px; cursor: pointer; transition: all 0.2s; color: white;
     }
-  .payment-btn:active { transform: scale(0.95); }
-  .mpesa { background: #00a651; }.tigo { background: #0066cc; }
-  .airtel { background: #e31e24; }.halopesa { background: #ff6f00; }
-  .payment-btn.selected { box-shadow: 0 0 0 3px #1a1a1a; }
-  .selected-text { font-size: 15px; font-weight: 600; color: #00a651; margin: 8px 0 16px; }
-  .btn-price {
+ .payment-btn:active { transform: scale(0.95); }
+ .mpesa { background: #00a651; }.tigo { background: #0066cc; }
+ .airtel { background: #e31e24; }.halopesa { background: #ff6f00; }
+ .payment-btn.selected { box-shadow: 0 0 0 3px #1a1a1a; }
+ .selected-text { font-size: 15px; font-weight: 600; color: #00a651; margin: 8px 0 16px; }
+ .btn-price {
       width: 100%; padding: 16px; font-size: 17px; font-weight: 700;
       background: #00a651; color: white; border: none; border-radius: 12px;
       cursor: pointer; margin-top: 8px;
     }
-  .btn-price:active { transform: scale(0.98); }
+ .btn-price:active { transform: scale(0.98); }
     #beiContainer {
       display: none; margin-top: 24px; padding: 20px;
       background: #f0fdf4; border-radius: 12px; border: 2px solid #00a651;
     }
-  .price-big { font-size: 28px; font-weight: 800; color: #00a651; text-align: center; }
-  .price-small { text-align: center; margin-top: 8px; color: #666; }
-  .deposit { text-align: center; margin-top: 12px; font-weight: 700; color: #d97706; }
+ .price-big { font-size: 28px; font-weight: 800; color: #00a651; text-align: center; }
+ .price-small { text-align: center; margin-top: 8px; color: #666; }
+ .deposit { text-align: center; margin-top: 12px; font-weight: 700; color: #d97706; }
   </style>
 </head>
 <body>
@@ -79,10 +76,7 @@
       <option value="zh">🇨🇳 ZH</option>
     </select>
 
-    <div class="header">
-      <div class="logo-text">Amot Zanzibar</div>
-    </div>
-
+    <div class="logo-text">Amot Zanzibar</div>
     <h2 id="title">Book Your Ride</h2>
 
     <label id="labelPickup">Pick-up Location</label>
@@ -150,6 +144,8 @@
   </div>
 
 <script>
+console.log("JS Imeanza"); // Kama huoni hii kwenye Console, JS haiendi kabisa
+
 let njiaYaMalipo = "";
 
 const coordinates = {
@@ -172,13 +168,16 @@ function pimaUmbali(lat1, lon1, lat2, lon2) {
 }
 
 window.hesabuUmbali = function() {
+  console.log("hesabuUmbali imeitwa");
   const pickup = document.getElementById('pickup').value;
   const dropoff = document.getElementById('dropoff').value;
   const distanceField = document.getElementById('distance');
   if(pickup && dropoff && pickup!== dropoff) {
     const [lat1, lon1] = coordinates[pickup];
     const [lat2, lon2] = coordinates[dropoff];
-    distanceField.value = pimaUmbali(lat1, lon1, lat2, lon2);
+    const km = pimaUmbali(lat1, lon1, lat2, lon2);
+    distanceField.value = km;
+    console.log("Umbali:", km);
   } else {
     distanceField.value = "";
   }
@@ -210,6 +209,7 @@ window.badiliLugha = function() {
 };
 
 window.chaguaMalipo = function(mtandao, element) {
+  console.log("Malipo yamechaguliwa:", mtandao);
   njiaYaMalipo = mtandao;
   document.querySelectorAll('.payment-btn').forEach(el => el.classList.remove('selected'));
   element.classList.add('selected');
@@ -218,6 +218,7 @@ window.chaguaMalipo = function(mtandao, element) {
 };
 
 window.hesabuBei = function() {
+  console.log("hesabuBei imebonyezwa");
   const lang = document.getElementById('langSelect').value;
   const t = tafsiri;
   const pickup = document.getElementById('pickup').value;
@@ -244,6 +245,7 @@ window.hesabuBei = function() {
   document.getElementById('onyeshaDeposit').innerText = (beiYaMwisho * 0.3).toLocaleString();
   document.getElementById('onyeshaUmbali').innerText = distanceKm;
   document.getElementById('beiContainer').style.display = 'block';
+  console.log("Bei:", beiYaMwisho);
 };
 </script>
 
