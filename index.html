@@ -190,7 +190,7 @@ function badiliLugha() {
   document.getElementById('selectedText').innerText = '${t.selected}: ${njiaYaMalipo || 'None'}';
 }
 
-function chaguaMalipo(mtandao, element) {
+window.chaguaMalipo=function chaguaMalipo(mtandao, element) {
   njiaYaMalipo = mtandao;
   document.querySelectorAll('.payment-btn').forEach(el => el.classList.remove('selected'));
   element.classList.add('selected');
@@ -198,7 +198,7 @@ function chaguaMalipo(mtandao, element) {
   document.getElementById('selectedText').innerText = '${tafsiri[lang].selected}: ${mtandao}';
 }
 
-function hesabuBei() {
+window.hesabuBei=function hesabuBei() {
   const pickup = document.getElementById('pickup').value.trim();
   const dropoff = document.getElementById('dropoff').value.trim();
   const vehicle = document.getElementById('vehicleType').value;
@@ -208,7 +208,7 @@ function hesabuBei() {
   if(njiaYaMalipo === "") return alert("Chagua njia ya malipo kwanza");
   if(pickup === dropoff) return alert("Sehemu za kuchukulia na kupeleka zisiwe sawa");
 
-  const key = ${pickup}-${dropoff};
+  const key = '${pickup}-${dropoff}';
   const distanceKm = umbaliWaZones[key];
 
   if(!distanceKm) return alert("Njia hiyo haijapatikana. Chagua maeneo kutoka kwenye orodha");
