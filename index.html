@@ -3,76 +3,149 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>AMOT Transport</title>
+  <title>Amot Zanzibar</title>
   <style>
-    body { font-family: sans-serif; max-width: 500px; margin: 20px auto; padding: 15px; }
-    select, button { width: 100%; padding: 12px; margin: 8px 0; font-size: 16px; }
-    button { background: #007bff; color: white; border: none; cursor: pointer; }
-    button:disabled { background: #ccc; }
-    .payment { border: 1px solid #ccc; padding: 10px; margin: 5px 0; cursor: pointer; }
-    .selected { border: 2px solid #007bff; background: #e7f3ff; }
-    #beiContainer { display: none; margin-top: 20px; padding: 15px; background: #f0f0f0; }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      background: #1a1a1a;
+      padding: 20px;
+      min-height: 100vh;
+    }
+  .card {
+      max-width: 420px;
+      margin: 0 auto;
+      background: white;
+      border-radius: 20px;
+      padding: 24px;
+      box-shadow: 0 8px 30px rgba(0,0,0,0.3);
+    }
+  .header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 8px;
+    }
+  .logo {
+      font-size: 28px;
+      font-weight: 800;
+      color: #00a651;
+      line-height: 1.1;
+    }
+  .lang-select {
+      padding: 6px 10px;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      font-size: 14px;
+      background: #f8f8f8;
+    }
+    h2 { font-size: 22px; margin: 16px 0 20px; color: #1a1a1a; }
+    label { display: block; font-size: 15px; font-weight: 700; margin: 18px 0 8px; color: #2c3e50; }
+    input, select {
+      width: 100%; padding: 14px; font-size: 16px;
+      border: 2px solid #e8eaed; border-radius: 12px;
+      background: #fff;
+    }
+    input:focus, select:focus { border-color: #00a651; outline: none; }
+  .checkbox-row { display: flex; align-items: center; margin: 18px 0; }
+  .checkbox-row input { width: 20px; height: 20px; margin-right: 10px; }
+  .checkbox-row label { margin: 0; font-weight: 500; font-size: 15px; }
+  .payment-title { font-size: 17px; font-weight: 700; margin: 20px 0 12px; color: #1a1a1a; }
+  .payment-grid {
+      display: grid; grid-template-columns: repeat(3, 1fr);
+      gap: 8px; margin-bottom: 8px;
+    }
+  .payment-btn {
+      padding: 12px 8px; border: none; border-radius: 10px;
+      font-weight: 700; font-size: 14px; cursor: pointer;
+      transition: all 0.2s; color: white;
+    }
+  .payment-btn:active { transform: scale(0.95); }
+  .mpesa { background: #00a651; }
+  .tigo { background: #0066cc; }
+  .airtel { background: #e31e24; }
+  .halopesa { background: #ff6f00; grid-column: span 1; }
+  .payment-btn.selected { box-shadow: 0 0 0 3px #1a1a1a; }
+  .selected-text { font-size: 15px; font-weight: 600; color: #00a651; margin: 8px 0 16px; }
+  .btn-price {
+      width: 100%; padding: 16px; font-size: 17px; font-weight: 700;
+      background: #00a651; color: white; border: none; border-radius: 12px;
+      cursor: pointer; margin-top: 8px;
+    }
+  .btn-price:active { transform: scale(0.98); }
+    #beiContainer {
+      display: none; margin-top: 24px; padding: 20px;
+      background: #f0fdf4; border-radius: 12px; border: 2px solid #00a651;
+    }
+  .price-big { font-size: 28px; font-weight: 800; color: #00a651; text-align: center; }
+  .price-small { text-align: center; margin-top: 8px; color: #666; }
+  .deposit { text-align: center; margin-top: 12px; font-weight: 700; color: #d97706; }
   </style>
 </head>
 <body>
+  <div class="card">
+    <div class="header">
+      <div class="logo">Amot<br>Zanzibar</div>
+      <select class="lang-select" id="langSelect" onchange="badiliLugha()">
+        <option value="en">🇬🇧 EN</option>
+        <option value="sw">🇹🇿 SW</option>
+      </select>
+    </div>
 
-  <h2 id="bookTitle">Agiza Safari Yako</h2>
+    <h2 id="title">Book Your Ride</h2>
 
-  <label>Anapotaka Kuchukuliwa</label>
-  <select id="pickup">
-    <option value="">Chagua eneo</option>
-    <option value="Stone Town">Stone Town</option>
-    <option value="Airport">Airport</option>
-    <option value="Mwanakwerekwe">Mwanakwerekwe</option>
-    <option value="Michenzani">Michenzani</option>
-    <option value="Mlandege">Mlandege</option>
-    <option value="Mkokotoni">Mkokotoni</option>
-    <option value="Nungwi">Nungwi</option>
-    <option value="Kendwa">Kendwa</option>
-    <option value="Paje">Paje</option>
-    <option value="Jambiani">Jambiani</option>
-  </select>
+    <label id="labelPickup">Pick-up Location</label>
+    <input type="text" id="pickup" list="zones" placeholder="e.g. Stone Town">
 
-  <label>Anakoenda</label>
-  <select id="dropoff">
-    <option value="">Chagua eneo</option>
-    <option value="Stone Town">Stone Town</option>
-    <option value="Airport">Airport</option>
-    <option value="Mwanakwerekwe">Mwanakwerekwe</option>
-    <option value="Michenzani">Michenzani</option>
-    <option value="Mlandege">Mlandege</option>
-    <option value="Mkokotoni">Mkokotoni</option>
-    <option value="Nungwi">Nungwi</option>
-    <option value="Kendwa">Kendwa</option>
-    <option value="Paje">Paje</option>
-    <option value="Jambiani">Jambiani</option>
-  </select>
+    <label id="labelDropoff">Drop-off Location</label>
+    <input type="text" id="dropoff" list="zones" placeholder="e.g. Airport">
 
-  <label>Chagua Chombo</label>
-  <select id="vehicleType">
-    <option value="Bodaboda">Bodaboda - Mtu 1</option>
-    <option value="Bajaji">Bajaji - Watu 3</option>
-    <option value="Sedan">Sedan - Watu 4</option>
-  </select>
+    <datalist id="zones">
+      <option value="Stone Town">
+      <option value="Airport">
+      <option value="Mwanakwerekwe">
+      <option value="Michenzani">
+      <option value="Mlandege">
+      <option value="Mkokotoni">
+      <option value="Nungwi">
+      <option value="Kendwa">
+      <option value="Paje">
+      <option value="Jambiani">
+    </datalist>
 
-  <label><input type="checkbox" id="labor"> Naomba msaada wa kubeba</label>
+    <label id="labelVehicle">Vehicle Type</label>
+    <select id="vehicleType">
+      <option value="Bodaboda">Bodaboda - 1 Person</option>
+      <option value="Bajaji">Bajaji - 3 People</option>
+      <option value="Sedan">Sedan - 4 People</option>
+    </select>
 
-  <div class="payment" onclick="chaguaMalipo('Tigo Pesa', this)">Tigo Pesa</div>
-  <div class="payment" onclick="chaguaMalipo('Airtel Money', this)">Airtel Money</div>
+    <div class="checkbox-row">
+      <input type="checkbox" id="labor">
+      <label for="labor" id="labelLabor">I need loading labor (+TSh 10,000)</label>
+    </div>
 
-  <button id="priceBtn" onclick="hesabuBei()">Pata Bei Yako</button>
+    <div class="payment-title" id="labelPayment">Choose Payment Method:</div>
+    <div class="payment-grid">
+      <button class="payment-btn mpesa" onclick="chaguaMalipo('M-Pesa', this)">M-Pesa</button>
+      <button class="payment-btn tigo" onclick="chaguaMalipo('Tigo Pesa', this)">Tigo Pesa</button>
+      <button class="payment-btn airtel" onclick="chaguaMalipo('Airtel Money', this)">Airtel Money</button>
+      <button class="payment-btn halopesa" onclick="chaguaMalipo('Halopesa', this)">Halopesa</button>
+    </div>
+    <div class="selected-text" id="selectedText">Selected: None</div>
 
-  <div id="beiContainer">
-    <h3>Jumla: TZS <span id="onyeshaBei">0</span></h3>
-    <p>Deposit ya 30%: TZS <span id="onyeshaDeposit">0</span></p>
-    <p>Umbali: ~<span id="onyeshaUmbali">0</span> km</p>
+    <button class="btn-price" id="priceBtn" onclick="hesabuBei()">Get Your Price</button>
+
+    <div id="beiContainer">
+      <div class="price-big">TZS <span id="onyeshaBei">0</span></div>
+      <div class="price-small">~<span id="onyeshaUmbali">0</span> km</div>
+      <div class="deposit">Deposit 30%: TZS <span id="onyeshaDeposit">0</span></div>
+    </div>
   </div>
 
 <script>
 let njiaYaMalipo = "";
-let beiYaMwisho = 0;
 
-// Jedwali la umbali - BADILISHA KM KAMA UNAVIJUA VIZURI ZAIDI
 const umbaliWaZones = {
   "Stone Town-Airport": 6, "Airport-Stone Town": 6,
   "Stone Town-Mwanakwerekwe": 3, "Mwanakwerekwe-Stone Town": 3,
@@ -84,42 +157,68 @@ const umbaliWaZones = {
   "Stone Town-Paje": 50, "Paje-Stone Town": 50,
   "Airport-Nungwi": 65, "Nungwi-Airport": 65,
   "Mlandege-Mkokotoni": 38, "Mkokotoni-Mlandege": 38,
+  "Airport-Mwanakwerekwe": 7, "Mwanakwerekwe-Airport": 7,
 };
+
+const tafsiri = {
+  en: {
+    title: "Book Your Ride",
+    labelPickup: "Pick-up Location", labelDropoff: "Drop-off Location",
+    labelVehicle: "Vehicle Type", labelLabor: "I need loading labor (+TSh 10,000)",
+    labelPayment: "Choose Payment Method:", priceBtn: "Get Your Price",
+    selected: "Selected"
+  },
+  sw: {
+    title: "Agiza Safari Yako",
+    labelPickup: "Anapotaka Kuchukuliwa", labelDropoff: "Anakoenda",
+    labelVehicle: "Chagua Chombo", labelLabor: "Naomba msaada wa kubeba (+TSh 10,000)",
+    labelPayment: "Chagua Njia ya Malipo:", priceBtn: "Pata Bei Yako",
+    selected: "Umechagua"
+  }
+};
+
+function badiliLugha() {
+  const lang = document.getElementById('langSelect').value;
+  const t = tafsiri[lang];
+  document.getElementById('title').innerText = t.title;
+  document.getElementById('labelPickup').innerText = t.labelPickup;
+  document.getElementById('labelDropoff').innerText = t.labelDropoff;
+  document.getElementById('labelVehicle').innerText = t.labelVehicle;
+  document.getElementById('labelLabor').innerText = t.labelLabor;
+  document.getElementById('labelPayment').innerText = t.labelPayment;
+  document.getElementById('priceBtn').innerText = t.priceBtn;
+  document.getElementById('selectedText').innerText = ${t.selected}: ${njiaYaMalipo || 'None'};
+}
 
 function chaguaMalipo(mtandao, element) {
   njiaYaMalipo = mtandao;
-  document.querySelectorAll('.payment').forEach(el => el.classList.remove('selected'));
+  document.querySelectorAll('.payment-btn').forEach(el => el.classList.remove('selected'));
   element.classList.add('selected');
+  const lang = document.getElementById('langSelect').value;
+  document.getElementById('selectedText').innerText = ${tafsiri[lang].selected}: ${mtandao};
 }
 
 function hesabuBei() {
-  const pickup = document.getElementById('pickup').value;
-  const dropoff = document.getElementById('dropoff').value;
+  const pickup = document.getElementById('pickup').value.trim();
+  const dropoff = document.getElementById('dropoff').value.trim();
   const vehicle = document.getElementById('vehicleType').value;
   const labor = document.getElementById('labor').checked;
 
-  if(pickup === "" || dropoff === "") {
-    alert("Tafadhali chagua maeneo yote mawili");
-    return;
-  }
-  if(njiaYaMalipo === "") {
-    alert("Chagua njia ya malipo kwanza");
-    return;
-  }
-  if(pickup === dropoff) {
-    alert("Anapotaka kuchukuliwa na anakoenda isiwe sehemu moja");
-    return;
-  }
+  if(pickup === "" || dropoff === "") return alert("Tafadhali jaza maeneo yote");
+  if(njiaYaMalipo === "") return alert("Chagua njia ya malipo kwanza");
+  if(pickup === dropoff) return alert("Sehemu za kuchukulia na kupeleka zisiwe sawa");
 
   const key = ${pickup}-${dropoff};
-  const distanceKm = umbaliWaZones || 10; // 10km kama combo haijapatikana
+  const distanceKm = umbaliWaZones[key];
+
+  if(!distanceKm) return alert("Njia hiyo haijapatikana. Chagua maeneo kutoka kwenye orodha");
 
   let beiPerKm = 0, basePrice = 2000;
   if(vehicle === "Bodaboda") beiPerKm = 800;
   if(vehicle === "Bajaji") beiPerKm = 1500;
   if(vehicle === "Sedan") beiPerKm = 2500;
 
-  beiYaMwisho = Math.round(basePrice + (beiPerKm * distanceKm));
+  let beiYaMwisho = Math.round(basePrice + (beiPerKm * distanceKm));
   if(labor) beiYaMwisho += 10000;
 
   document.getElementById('onyeshaBei').innerText = beiYaMwisho.toLocaleString();
