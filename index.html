@@ -17,7 +17,9 @@
    .header {
       display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;
     }
-   .logo-img { width: 120px; height: auto; }
+   .logo-text {
+      font-size: 28px; font-weight: 800; color: #00a651; line-height: 1.1;
+    }
    .lang-select {
       padding: 6px 10px; border: 1px solid #ddd; border-radius: 8px;
       font-size: 14px; background: #f8f8f8;
@@ -65,7 +67,7 @@
 <body>
   <div class="card">
     <div class="header">
-      <img src="logo.png" alt="Amot Zanzibar" class="logo-img">
+      <div class="logo-text">Amot<br>Zanzibar</div>
       <select class="lang-select" id="langSelect" onchange="badiliLugha()">
         <option value="en">🇬🇧 EN</option>
         <option value="sw">🇹🇿 SW</option>
@@ -130,7 +132,7 @@
       <button class="payment-btn mpesa" onclick="chaguaMalipo('M-Pesa', this)">M-Pesa</button>
       <button class="payment-btn tigo" onclick="chaguaMalipo('Tigo Pesa', this)">Tigo Pesa</button>
       <button class="payment-btn airtel" onclick="chaguaMalipo('Airtel Money', this)">Airtel Money</button>
-      <button class="payment-btn halopesa" onclick="chaguaMalipo('Halopesa', this)">Halopesa</button>
+      <button class="button-btn halopesa" onclick="chaguaMalipo('Halopesa', this)">Halopesa</button>
     </div>
     <div class="selected-text" id="selectedText">Selected: None</div>
 
@@ -176,7 +178,7 @@ window.hesabuUmbali = function() {
   } else {
     distanceField.value = "";
   }
-}
+};
 
 const tafsiri = {
   en: { title: "Book Your Ride", labelPickup: "Pick-up Location", labelDropoff: "Drop-off Location", labelDistance: "Distance (km)", distanceHint: "Distance is calculated automatically", labelVehicle: "Vehicle Type", labelLabor: "I need loading labor (+TSh 5,000)", labelPayment: "Choose Payment Method:", priceBtn: "Get Your Price", selected: "Selected", alertPickup: "Please select pickup location", alertDropoff: "Please select dropoff location", alertPayment: "Please choose payment method first", alertSame: "Pickup and dropoff cannot be the same" },
@@ -201,7 +203,7 @@ window.badiliLugha = function() {
   document.getElementById('labelPayment').innerText = t.labelPayment;
   document.getElementById('priceBtn').innerText = t.priceBtn;
   document.getElementById('selectedText').innerText = ${t.selected}: ${njiaYaMalipo || 'None'};
-}
+};
 
 window.chaguaMalipo = function(mtandao, element) {
   njiaYaMalipo = mtandao;
@@ -209,7 +211,7 @@ window.chaguaMalipo = function(mtandao, element) {
   element.classList.add('selected');
   const lang = document.getElementById('langSelect').value;
   document.getElementById('selectedText').innerText = ${tafsiri.selected}: ${mtandao};
-}
+};
 
 window.hesabuBei = function() {
   const lang = document.getElementById('langSelect').value;
@@ -238,7 +240,7 @@ window.hesabuBei = function() {
   document.getElementById('onyeshaDeposit').innerText = (beiYaMwisho * 0.3).toLocaleString();
   document.getElementById('onyeshaUmbali').innerText = distanceKm;
   document.getElementById('beiContainer').style.display = 'block';
-}
+};
 </script>
 
 </body>
