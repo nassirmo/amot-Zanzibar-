@@ -142,39 +142,37 @@ document.addEventListener('DOMContentLoaded', function() {
     var NAMBA_ZA_MALIPO = { "M-Pesa": "255712345678", "Tigo Pesa": "255779771085", "Airtel Money": "255783823722", "Halopesa": "255625678901" };
     // ======================================
 
-    var madereva = [
-      { jina: "chandimu", namba: "255776218038", eneo: "Stone Town", lat: -6.1659, lon: 39.1919 },
-      { jina: "Ali", namba: "255713333222", eneo: "Mwanakwerekwe", lat: -6.1717, lon: 39.2186 },
-      { jina: "Hassan", namba: "255713333333", eneo: "Nungwi", lat: -5.7261, lon: 39.2950 },
-      { jina: "Mussa", namba: "255713333444", eneo: "Paje", lat: -6.2667, lon: 39.5333 },
-      { jina: "Bakari", namba: "255713333555", eneo: "Airport", lat: -6.2186, lon: 39.2231 }
-    ];
+   var urlParams = new URLSearchParams(window.location.search);
+var imeThibitishwa = urlParams.get('confirmed');
+var nambaYaDereva = urlParams.get('driver');
+var jinaLaDereva = urlParams.get('drivername');
+var total = urlParams.get('total');      // IMEONGENZA
+var deposit = urlParams.get('deposit');  // IMEONGENZA
+var km = urlParams.get('km');            // IMEONGENZA
+var from = urlParams.get('from');        // IMEONGENZA
+var to = urlParams.get('to');            // IMEONGENZA
 
-    var coordinates = {
-      "Stone Town": [-6.1659, 39.1919], "Airport": [-6.2186, 39.2231], "Mwanakwerekwe": [-6.1717, 39.2186], "Michenzani": [-6.1650, 39.2050], "Mlandege": [-6.1500, 39.2200], "Mkokotoni": [-5.9333, 39.2667], "Nungwi": [-5.7261, 39.2950], "Kendwa": [-5.7444, 39.2847], "Paje": [-6.2667, 39.5333], "Jambiani": [-6.3167, 39.5500], "Kiwengwa": [-5.9833, 39.3833], "Matemwe": [-5.8667, 39.3500], "Bububu": [-6.1167, 39.2167], "Fuoni": [-6.1833, 39.2500], "Kisauni": [-6.1333, 39.2167], "Mbweni": [-6.2167, 39.2833], "Chukwani": [-6.2667, 39.2167], "Fumba": [-6.3167, 39.2833], "Kizimkazi": [-6.4500, 39.4667], "Makunduchi": [-6.4167, 39.5500]
-    };
+if (imeThibitishwa === 'true' && nambaYaDereva && jinaLaDereva) {
+  document.getElementById('fomuYote').style.display = 'none';
+  document.getElementById('beiContainer').style.display = 'block';
+  document.getElementById('paymentInfo').style.display = 'none';
+  document.getElementById('btnLipa').style.display = 'none';
+  document.getElementById('subiriUthibitisho').style.display = 'none';
+  document.getElementById('chatDereva').style.display = 'block';
+  
+  // ONYESHA TAARIFA ZA ODA KAMILI
+  document.getElementById('onyeshaBei').innerText = parseInt(total || 0).toLocaleString();
+  document.getElementById('onyeshaDeposit').innerText = parseInt(deposit || 0).toLocaleString();
+  document.getElementById('onyeshaUmbali').innerText = km || 0;
+  document.getElementById('chatDereva').innerText = 'CHAT NA ' + decodeURIComponent(jinaLaDereva).toUpperCase();
+  document.getElementById('title').innerText = 'Malipo Yamethibitishwa!';
+  document.getElementById('driverInfo').innerText = 'Safari: ' + decodeURIComponent(from || '') + ' → ' + decodeURIComponent(to || '') + ' | Dereva: ' + decodeURIComponent(jinaLaDereva);
 
-    var urlParams = new URLSearchParams(window.location.search);
-    var imeThibitishwa = urlParams.get('confirmed');
-    var nambaYaDereva = urlParams.get('driver');
-    var jinaLaDereva = urlParams.get('drivername');
-
-    if (imeThibitishwa === 'true' && nambaYaDereva && jinaLaDereva) {
-      document.getElementById('fomuYote').style.display = 'none';
-      document.getElementById('beiContainer').style.display = 'block';
-      document.getElementById('paymentInfo').style.display = 'none';
-      document.getElementById('btnLipa').style.display = 'none';
-      document.getElementById('subiriUthibitisho').style.display = 'none';
-      document.getElementById('chatDereva').style.display = 'block';
-      document.getElementById('chatDereva').innerText = 'CHAT NA ' + decodeURIComponent(jinaLaDereva).toUpperCase();
-      document.getElementById('title').innerText = 'Malipo Yamethibitishwa!';
-      document.getElementById('driverInfo').innerText = 'Dereva Wako: ' + decodeURIComponent(jinaLaDereva);
-
-      document.getElementById('chatDereva').onclick = function() {
-        var msg = "Habari " + decodeURIComponent(jinaLaDereva) + ", malipo yamethibitishwa. Nipo tayari. Uko wapi?";
-        window.open('https://wa.me/' + nambaYaDereva + '?text=' + encodeURIComponent(msg));
-      };
-    }
+  document.getElementById('chatDereva').onclick = function() {
+    var msg = "Habari " + decodeURIComponent(jinaLaDereva) + ", malipo yamethibitishwa. Nipo tayari. Uko wapi?";
+    window.open('https://wa.me/' + nambaYaDereva + '?text=' + encodeURIComponent(msg));
+  };
+}
 
     function pimaUmbali(lat1, lon1, lat2, lon2) {
       var R = 6371;
@@ -310,11 +308,16 @@ function lipaSasa() {
   var pickup = document.getElementById('pickup').value;
   var dropoff = document.getElementById('dropoff').value;
 
-  // LINK YA MTEJA
-  var linkKwaMteja = window.location.origin + window.location.pathname;
-  linkKwaMteja += "?confirmed=true";
-  linkKwaMteja += "&driver=" + derevaAliyechaguliwa.namba;
-  linkKwaMteja += "&drivername=" + encodeURIComponent(derevaAliyechaguliwa.jina);
+  // LINK YA MTEJA - SASA INAPELEKA TAARIFA ZOTE
+var linkKwaMteja = window.location.origin + window.location.pathname;
+linkKwaMteja += "?confirmed=true";
+linkKwaMteja += "&driver=" + derevaAliyechaguliwa.namba;
+linkKwaMteja += "&drivername=" + encodeURIComponent(derevaAliyechaguliwa.jina);
+linkKwaMteja += "&total=" + beiYaMwisho;           // IMEONGENZA
+linkKwaMteja += "&deposit=" + depositAmount;       // IMEONGENZA
+linkKwaMteja += "&km=" + document.getElementById('distance').value; // IMEONGENZA
+linkKwaMteja += "&from=" + encodeURIComponent(pickup);  // IMEONGENZA
+linkKwaMteja += "&to=" + encodeURIComponent(dropoff);    // IMEONGENZA
 
   // UJUMBE MFUPI SANA - MSTARI 3 TU
   var msgKwako = "AMOT ODA: TZS " + depositAmount.toLocaleString() + " - " + pickup + "→" + dropoff + " | Bonyeza kumthibitishia mteja: " + linkKwaMteja;
