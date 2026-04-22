@@ -144,15 +144,14 @@ document.addEventListener('DOMContentLoaded', function() {
 
    var urlParams = new URLSearchParams(window.location.search);
 var imeThibitishwa = urlParams.get('confirmed');
-var nambaYaDereva = urlParams.get('driver');
-var jinaLaDereva = urlParams.get('drivername');
-var total = urlParams.get('total');      // IMEONGENZA
-var deposit = urlParams.get('deposit');  // IMEONGENZA
-var km = urlParams.get('km');            // IMEONGENZA
-var from = urlParams.get('from');        // IMEONGENZA
-var to = urlParams.get('to');            // IMEONGENZA
 
-if (imeThibitishwa === 'true' && nambaYaDereva && jinaLaDereva) {
+if (imeThibitishwa === 'true') {
+  var nambaYaDereva = urlParams.get('driver');
+  var jinaLaDereva = urlParams.get('drivername');
+  var total = parseInt(urlParams.get('total') || 0);
+  var deposit = parseInt(urlParams.get('deposit') || 0);
+  var km = urlParams.get('km') || 0;
+
   document.getElementById('fomuYote').style.display = 'none';
   document.getElementById('beiContainer').style.display = 'block';
   document.getElementById('paymentInfo').style.display = 'none';
@@ -160,20 +159,19 @@ if (imeThibitishwa === 'true' && nambaYaDereva && jinaLaDereva) {
   document.getElementById('subiriUthibitisho').style.display = 'none';
   document.getElementById('chatDereva').style.display = 'block';
   
-  // ONYESHA TAARIFA ZA ODA KAMILI
-  document.getElementById('onyeshaBei').innerText = parseInt(total || 0).toLocaleString();
-  document.getElementById('onyeshaDeposit').innerText = parseInt(deposit || 0).toLocaleString();
-  document.getElementById('onyeshaUmbali').innerText = km || 0;
-  document.getElementById('chatDereva').innerText = 'CHAT NA ' + decodeURIComponent(jinaLaDereva).toUpperCase();
+  // HIZI NDIZO ZILIZOKOSEA
+  document.getElementById('onyeshaBei').innerText = total.toLocaleString();
+  document.getElementById('onyeshaDeposit').innerText = deposit.toLocaleString();
+  document.getElementById('onyeshaUmbali').innerText = km;
   document.getElementById('title').innerText = 'Malipo Yamethibitishwa!';
-  document.getElementById('driverInfo').innerText = 'Safari: ' + decodeURIComponent(from || '') + ' → ' + decodeURIComponent(to || '') + ' | Dereva: ' + decodeURIComponent(jinaLaDereva);
+  document.getElementById('driverInfo').innerText = 'Dereva Wako: ' + decodeURIComponent(jinaLaDereva || '');
+  document.getElementById('chatDereva').innerText = 'CHAT NA ' + decodeURIComponent(jinaLaDereva || '').toUpperCase();
 
   document.getElementById('chatDereva').onclick = function() {
-    var msg = "Habari " + decodeURIComponent(jinaLaDereva) + ", malipo yamethibitishwa. Nipo tayari. Uko wapi?";
+    var msg = "Habari " + decodeURIComponent(jinaLaDereva || '') + ", malipo yamethibitishwa. Nipo tayari.";
     window.open('https://wa.me/' + nambaYaDereva + '?text=' + encodeURIComponent(msg));
   };
 }
-
     function pimaUmbali(lat1, lon1, lat2, lon2) {
       var R = 6371;
       var dLat = (lat2 - lat1) * Math.PI / 180;
@@ -307,20 +305,38 @@ function lipaSasa() {
 
   var pickup = document.getElementById('pickup').value;
   var dropoff = document.getElementById('dropoff').value;
+  var km = document.getElementById('distance').value;
 
-  // LINK YA MTEJA - SASA INAPELEKA TAARIFA ZOTE
-var linkKwaMteja = window.location.origin + window.location.pathname;
-linkKwaMteja += "?confirmed=true";
-linkKwaMteja += "&driver=" + derevaAliyechaguliwa.namba;
-linkKwaMteja += "&drivername=" + encodeURIComponent(derevaAliyechaguliwa.jina);
-linkKwaMteja += "&total=" + beiYaMwisho;           // IMEONGENZA
-linkKwaMteja += "&deposit=" + depositAmount;       // IMEONGENZA
-linkKwaMteja += "&km=" + document.getElementById('distance').value; // IMEONGENZA
-linkKwaMteja += "&from=" + encodeURIComponent(pickup);  // IMEONGENZA
-linkKwaMteja += "&to=" + encodeURIComponent(dropoff);    // IMEONGENZA
+  // HAKIKISHA BEI ZIPO - KAMA HAKUNA, KOKOTOA TENA
+  if(beiYaMwisho === 0 || !beiYaMwisho){
+    var vehicle = document.getElementById('vehicleType').value;
+    var labor = document.getElementById('labor').checked;
+    var distanceKm = parseFloat(km);
+    var beiPerKm = 0, basePrice = 0;
+    if(vehicle === "Bodaboda") { basePrice = 500; beiPerKm = 600; }
+    if(vehicle === "Bajaji") { basePrice = 1000; beiPerKm = 1000; }
+    if(vehicle === "Sedan") { basePrice = 2000; beiPerKm = 1500; }
+    if(vehicle === "Pickup") { basePrice = 5000; beiPerKm = 2500; }
+    if(vehicle === "Lorry") { basePrice = 15000; beiPerKm = 4000; }
+    if(vehicle === "Fuso") { basePrice = 25000; beiPerKm = 6000; }
+    beiYaMwisho = Math.round(basePrice + (beiPerKm * distanceKm));
+    if(labor) beiYaMwisho += 5000;
+    depositAmount = Math.round(beiYaMwisho * 0.3);
+  }
 
-  // UJUMBE MFUPI SANA - MSTARI 3 TU
-  var msgKwako = "AMOT ODA: TZS " + depositAmount.toLocaleString() + " - " + pickup + "→" + dropoff + " | Bonyeza kumthibitishia mteja: " + linkKwaMteja;
+  // LINK YA MTEJA - TUNAONDOA / MWISHO ILI GITHUB ISIKATE PARAMS
+  var baseUrl = window.location.origin + window.location.pathname;
+  if(baseUrl.endsWith('/')) baseUrl = baseUrl.slice(0, -1); // ONDOA / MWISHO
+  
+  var linkKwaMteja = baseUrl;
+  linkKwaMteja += "?confirmed=true";
+  linkKwaMteja += "&driver=" + derevaAliyechaguliwa.namba;
+  linkKwaMteja += "&drivername=" + encodeURIComponent(derevaAliyechaguliwa.jina);
+  linkKwaMteja += "&total=" + beiYaMwisho;
+  linkKwaMteja += "&deposit=" + depositAmount;
+  linkKwaMteja += "&km=" + km;
+
+  var msgKwako = "AMOT: " + pickup + "→" + dropoff + " | DEPOSIT: TZS " + depositAmount.toLocaleString() + " | JUMLA: TZS " + beiYaMwisho.toLocaleString() + " | Dereva: " + derevaAliyechaguliwa.jina + " | Thibitisha kisha TUMA HII: " + linkKwaMteja;
 
   window.open('https://wa.me/' + NAMBA_YA_MMILIKI + '?text=' + encodeURIComponent(msgKwako));
 
