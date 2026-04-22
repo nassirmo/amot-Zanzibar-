@@ -303,48 +303,37 @@ document.addEventListener('DOMContentLoaded', function() {
       document.getElementById('debug').innerText = 'JS: Price = ' + beiYaMwisho + ' | Driver: ' + derevaAliyechaguliwa.jina;
     }
 
-    function lipaSasa() {
-      var nambaYaMteja = document.getElementById('mtejaPhone').value.replace(/[^0-9]/g, '');
-      if (nambaYaMteja.startsWith('0')) nambaYaMteja = '255' + nambaYaMteja.substring(1);
+function lipaSasa() {
+  var nambaYaMteja = document.getElementById('mtejaPhone').value.replace(/[^0-9]/g, '');
+  if (nambaYaMteja.startsWith('0')) nambaYaMteja = '255' + nambaYaMteja.substring(1);
 
-      var pickup = document.getElementById('pickup').value;
-      var dropoff = document.getElementById('dropoff').value;
+  var pickup = document.getElementById('pickup').value;
+  var dropoff = document.getElementById('dropoff').value;
 
-      var msgKwako = "UTHIBITISHO WA MALIPO - Amot Zanzibar%0A%0A";
-      msgKwako += "Mteja: " + document.getElementById('mtejaPhone').value + "%0A";
-      msgKwako += "Kutoka: " + pickup + "%0A";
-      msgKwako += "Kwenda: " + dropoff + "%0A";
-      msgKwako += "Umbali: " + document.getElementById('distance').value + "km%0A";
-      msgKwako += "Chombo: " + document.getElementById('vehicleType').value + "%0A";
-      msgKwako += "Jumla: TZS " + beiYaMwisho.toLocaleString() + "%0A";
-      msgKwako += "Deposit: TZS " + depositAmount.toLocaleString() + "%0A";
-      msgKwako += "Njia: " + njiaYaMalipo + "%0A%0A";
-      msgKwako += "DEREVA ALIYEPANGWA:%0A";
-      msgKwako += "Jina: " + derevaAliyechaguliwa.jina + "%0A";
-      msgKwako += "Namba: " + derevaAliyechaguliwa.namba + "%0A";
-      msgKwako += "Eneo lake: " + derevaAliyechaguliwa.eneo + "%0A%0A";
-      msgKwako += "MTEJA AMEDAI KAMESHALIPA DEPOSIT.%0A%0A";
-      msgKwako += "--- HATUA YAKO ---%0A";
-      msgKwako += "1. Thibitisha malipo kwenye " + njiaYaMalipo + " yako%0A";
-      msgKwako += "2. Ukiisha thibitisha, BONYEZA HAPA kumtumia mteja link ya chat:%0A";
+  // LINK YA MTEJA - YENYE CHAT NA DEREVA
+  var linkKwaMteja = window.location.origin + window.location.pathname;
+  linkKwaMteja += "?confirmed=true";
+  linkKwaMteja += "&driver=" + derevaAliyechaguliwa.namba;
+  linkKwaMteja += "&drivername=" + encodeURIComponent(derevaAliyechaguliwa.jina);
 
-      var linkKwaMteja = window.location.origin + window.location.pathname;
-      linkKwaMteja += "?confirmed=true";
-      linkKwaMteja += "&driver=" + derevaAliyechaguliwa.namba;
-      linkKwaMteja += "&drivername=" + encodeURIComponent(derevaAliyechaguliwa.jina);
+  // UJUMBE MFUPI UNAOKWENDA KWA WEWE MMILIKI
+  var msgKwako = "AMOT - ODA MPYA%0A";
+  msgKwako += "Mteja: " + document.getElementById('mtejaPhone').value + "%0A";
+  msgKwako += pickup + " → " + dropoff + "%0A";
+  msgKwako += "Deposit: TZS " + depositAmount.toLocaleString() + " (" + njiaYaMalipo + ")%0A";
+  msgKwako += "Dereva: " + derevaAliyechaguliwa.jina + "%0A%0A";
+  msgKwako += "THIBITISHA MALIPO?%0A";
+  msgKwako += "Ukishathibitisha BONYEZA HII kumtumia mteja chat:%0A";
+  
+  var msgKwaMteja = "Amot: Malipo yamethibitishwa! Dereva " + derevaAliyechaguliwa.jina + " yupo njiani.%0AChat: " + linkKwaMteja;
+  var linkWhatsAppKwaMteja = "https://wa.me/" + nambaYaMteja + "?text=" + encodeURIComponent(msgKwaMteja);
+  msgKwako += linkWhatsAppKwaMteja;
 
-      var msgKwaMteja = "Habari, malipo yako ya TZS " + depositAmount.toLocaleString() + " yamethibitishwa!%0A%0A";
-      msgKwaMteja += "Dereva " + derevaAliyechaguliwa.jina + " yupo njiani.%0A%0A";
-      msgKwaMteja += "BONYEZA HAPA KUCHAT NA DEREVA:%0A" + linkKwaMteja;
+  window.open('https://wa.me/' + NAMBA_YA_MMILIKI + '?text=' + encodeURIComponent(msgKwako));
 
-      var linkWhatsAppKwaMteja = "https://wa.me/" + nambaYaMteja + "?text=" + encodeURIComponent(msgKwaMteja);
-      msgKwako += linkWhatsAppKwaMteja;
-
-      window.open('https://wa.me/' + NAMBA_YA_MMILIKI + '?text=' + encodeURIComponent(msgKwako));
-
-      document.getElementById('btnLipa').style.display = 'none';
-      document.getElementById('subiriUthibitisho').style.display = 'block';
-    }
+  document.getElementById('btnLipa').style.display = 'none';
+  document.getElementById('subiriUthibitisho').style.display = 'block';
+}
 
     document.getElementById('pickup').addEventListener('input', jaribuKuhesabuUmbali);
     document.getElementById('dropoff').addEventListener('input', jaribuKuhesabuUmbali);
