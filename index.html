@@ -220,9 +220,9 @@ if (imeThibitishwa === 'true') {
       zh: { title: "预订您的行程", labelPhone: "您的电话号码", labelPickup: "上车地点", labelDropoff: "目的地", labelDistance: "距离 (公里)", distanceHint: "选择热门地点=自动。其他=查看谷歌地图", labelVehicle: "车辆类型", labelLabor: "我需要装载帮助 (+TSh 5,000)", labelPayment: "选择支付方式：", priceBtn: "获取您的价格", btnLipa: "我已付款 - 发送确认", selected: "已选择", alertPickup: "请输入上车地点", alertDropoff: "请输入目的地", alertDistance: "请输入公里距离", alertPayment: "请先选择支付方式", alertSame: "上车地点和目的地不能相同", alertPhone: "请输入您的电话号码", driverText: "已分配司机", paymentTitle: "现在支付定金", paymentInstructions: "发送 TZS", paymentNote: "使用您的姓名作为参考。付款后点击下方按钮。", chatDereva: "与您的司机聊天", subiri: "您的付款正在验证中。您很快会收到确认消息。" }
     };
 
-    function badiliLugha() {
+   function badiliLugha() {
   var lang = document.getElementById('langSelect').value;
-  var t = tafsiri[lang] || tafsiri['sw']; // HAPA NDIO PALIKUWA NA BUG
+  var t = tafsiri || tafsiri['sw']; // IMEKOSA HAPA - SAHI HII
   document.getElementById('title').innerText = t.title;
   document.getElementById('labelPhone').innerText = t.labelPhone;
   document.getElementById('labelPickup').innerText = t.labelPickup;
@@ -242,18 +242,19 @@ if (imeThibitishwa === 'true') {
   document.getElementById('subiriUthibitisho').innerText = t.subiri;
 }
 
-    function chaguaMalipo(mtandao, element) {
-      njiaYaMalipo = mtandao;
-      document.querySelectorAll('.payment-btn').forEach(btn => btn.classList.remove('selected'));
-      element.classList.add('selected');
-      var lang = document.getElementById('langSelect').value;
-      document.getElementById('selectedText').innerText = tafsiri.selected + ': ' + mtandao;
-      document.getElementById('debug').innerText = 'JS: Payment = ' + mtandao;
-    }
+   function chaguaMalipo(mtandao, element) {
+  njiaYaMalipo = mtandao;
+  document.querySelectorAll('.payment-btn').forEach(btn => btn.classList.remove('selected'));
+  element.classList.add('selected');
+  var lang = document.getElementById('langSelect').value;
+  var t = tafsiri || tafsiri['sw']; // IMEKOSA HAPA PIA
+  document.getElementById('selectedText').innerText = t.selected + ': ' + mtandao;
+  document.getElementById('debug').innerText = 'JS: Payment = ' + mtandao;
+}
 
-    function hesabuBei() {
+   function hesabuBei() {
       var lang = document.getElementById('langSelect').value;
-      var t = tafsiri;
+      var t = tafsiri || tafsiri['sw']; 
       var phone = document.getElementById('mtejaPhone').value.trim();
       var pickup = document.getElementById('pickup').value.trim();
       var dropoff = document.getElementById('dropoff').value.trim();
