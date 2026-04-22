@@ -7,35 +7,35 @@
   <style>
     * { box-sizing: border-box; margin: 0; padding: 0; }
     body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: #1a1a1a; padding: 20px; min-height: 100vh; }
-   .card { max-width: 420px; margin: 0 auto; background: white; border-radius: 20px; padding: 24px; box-shadow: 0 8px 30px rgba(0,0,0,0.3); position: relative; }
-   .logo-text { font-size: 28px; font-weight: 800; color: #00a651; line-height: 1.1; text-align: center; width: 100%; padding: 8px 0; margin-bottom: 8px; }
-   .lang-select { position: absolute; top: 12px; right: 12px; padding: 4px 6px; border: 1px solid #ddd; border-radius: 6px; font-size: 12px; background: #f8f8f8; width: auto; }
+.card { max-width: 420px; margin: 0 auto; background: white; border-radius: 20px; padding: 24px; box-shadow: 0 8px 30px rgba(0,0,0,0.3); position: relative; }
+.logo-text { font-size: 28px; font-weight: 800; color: #00a651; line-height: 1.1; text-align: center; width: 100%; padding: 8px 0; margin-bottom: 8px; }
+.lang-select { position: absolute; top: 12px; right: 12px; padding: 4px 6px; border: 1px solid #ddd; border-radius: 6px; font-size: 12px; background: #f8f8f8; width: auto; }
     h2 { font-size: 22px; margin: 16px 0 20px; color: #1a1a1a; }
     label { display: block; font-size: 15px; font-weight: 700; margin: 18px 0 8px; color: #2c3e50; }
     input, select { width: 100%; padding: 14px; font-size: 16px; border: 2px solid #e8eaed; border-radius: 12px; background: #fff; }
     input:focus, select:focus { border-color: #00a651; outline: none; }
-   .hint { font-size: 12px; color: #666; margin-top: 4px; }
-   .checkbox-row { display: flex; align-items: center; margin: 18px 0; }
-   .checkbox-row input { width: 20px; height: 20px; margin-right: 10px; }
-   .checkbox-row label { margin: 0; font-weight: 500; font-size: 15px; }
-   .payment-title { font-size: 17px; font-weight: 700; margin: 20px 0 12px; color: #1a1a1a; }
-   .payment-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px; margin-bottom: 8px; }
-   .payment-btn { padding: 12px 8px; border: none; border-radius: 10px; font-weight: 700; font-size: 14px; cursor: pointer; transition: all 0.2s; color: white; }
-   .payment-btn:active { transform: scale(0.95); }
-   .mpesa { background: #00a651; }.tigo { background: #0066cc; }.airtel { background: #e31e24; }.halopesa { background: #ff6f00; }
-   .payment-btn.selected { box-shadow: 0 0 0 3px #1a1a1a; }
-   .selected-text { font-size: 15px; font-weight: 600; color: #00a651; margin: 8px 0 16px; }
-   .btn-price { width: 100%; padding: 16px; font-size: 17px; font-weight: 700; background: #00a651; color: white; border: none; border-radius: 12px; cursor: pointer; margin-top: 8px; }
-   .btn-price:active { transform: scale(0.98); }
+.hint { font-size: 12px; color: #666; margin-top: 4px; }
+.checkbox-row { display: flex; align-items: center; margin: 18px 0; }
+.checkbox-row input { width: 20px; height: 20px; margin-right: 10px; }
+.checkbox-row label { margin: 0; font-weight: 500; font-size: 15px; }
+.payment-title { font-size: 17px; font-weight: 700; margin: 20px 0 12px; color: #1a1a1a; }
+.payment-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px; margin-bottom: 8px; }
+.payment-btn { padding: 12px 8px; border: none; border-radius: 10px; font-weight: 700; font-size: 14px; cursor: pointer; transition: all 0.2s; color: white; }
+.payment-btn:active { transform: scale(0.95); }
+.mpesa { background: #00a651; }.tigo { background: #0066cc; }.airtel { background: #e31e24; }.halopesa { background: #ff6f00; }
+.payment-btn.selected { box-shadow: 0 0 0 3px #1a1a1a; }
+.selected-text { font-size: 15px; font-weight: 600; color: #00a651; margin: 8px 0 16px; }
+.btn-price { width: 100%; padding: 16px; font-size: 17px; font-weight: 700; background: #00a651; color: white; border: none; border-radius: 12px; cursor: pointer; margin-top: 8px; }
+.btn-price:active { transform: scale(0.98); }
     #beiContainer { display: none; margin-top: 24px; padding: 20px; background: #f0fdf4; border-radius: 12px; border: 2px solid #00a651; }
-   .price-big { font-size: 28px; font-weight: 800; color: #00a651; text-align: center; }
-   .price-small { text-align: center; margin-top: 8px; color: #666; }
-   .deposit { text-align: center; margin-top: 12px; font-weight: 700; color: #d97706; }
-   .driver-info { text-align: center; margin-top: 12px; font-size: 14px; color: #1a1a1a; background: #fff3cd; padding: 10px; border-radius: 8px; }
-   .payment-info { background: #e3f2fd; padding: 15px; border-radius: 10px; margin-top: 15px; border: 2px solid #0066cc; display: none; }
-   .payment-info h4 { color: #0066cc; margin-bottom: 8px; font-size: 16px; }
-   .payment-info p { font-size: 14px; margin: 5px 0; }
-   .payment-info.namba { font-size: 20px; font-weight: 800; color: #d97706; text-align: center; margin: 10px 0; }
+.price-big { font-size: 28px; font-weight: 800; color: #00a651; text-align: center; }
+.price-small { text-align: center; margin-top: 8px; color: #666; }
+.deposit { text-align: center; margin-top: 12px; font-weight: 700; color: #d97706; }
+.driver-info { text-align: center; margin-top: 12px; font-size: 14px; color: #1a1a1a; background: #fff3cd; padding: 10px; border-radius: 8px; }
+.payment-info { background: #e3f2fd; padding: 15px; border-radius: 10px; margin-top: 15px; border: 2px solid #0066cc; display: none; }
+.payment-info h4 { color: #0066cc; margin-bottom: 8px; font-size: 16px; }
+.payment-info p { font-size: 14px; margin: 5px 0; }
+.payment-info.namba { font-size: 20px; font-weight: 800; color: #d97706; text-align: center; margin: 10px 0; }
     #btnLipa { width: 100%; padding: 16px; font-size: 17px; font-weight: 700; background: #d97706; color: white; border: none; border-radius: 12px; cursor: pointer; margin-top: 16px; display: none; }
     #chatDereva { width: 100%; padding: 16px; font-size: 17px; font-weight: 700; background: #25D366; color: white; border: none; border-radius: 12px; cursor: pointer; margin-top: 16px; display: none; }
     #debug { font-size: 10px; color: red; text-align: center; margin-top: 5px; min-height: 12px; }
@@ -46,7 +46,7 @@
   <datalist id="locations">
     <option value="Stone Town"><option value="Airport"><option value="Mwanakwerekwe"><option value="Michenzani"><option value="Mlandege"><option value="Mkokotoni"><option value="Nungwi"><option value="Kendwa"><option value="Paje"><option value="Jambiani"><option value="Kiwengwa"><option value="Matemwe"><option value="Bububu"><option value="Fuoni"><option value="Kisauni"><option value="Mbweni"><option value="Chukwani"><option value="Fumba"><option value="Kizimkazi"><option value="Makunduchi">
   </datalist>
-
+  
   <div class="card">
     <select class="lang-select" id="langSelect">
       <option value="sw">🇹🇿 SW</option>
@@ -112,7 +112,7 @@
       <div class="payment-info" id="paymentInfo">
         <h4 id="paymentTitle">LIPA DEPOSIT SASA</h4>
         <p id="paymentInstructions">Tuma TZS <span id="kiasiChaKulipa">0</span> kwenda:</p>
-        <div class="namba" id="nambaYaMalipo">07XX XXX XXX</div>
+        <div class="namba" id="nambaYaMalipo">0779 771 085</div>
         <p id="paymentNote">Tumia jina lako kama reference. Ukishalipa, bonyeza kitufe hapa chini.</p>
       </div>
 
@@ -122,7 +122,7 @@
     </div>
   </div>
 
-<script>
+  <script>
 window.onerror = function(msg, url, line) {
   document.getElementById('debug').innerText = 'ERROR: ' + msg + ' Line:' + line;
   return false;
@@ -154,18 +154,17 @@ document.addEventListener('DOMContentLoaded', function() {
       "Stone Town": [-6.1659, 39.1919], "Airport": [-6.2186, 39.2231], "Mwanakwerekwe": [-6.1717, 39.2186], "Michenzani": [-6.1650, 39.2050], "Mlandege": [-6.1500, 39.2200], "Mkokotoni": [-5.9333, 39.2667], "Nungwi": [-5.7261, 39.2950], "Kendwa": [-5.7444, 39.2847], "Paje": [-6.2667, 39.5333], "Jambiani": [-6.3167, 39.5500], "Kiwengwa": [-5.9833, 39.3833], "Matemwe": [-5.8667, 39.3500], "Bububu": [-6.1167, 39.2167], "Fuoni": [-6.1833, 39.2500], "Kisauni": [-6.1333, 39.2167], "Mbweni": [-6.2167, 39.2833], "Chukwani": [-6.2667, 39.2167], "Fumba": [-6.3167, 39.2833], "Kizimkazi": [-6.4500, 39.4667], "Makunduchi": [-6.4167, 39.5500]
     };
 
-    // Angalia kama mteja amerudi baada ya uthibitisho wako
     var urlParams = new URLSearchParams(window.location.search);
     var imeThibitishwa = urlParams.get('confirmed');
     var nambaYaDereva = urlParams.get('driver');
     var jinaLaDereva = urlParams.get('drivername');
 
     if (imeThibitishwa === 'true' && nambaYaDereva && jinaLaDereva) {
-      // Ficha fomu, onyesha chat tu
       document.getElementById('fomuYote').style.display = 'none';
       document.getElementById('beiContainer').style.display = 'block';
       document.getElementById('paymentInfo').style.display = 'none';
       document.getElementById('btnLipa').style.display = 'none';
+      document.getElementById('subiriUthibitisho').style.display = 'none';
       document.getElementById('chatDereva').style.display = 'block';
       document.getElementById('chatDereva').innerText = 'CHAT NA ' + decodeURIComponent(jinaLaDereva).toUpperCase();
       document.getElementById('title').innerText = 'Malipo Yamethibitishwa!';
@@ -217,12 +216,17 @@ document.addEventListener('DOMContentLoaded', function() {
 
     var tafsiri = {
       sw: { title: "Agiza Safari Yako", labelPhone: "Namba yako ya Simu", labelPickup: "Anapotaka Kuchukuliwa", labelDropoff: "Anakoenda", labelDistance: "Umbali (km)", distanceHint: "Chagua sehemu maarufu = auto. Nyingine = angalia Google Maps", labelVehicle: "Chagua Chombo", labelLabor: "Naomba msaada wa kubeba (+TSh 5,000)", labelPayment: "Chagua Njia ya Malipo:", priceBtn: "Pata Bei Yako", btnLipa: "NIMELIPA - TUMA UTHIBITISHO", selected: "Umechagua", alertPickup: "Tafadhali andika anapotaka kuchukuliwa", alertDropoff: "Tafadhali andika anakoenda", alertDistance: "Tafadhali andika umbali kwa km", alertPayment: "Chagua njia ya malipo kwanza", alertSame: "Sehemu za kuchukulia na kupeleka zisiwe sawa", alertPhone: "Tafadhali andika namba yako ya simu", driverText: "Dereva Aliyepangwa", paymentTitle: "LIPA DEPOSIT SASA", paymentInstructions: "Tuma TZS", paymentNote: "Tumia jina lako kama reference. Ukishalipa, bonyeza kitufe hapa chini.", chatDereva: "CHAT NA DEREVA WAKO", subiri: "Malipo yako yanahakikiwa. Utapata ujumbe wa kuthibitisha hivi punde." },
-      en: { title: "Book Your Ride", labelPhone: "Your Phone Number", labelPickup: "Pick-up Location", labelDropoff: "Drop-off Location", labelDistance: "Distance (km)", distanceHint: "Choose popular place = auto. Others = check Google Maps", labelVehicle: "Vehicle Type", labelLabor: "I need loading labor (+TSh 5,000)", labelPayment: "Choose Payment Method:", priceBtn: "Get Your Price", btnLipa: "I HAVE PAID - SEND CONFIRMATION", selected: "Selected", alertPickup: "Please enter pickup location", alertDropoff: "Please enter dropoff location", alertDistance: "Please enter distance in km", alertPayment: "Please choose payment method first", alertSame: "Pickup and dropoff cannot be the same", alertPhone: "Please enter your phone number", driverText: "Assigned Driver", paymentTitle: "PAY DEPOSIT NOW", paymentInstructions: "Send TZS", paymentNote: "Use your name as reference. After paying, click button below.", chatDereva: "CHAT WITH YOUR DRIVER", subiri: "Your payment is being verified. You will get a confirmation message shortly." }
+      en: { title: "Book Your Ride", labelPhone: "Your Phone Number", labelPickup: "Pick-up Location", labelDropoff: "Drop-off Location", labelDistance: "Distance (km)", distanceHint: "Choose popular place = auto. Others = check Google Maps", labelVehicle: "Vehicle Type", labelLabor: "I need loading labor (+TSh 5,000)", labelPayment: "Choose Payment Method:", priceBtn: "Get Your Price", btnLipa: "I HAVE PAID - SEND CONFIRMATION", selected: "Selected", alertPickup: "Please enter pickup location", alertDropoff: "Please enter dropoff location", alertDistance: "Please enter distance in km", alertPayment: "Please choose payment method first", alertSame: "Pickup and dropoff cannot be the same", alertPhone: "Please enter your phone number", driverText: "Assigned Driver", paymentTitle: "PAY DEPOSIT NOW", paymentInstructions: "Send TZS", paymentNote: "Use your name as reference. After paying, click button below.", chatDereva: "CHAT WITH YOUR DRIVER", subiri: "Your payment is being verified. You will get a confirmation message shortly." },
+      ar: { title: "احجز رحلتك", labelPhone: "رقم هاتفك", labelPickup: "مكان الاستلام", labelDropoff: "مكان التوصيل", labelDistance: "المسافة (كم)", distanceHint: "اختر مكان مشهور = تلقائي. غير ذلك = تحقق من خرائط جوجل", labelVehicle: "نوع المركبة", labelLabor: "أحتاج عمال للتحميل (+5,000 شلن)", labelPayment: "اختر طريقة الدفع:", priceBtn: "احصل على سعرك", btnLipa: "لقد دفعت - أرسل التأكيد", selected: "تم الاختيار", alertPickup: "الرجاء إدخال مكان الاستلام", alertDropoff: "الرجاء إدخال مكان التوصيل", alertDistance: "الرجاء إدخال المسافة بالكم", alertPayment: "الرجاء اختيار طريقة الدفع أولاً", alertSame: "لا يمكن أن يكون مكان الاستلام والتوصيل متشابهين", alertPhone: "الرجاء إدخال رقم هاتفك", driverText: "السائق المعين", paymentTitle: "ادفع العربون الآن", paymentInstructions: "أرسل شلن", paymentNote: "استخدم اسمك كمرجع. بعد الدفع اضغط الزر أدناه.", chatDereva: "دردش مع سائقك", subiri: "يتم التحقق من دفعتك. ستصلك رسالة تأكيد قريباً." },
+      fr: { title: "Réservez Votre Course", labelPhone: "Votre Numéro de Téléphone", labelPickup: "Lieu de Prise en Charge", labelDropoff: "Destination", labelDistance: "Distance (km)", distanceHint: "Choisissez un lieu populaire = auto. Autres = vérifiez Google Maps", labelVehicle: "Type de Véhicule", labelLabor: "J'ai besoin d'aide pour charger (+5 000 TSh)", labelPayment: "Choisissez le Mode de Paiement:", priceBtn: "Obtenir Votre Prix", btnLipa: "J'AI PAYÉ - ENVOYER CONFIRMATION", selected: "Sélectionné", alertPickup: "Veuillez entrer le lieu de prise en charge", alertDropoff: "Veuillez entrer la destination", alertDistance: "Veuillez entrer la distance en km", alertPayment: "Veuillez d'abord choisir le mode de paiement", alertSame: "Le lieu de prise en charge et la destination ne peuvent pas être identiques", alertPhone: "Veuillez entrer votre numéro de téléphone", driverText: "Chauffeur Assigné", paymentTitle: "PAYER L'ACOMPTE MAINTENANT", paymentInstructions: "Envoyez TZS", paymentNote: "Utilisez votre nom comme référence. Après paiement, cliquez sur le bouton ci-dessous.", chatDereva: "DISCUTER AVEC VOTRE CHAUFFEUR", subiri: "Votre paiement est en cours de vérification. Vous recevrez un message de confirmation sous peu." },
+      es: { title: "Reserva Tu Viaje", labelPhone: "Tu Número de Teléfono", labelPickup: "Lugar de Recogida", labelDropoff: "Destino", labelDistance: "Distancia (km)", distanceHint: "Elige lugar popular = auto. Otros = consulta Google Maps", labelVehicle: "Tipo de Vehículo", labelLabor: "Necesito ayuda para cargar (+TSh 5,000)", labelPayment: "Elige Método de Pago:", priceBtn: "Obtener Tu Precio", btnLipa: "HE PAGADO - ENVIAR CONFIRMACIÓN", selected: "Seleccionado", alertPickup: "Por favor ingrese el lugar de recogida", alertDropoff: "Por favor ingrese el destino", alertDistance: "Por favor ingrese la distancia en km", alertPayment: "Por favor elige el método de pago primero", alertSame: "El lugar de recogida y el destino no pueden ser iguales", alertPhone: "Por favor ingrese su número de teléfono", driverText: "Conductor Asignado", paymentTitle: "PAGAR DEPÓSITO AHORA", paymentInstructions: "Envía TZS", paymentNote: "Usa tu nombre como referencia. Después de pagar, haz clic en el botón de abajo.", chatDereva: "CHATEA CON TU CONDUCTOR", subiri: "Tu pago está siendo verificado. Recibirás un mensaje de confirmación en breve." },
+      de: { title: "Buche Deine Fahrt", labelPhone: "Deine Telefonnummer", labelPickup: "Abholort", labelDropoff: "Zielort", labelDistance: "Entfernung (km)", distanceHint: "Beliebten Ort wählen = auto. Andere = Google Maps prüfen", labelVehicle: "Fahrzeugtyp", labelLabor: "Ich brauche Ladehilfe (+TSh 5.000)", labelPayment: "Zahlungsmethode Wählen:", priceBtn: "Deinen Preis Erhalten", btnLipa: "ICH HABE BEZAHLT - BESTÄTIGUNG SENDEN", selected: "Ausgewählt", alertPickup: "Bitte Abholort eingeben", alertDropoff: "Bitte Zielort eingeben", alertDistance: "Bitte Entfernung in km eingeben", alertPayment: "Bitte zuerst Zahlungsmethode wählen", alertSame: "Abholort und Zielort dürfen nicht gleich sein", alertPhone: "Bitte Telefonnummer eingeben", driverText: "Zugewiesener Fahrer", paymentTitle: "ANZAHLUNG JETZT BEZAHLEN", paymentInstructions: "Sende TZS", paymentNote: "Nutze deinen Namen als Referenz. Nach Zahlung klicke unten.", chatDereva: "CHATTE MIT DEINEM FAHRER", subiri: "Deine Zahlung wird überprüft. Du erhältst in Kürze eine Bestätigungsnachricht." },
+      zh: { title: "预订您的行程", labelPhone: "您的电话号码", labelPickup: "上车地点", labelDropoff: "目的地", labelDistance: "距离 (公里)", distanceHint: "选择热门地点=自动。其他=查看谷歌地图", labelVehicle: "车辆类型", labelLabor: "我需要装载帮助 (+TSh 5,000)", labelPayment: "选择支付方式：", priceBtn: "获取您的价格", btnLipa: "我已付款 - 发送确认", selected: "已选择", alertPickup: "请输入上车地点", alertDropoff: "请输入目的地", alertDistance: "请输入公里距离", alertPayment: "请先选择支付方式", alertSame: "上车地点和目的地不能相同", alertPhone: "请输入您的电话号码", driverText: "已分配司机", paymentTitle: "现在支付定金", paymentInstructions: "发送 TZS", paymentNote: "使用您的姓名作为参考。付款后点击下方按钮。", chatDereva: "与您的司机聊天", subiri: "您的付款正在验证中。您很快会收到确认消息。" }
     };
 
     function badiliLugha() {
       var lang = document.getElementById('langSelect').value;
-      var t = tafsiri[lang]; // HAPA NDIO PALIKUWA NA BUG
+      var t = tafsiri;
       document.getElementById('title').innerText = t.title;
       document.getElementById('labelPhone').innerText = t.labelPhone;
       document.getElementById('labelPickup').innerText = t.labelPickup;
@@ -247,13 +251,13 @@ document.addEventListener('DOMContentLoaded', function() {
       document.querySelectorAll('.payment-btn').forEach(btn => btn.classList.remove('selected'));
       element.classList.add('selected');
       var lang = document.getElementById('langSelect').value;
-      document.getElementById('selectedText').innerText = tafsiri[lang].selected + ': ' + mtandao;
+      document.getElementById('selectedText').innerText = tafsiri.selected + ': ' + mtandao;
       document.getElementById('debug').innerText = 'JS: Payment = ' + mtandao;
     }
 
     function hesabuBei() {
       var lang = document.getElementById('langSelect').value;
-      var t = tafsiri[lang];
+      var t = tafsiri;
       var phone = document.getElementById('mtejaPhone').value.trim();
       var pickup = document.getElementById('pickup').value.trim();
       var dropoff = document.getElementById('dropoff').value.trim();
@@ -324,7 +328,6 @@ document.addEventListener('DOMContentLoaded', function() {
       msgKwako += "1. Thibitisha malipo kwenye " + njiaYaMalipo + " yako%0A";
       msgKwako += "2. Ukiisha thibitisha, BONYEZA HAPA kumtumia mteja link ya chat:%0A";
 
-      // Link hii ukimtumia mteja itafungua app yake na button ya "Chat na Dereva"
       var linkKwaMteja = window.location.origin + window.location.pathname;
       linkKwaMteja += "?confirmed=true";
       linkKwaMteja += "&driver=" + derevaAliyechaguliwa.namba;
@@ -339,7 +342,6 @@ document.addEventListener('DOMContentLoaded', function() {
 
       window.open('https://wa.me/' + NAMBA_YA_MMILIKI + '?text=' + encodeURIComponent(msgKwako));
 
-      // Ficha button ya lipa, onyesha "subiri"
       document.getElementById('btnLipa').style.display = 'none';
       document.getElementById('subiriUthibitisho').style.display = 'block';
     }
@@ -354,7 +356,6 @@ document.addEventListener('DOMContentLoaded', function() {
       btn.onclick = () => chaguaMalipo(btn.dataset.method, btn);
     });
 
-    // Anzisha lugha
     badiliLugha();
     document.getElementById('debug').innerText = 'JS: Ready. Select or type locations';
   } catch (e) {
