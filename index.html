@@ -310,24 +310,14 @@ function lipaSasa() {
   var pickup = document.getElementById('pickup').value;
   var dropoff = document.getElementById('dropoff').value;
 
-  // LINK YA MTEJA - YENYE CHAT NA DEREVA
+  // LINK YA MTEJA
   var linkKwaMteja = window.location.origin + window.location.pathname;
   linkKwaMteja += "?confirmed=true";
   linkKwaMteja += "&driver=" + derevaAliyechaguliwa.namba;
   linkKwaMteja += "&drivername=" + encodeURIComponent(derevaAliyechaguliwa.jina);
 
-  // UJUMBE MFUPI UNAOKWENDA KWA WEWE MMILIKI
-  var msgKwako = "AMOT - ODA MPYA%0A";
-  msgKwako += "Mteja: " + document.getElementById('mtejaPhone').value + "%0A";
-  msgKwako += pickup + " → " + dropoff + "%0A";
-  msgKwako += "Deposit: TZS " + depositAmount.toLocaleString() + " (" + njiaYaMalipo + ")%0A";
-  msgKwako += "Dereva: " + derevaAliyechaguliwa.jina + "%0A%0A";
-  msgKwako += "THIBITISHA MALIPO?%0A";
-  msgKwako += "Ukishathibitisha BONYEZA HII kumtumia mteja chat:%0A";
-  
-  var msgKwaMteja = "Amot: Malipo yamethibitishwa! Dereva " + derevaAliyechaguliwa.jina + " yupo njiani.%0AChat: " + linkKwaMteja;
-  var linkWhatsAppKwaMteja = "https://wa.me/" + nambaYaMteja + "?text=" + encodeURIComponent(msgKwaMteja);
-  msgKwako += linkWhatsAppKwaMteja;
+  // UJUMBE MFUPI SANA - MSTARI 3 TU
+  var msgKwako = "AMOT: " + pickup + "→" + dropoff + " | TZS " + depositAmount.toLocaleString() + " | Dereva: " + derevaAliyechaguliwa.jina + " | Thibitisha malipo kisha bonyeza link kumtumia mteja: " + linkKwaMteja;
 
   window.open('https://wa.me/' + NAMBA_YA_MMILIKI + '?text=' + encodeURIComponent(msgKwako));
 
