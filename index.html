@@ -225,26 +225,26 @@ document.addEventListener('DOMContentLoaded', function() {
     };
 
     function badiliLugha() {
-      var lang = document.getElementById('langSelect').value;
-      var t = tafsiri;
-      document.getElementById('title').innerText = t.title;
-      document.getElementById('labelPhone').innerText = t.labelPhone;
-      document.getElementById('labelPickup').innerText = t.labelPickup;
-      document.getElementById('labelDropoff').innerText = t.labelDropoff;
-      document.getElementById('labelDistance').innerText = t.labelDistance;
-      document.getElementById('distanceHint').innerText = t.distanceHint;
-      document.getElementById('labelVehicle').innerText = t.labelVehicle;
-      document.getElementById('labelLabor').innerText = t.labelLabor;
-      document.getElementById('labelPayment').innerText = t.labelPayment;
-      document.getElementById('priceBtn').innerText = t.priceBtn;
-      document.getElementById('btnLipa').innerText = t.btnLipa;
-      document.getElementById('selectedText').innerText = t.selected + ': ' + (njiaYaMalipo || 'None');
-      document.getElementById('paymentTitle').innerText = t.paymentTitle;
-      document.getElementById('paymentInstructions').innerHTML = t.paymentInstructions + ' <span id="kiasiChaKulipa">' + depositAmount.toLocaleString() + '</span> kwenda:';
-      document.getElementById('paymentNote').innerText = t.paymentNote;
-      document.getElementById('chatDereva').innerText = t.chatDereva;
-      document.getElementById('subiriUthibitisho').innerText = t.subiri;
-    }
+  var lang = document.getElementById('langSelect').value;
+  var t = tafsiri[lang] || tafsiri['sw']; // HAPA NDIO PALIKUWA NA BUG
+  document.getElementById('title').innerText = t.title;
+  document.getElementById('labelPhone').innerText = t.labelPhone;
+  document.getElementById('labelPickup').innerText = t.labelPickup;
+  document.getElementById('labelDropoff').innerText = t.labelDropoff;
+  document.getElementById('labelDistance').innerText = t.labelDistance;
+  document.getElementById('distanceHint').innerText = t.distanceHint;
+  document.getElementById('labelVehicle').innerText = t.labelVehicle;
+  document.getElementById('labelLabor').innerText = t.labelLabor;
+  document.getElementById('labelPayment').innerText = t.labelPayment;
+  document.getElementById('priceBtn').innerText = t.priceBtn;
+  document.getElementById('btnLipa').innerText = t.btnLipa;
+  document.getElementById('selectedText').innerText = t.selected + ': ' + (njiaYaMalipo || 'None');
+  document.getElementById('paymentTitle').innerText = t.paymentTitle;
+  document.getElementById('paymentInstructions').innerHTML = t.paymentInstructions + ' <span id="kiasiChaKulipa">' + depositAmount.toLocaleString() + '</span> kwenda:';
+  document.getElementById('paymentNote').innerText = t.paymentNote;
+  document.getElementById('chatDereva').innerText = t.chatDereva;
+  document.getElementById('subiriUthibitisho').innerText = t.subiri;
+}
 
     function chaguaMalipo(mtandao, element) {
       njiaYaMalipo = mtandao;
