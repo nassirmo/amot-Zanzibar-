@@ -5,25 +5,25 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Amot Zanzibar - Agiza Safari</title>
 <style>
-body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: #f4f9; margin: 0; padding: 10px; color: #333; }
-.container { max-width: 500px; margin: 0 auto; background: #fff; padding: 20px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); }
-h2 { text-align: center; color: #008000; margin-top: 0; }
-label { font-weight: 600; margin-top: 15px; display: block; font-size: 14px; }
-input, select { width: 100%; padding: 12px; margin-top: 5px; border: 1px solid #ccc; border-radius: 8px; box-sizing: border-box; font-size: 16px; }
-input:focus, select:focus { border-color: #008000; outline: none; }
-button { width: 100%; padding: 15px; margin-top: 20px; border: none; border-radius: 8px; font-size: 18px; font-weight: bold; cursor: pointer; color: #fff; }
-#priceBtn { background: #008000; }
-#btnWasilisha { background: #25D366; display: none; }
-#chatDereva { background: #128C7E; display: none; }
+body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: #1a1a1a; margin: 0; padding: 10px; color: #fff; }
+.container { max-width: 500px; margin: 0 auto; background: #2d2d2d; padding: 20px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.3); }
+h2 { text-align: center; color: #4ade80; margin-top: 0; }
+label { font-weight: 600; margin-top: 15px; display: block; font-size: 14px; color: #e5e5e5; }
+input, select { width: 100%; padding: 12px; margin-top: 5px; border: 1px solid #555; border-radius: 8px; box-sizing: border-box; font-size: 16px; background: #1a1a1a; color: #fff; }
+input:focus, select:focus { border-color: #4ade80; outline: none; }
+button { width: 100%; padding: 15px; margin-top: 20px; border: none; border-radius: 8px; font-size: 18px; font-weight: bold; cursor: pointer; color: #000; }
+#priceBtn { background: #4ade80; }
+#btnWasilisha { background: #22c55e; display: none; }
+#chatDereva { background: #128C7E; display: none; color: #fff; }
 .payment-buttons { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 5px; }
-.payment-btn { background: #f0f0f0; color: #333; padding: 12px; font-size: 14px; margin-top: 0; }
-.payment-btn.selected { background: #008000; color: #fff; }
-#beiContainer, #paymentInfo, #subiriUthibitisho, #uploadBox { margin-top: 20px; padding: 15px; background: #e8f5e9; border-left: 5px solid #008000; display: none; }
-#subiriUthibitisho { background: #fff3e0; border-left: 5px solid #ff9800; }
-#debug { font-size: 12px; color: red; text-align: center; min-height: 15px; }
+.payment-btn { background: #404040; color: #fff; padding: 12px; font-size: 14px; margin-top: 0; }
+.payment-btn.selected { background: #4ade80; color: #000; }
+#beiContainer, #paymentInfo, #subiriUthibitisho, #uploadBox { margin-top: 20px; padding: 15px; background: #1a3a1a; border-left: 5px solid #4ade80; display: none; border-radius: 8px; }
+#subiriUthibitisho { background: #3a2a1a; border-left: 5px solid #fbbf24; }
+#debug { font-size: 12px; color: #f87171; text-align: center; min-height: 15px; }
 #adminPanel { display: none; }
-.order-card { border: 1px solid #ddd; padding: 15px; margin: 10px 0; border-radius: 8px; }
-.order-card button { background: #008000; margin-top: 10px; padding: 10px; }
+.order-card { border: 1px solid #555; padding: 15px; margin: 10px 0; border-radius: 8px; background: #1a1a1a; }
+.order-card button { background: #4ade80; margin-top: 10px; padding: 10px; color: #000; }
 </style>
 </head>
 <body>
@@ -33,10 +33,14 @@ button { width: 100%; padding: 15px; margin-top: 20px; border: none; border-radi
     <div id="debug">Loading...</div>
 
     <div style="text-align: center; margin-bottom: 15px;">
-      <select id="langSelect" style="width: 150px; padding: 5px; font-size: 14px;">
+      <select id="langSelect" style="width: 150px; padding: 5px; font-size: 14px; background: #1a1a1a; color: #fff; border: 1px solid #555;">
         <option value="sw">Kiswahili</option>
         <option value="en">English</option>
         <option value="ar">العربية</option>
+        <option value="fr">Français</option>
+        <option value="es">Español</option>
+        <option value="de">Deutsch</option>
+        <option value="zh">中文</option>
       </select>
     </div>
 
@@ -83,16 +87,16 @@ button { width: 100%; padding: 15px; margin-top: 20px; border: none; border-radi
     </div>
 
     <div id="beiContainer">
-      <h3 style="margin-top:0;">TZS <span id="onyeshaBei">0</span></h3>
+      <h3 style="margin-top:0; color: #4ade80;">TZS <span id="onyeshaBei">0</span></h3>
       <p><span id="onyeshaUmbali">0</span> km</p>
       <p>Deposit 30%: TZS <span id="onyeshaDeposit">0</span></p>
-      <p id="driverInfo" style="font-weight: bold; color: #128C7E;"></p>
+      <p id="driverInfo" style="font-weight: bold; color: #4ade80;"></p>
     </div>
 
     <div id="paymentInfo">
       <h4 id="paymentTitle">LIPA DEPOSIT SASA</h4>
       <p id="paymentInstructions">1. Tuma TZS <span id="kiasiChaKulipa">0</span> kwenda:</p>
-      <p id="nambaYaMalipo" style="font-size: 20px; font-weight: bold; text-align: center;"></p>
+      <p id="nambaYaMalipo" style="font-size: 20px; font-weight: bold; text-align: center; color: #4ade80;"></p>
       <p>2. Piga picha ya muamala</p>
     </div>
 
@@ -109,14 +113,18 @@ button { width: 100%; padding: 15px; margin-top: 20px; border: none; border-radi
     <div id="subiriUthibitisho">Umefanikiwa kuwasilisha. Tunasubiri mmiliki athibitishe. Utapokea link ya dereva WhatsApp ndani ya dakika 2.</div>
   </div>
 
-  <!-- ADMIN PANEL -->
   <div id="adminPanel">
-    <h2>Amot Admin - Oda Mpya</h2>
+    <h2 style="color: #4ade80;">Amot Admin - Oda Mpya</h2>
     <div id="ordersList"></div>
   </div>
 </div>
 
 <script>
+window.onerror = function(msg, url, line) {
+  document.getElementById('debug').innerText = 'ERROR: ' + msg + ' Line:' + line;
+  return false;
+};
+
 document.addEventListener('DOMContentLoaded', function() {
   var njiaYaMalipo = "";
   var beiYaMwisho = 0;
@@ -129,7 +137,7 @@ document.addEventListener('DOMContentLoaded', function() {
   // ===========================
 
   var madereva = [
-    { jina: "seif rubea", namba: "255776218038", eneo: "Stone Town", lat: -6.1659, lon: 39.1919 },
+    { jina: "seif rubeya", namba: "255776218038", eneo: "Stone Town", lat: -6.1659, lon: 39.1919 },
     { jina: "Ali", namba: "255713333222", eneo: "Mwanakwerekwe", lat: -6.1717, lon: 39.2186 },
     { jina: "Hassan", namba: "255713333333", eneo: "Nungwi", lat: -5.7261, lon: 39.2950 }
   ];
@@ -150,10 +158,9 @@ document.addEventListener('DOMContentLoaded', function() {
     zh: { title: "Amot Zanzibar", labelPhone: "电话号码", labelPickup: "上车地点", labelDropoff: "目的地", labelDistance: "距离(公里)", labelVehicle: "车辆类型", labelLabor: "需要装载帮助(+TSh 5,000)", labelPayment: "支付方式:", priceBtn: "获取价格", btnLipa: "我已付款", selected: "已选择", alertPhone: "请输入电话", alertPickup: "请输入上车地点", alertDropoff: "请输入目的地", alertDistance: "请输入公里距离", alertPayment: "请先选择支付", alertSame: "地点相同", driverText: "已分配司机", paymentTitle: "现在付定金", paymentInstructions: "1. 发送 TZS", paymentNote: "2. 截屏交易", chatDereva: "与司机聊天", subiri: "已提交。等待确认。" }
   };
 
-  // HII NDIO FUNCTION ULIOIKOSA
   function badiliLugha() {
     var lang = document.getElementById('langSelect').value;
-    var t = tafsiri || tafsiri['sw'];
+    var t = tafsiri[lang] || tafsiri['sw'];
     document.getElementById('title').innerText = t.title;
     document.getElementById('labelPhone').innerText = t.labelPhone;
     document.getElementById('labelPickup').innerText = t.labelPickup;
@@ -223,14 +230,14 @@ document.addEventListener('DOMContentLoaded', function() {
       document.querySelectorAll('.payment-btn').forEach(b => b.classList.remove('selected'));
       btn.classList.add('selected');
       var lang = document.getElementById('langSelect').value;
-      var t = tafsiri || tafsiri['sw'];
+      var t = tafsiri[lang] || tafsiri['sw'];
       document.getElementById('selectedText').innerText = t.selected + ': ' + njiaYaMalipo;
     };
   });
 
   document.getElementById('priceBtn').onclick = function() {
     var lang = document.getElementById('langSelect').value;
-    var t = tafsiri || tafsiri['sw'];
+    var t = tafsiri[lang] || tafsiri['sw'];
     var phone = document.getElementById('mtejaPhone').value.trim();
     var pickup = document.getElementById('pickup').value.trim();
     var dropoff = document.getElementById('dropoff').value.trim();
