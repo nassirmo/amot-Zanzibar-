@@ -129,16 +129,47 @@ document.addEventListener('DOMContentLoaded', function() {
   // ===========================
 
   var madereva = [
-    { jina: "sefu rubeyaa", namba: "255776218038", eneo: "Stone Town", lat: -6.1659, lon: 39.1919 },
-    { jina: "Ali", namba: "255713333222", eneo: "Mwanakwerekwe", lat: -6.1717, lon: 39.2186 }
+    { jina: "seif rubea", namba: "255776218038", eneo: "Stone Town", lat: -6.1659, lon: 39.1919 },
+    { jina: "Ali", namba: "255713333222", eneo: "Mwanakwerekwe", lat: -6.1717, lon: 39.2186 },
+    { jina: "Hassan", namba: "255713333333", eneo: "Nungwi", lat: -5.7261, lon: 39.2950 }
   ];
 
   var coordinates = {
     "Stone Town": [-6.1659, 39.1919], "Airport": [-6.2186, 39.2231], "Mwanakwerekwe": [-6.1717, 39.2186],
-    "Nungwi": [-5.7261, 39.2950], "Kendwa": [-5.7444, 39.2847], "Paje": [-6.2667, 39.5333], "Jambiani": [-6.3167, 39.5500]
+    "Nungwi": [-5.7261, 39.2950], "Kendwa": [-5.7444, 39.2847], "Paje": [-6.2667, 39.5333], "Jambiani": [-6.3167, 39.5500],
+    "Michenzani": [-6.1650, 39.2050]
   };
 
-  // ANGALIA KAMA NI ADMIN AU MTEJA
+  var tafsiri = {
+    sw: { title: "Amot Zanzibar", labelPhone: "Namba yako ya Simu", labelPickup: "Anapotaka Kuchukuliwa", labelDropoff: "Anakoenda", labelDistance: "Umbali (km)", labelVehicle: "Chagua Chombo", labelLabor: "Naomba msaada wa kubeba (+TSh 5,000)", labelPayment: "Chagua Njia ya Malipo:", priceBtn: "Pata Bei Yako", btnLipa: "NIMELIPA - TUMA UTHIBITISHO", selected: "Umechagua", alertPhone: "Tafadhali andika namba yako ya simu", alertPickup: "Tafadhali andika anapotaka kuchukuliwa", alertDropoff: "Tafadhali andika anakoenda", alertDistance: "Tafadhali andika umbali kwa km", alertPayment: "Chagua njia ya malipo kwanza", alertSame: "Sehemu za kuchukulia na kupeleka zisiwe sawa", driverText: "Dereva Aliyepangwa", paymentTitle: "LIPA DEPOSIT SASA", paymentInstructions: "1. Tuma TZS", paymentNote: "2. Piga picha ya muamala", chatDereva: "CHAT NA DEREVA WAKO", subiri: "Umefanikiwa kuwasilisha. Tunasubiri mmiliki athibitishe." },
+    en: { title: "Amot Zanzibar", labelPhone: "Your Phone Number", labelPickup: "Pick-up Location", labelDropoff: "Drop-off Location", labelDistance: "Distance (km)", labelVehicle: "Vehicle Type", labelLabor: "I need loading labor (+TSh 5,000)", labelPayment: "Choose Payment Method:", priceBtn: "Get Your Price", btnLipa: "I HAVE PAID - SEND CONFIRMATION", selected: "Selected", alertPhone: "Please enter your phone number", alertPickup: "Please enter pickup location", alertDropoff: "Please enter dropoff location", alertDistance: "Please enter distance in km", alertPayment: "Please choose payment method first", alertSame: "Pickup and dropoff cannot be the same", driverText: "Assigned Driver", paymentTitle: "PAY DEPOSIT NOW", paymentInstructions: "1. Send TZS", paymentNote: "2. Take screenshot of transaction", chatDereva: "CHAT WITH YOUR DRIVER", subiri: "Submitted successfully. Waiting for owner to confirm." },
+    ar: { title: "Amot Zanzibar", labelPhone: "رقم هاتفك", labelPickup: "مكان الاستلام", labelDropoff: "مكان التوصيل", labelDistance: "المسافة (كم)", labelVehicle: "نوع المركبة", labelLabor: "أحتاج عمال للتحميل (+5,000 شلن)", labelPayment: "اختر طريقة الدفع:", priceBtn: "احصل على سعرك", btnLipa: "لقد دفعت - أرسل التأكيد", selected: "تم الاختيار", alertPhone: "الرجاء إدخال رقم هاتفك", alertPickup: "الرجاء إدخال مكان الاستلام", alertDropoff: "الرجاء إدخال مكان التوصيل", alertDistance: "الرجاء إدخال المسافة بالكم", alertPayment: "الرجاء اختيار طريقة الدفع أولاً", alertSame: "لا يمكن أن يكون مكان الاستلام والتوصيل متشابهين", driverText: "السائق المعين", paymentTitle: "ادفع العربون الآن", paymentInstructions: "1. أرسل شلن", paymentNote: "2. التقط صورة للمعاملة", chatDereva: "دردش مع سائقك", subiri: "تم الإرسال بنجاح. بانتظار تأكيد المالك." },
+    fr: { title: "Amot Zanzibar", labelPhone: "Votre Numéro", labelPickup: "Lieu de Prise", labelDropoff: "Destination", labelDistance: "Distance (km)", labelVehicle: "Type de Véhicule", labelLabor: "J'ai besoin d'aide (+5 000 TSh)", labelPayment: "Mode de Paiement:", priceBtn: "Obtenir Prix", btnLipa: "J'AI PAYÉ", selected: "Sélectionné", alertPhone: "Entrez votre numéro", alertPickup: "Entrez lieu de prise", alertDropoff: "Entrez destination", alertDistance: "Entrez distance en km", alertPayment: "Choisissez paiement d'abord", alertSame: "Lieux identiques", driverText: "Chauffeur Assigné", paymentTitle: "PAYER ACOMPTE", paymentInstructions: "1. Envoyez TZS", paymentNote: "2. Capture d'écran", chatDereva: "DISCUTER AVEC CHAUFFEUR", subiri: "Soumis. Attente confirmation." },
+    es: { title: "Amot Zanzibar", labelPhone: "Tu Teléfono", labelPickup: "Lugar Recogida", labelDropoff: "Destino", labelDistance: "Distancia (km)", labelVehicle: "Tipo Vehículo", labelLabor: "Necesito ayuda (+TSh 5,000)", labelPayment: "Método Pago:", priceBtn: "Obtener Precio", btnLipa: "HE PAGADO", selected: "Seleccionado", alertPhone: "Ingrese su teléfono", alertPickup: "Ingrese recogida", alertDropoff: "Ingrese destino", alertDistance: "Ingrese distancia km", alertPayment: "Elija pago primero", alertSame: "Lugares iguales", driverText: "Conductor Asignado", paymentTitle: "PAGAR DEPÓSITO", paymentInstructions: "1. Envía TZS", paymentNote: "2. Captura transacción", chatDereva: "CHATEAR CON CONDUCTOR", subiri: "Enviado. Esperando confirmación." },
+    de: { title: "Amot Zanzibar", labelPhone: "Telefonnummer", labelPickup: "Abholort", labelDropoff: "Zielort", labelDistance: "Entfernung (km)", labelVehicle: "Fahrzeugtyp", labelLabor: "Brauche Hilfe (+TSh 5.000)", labelPayment: "Zahlungsmethode:", priceBtn: "Preis Erhalten", btnLipa: "HABE BEZAHLT", selected: "Ausgewählt", alertPhone: "Telefon eingeben", alertPickup: "Abholort eingeben", alertDropoff: "Zielort eingeben", alertDistance: "Entfernung km eingeben", alertPayment: "Zahlung zuerst wählen", alertSame: "Orte identisch", driverText: "Zugewiesener Fahrer", paymentTitle: "ANZAHLUNG ZAHLEN", paymentInstructions: "1. Sende TZS", paymentNote: "2. Screenshot Transaktion", chatDereva: "MIT FAHRER CHATTEN", subiri: "Eingereicht. Warte auf Bestätigung." },
+    zh: { title: "Amot Zanzibar", labelPhone: "电话号码", labelPickup: "上车地点", labelDropoff: "目的地", labelDistance: "距离(公里)", labelVehicle: "车辆类型", labelLabor: "需要装载帮助(+TSh 5,000)", labelPayment: "支付方式:", priceBtn: "获取价格", btnLipa: "我已付款", selected: "已选择", alertPhone: "请输入电话", alertPickup: "请输入上车地点", alertDropoff: "请输入目的地", alertDistance: "请输入公里距离", alertPayment: "请先选择支付", alertSame: "地点相同", driverText: "已分配司机", paymentTitle: "现在付定金", paymentInstructions: "1. 发送 TZS", paymentNote: "2. 截屏交易", chatDereva: "与司机聊天", subiri: "已提交。等待确认。" }
+  };
+
+  // HII NDIO FUNCTION ULIOIKOSA
+  function badiliLugha() {
+    var lang = document.getElementById('langSelect').value;
+    var t = tafsiri || tafsiri['sw'];
+    document.getElementById('title').innerText = t.title;
+    document.getElementById('labelPhone').innerText = t.labelPhone;
+    document.getElementById('labelPickup').innerText = t.labelPickup;
+    document.getElementById('labelDropoff').innerText = t.labelDropoff;
+    document.getElementById('labelDistance').innerText = t.labelDistance;
+    document.getElementById('labelVehicle').innerText = t.labelVehicle;
+    document.getElementById('labelLabor').innerText = t.labelLabor;
+    document.getElementById('labelPayment').innerText = t.labelPayment;
+    document.getElementById('priceBtn').innerText = t.priceBtn;
+    document.getElementById('selectedText').innerText = t.selected + ': ' + (njiaYaMalipo || 'None');
+    document.getElementById('paymentTitle').innerText = t.paymentTitle;
+    document.getElementById('paymentInstructions').innerHTML = t.paymentInstructions + ' <span id="kiasiChaKulipa">' + depositAmount.toLocaleString() + '</span> kwenda:';
+    document.getElementById('chatDereva').innerText = t.chatDereva;
+    document.getElementById('subiriUthibitisho').innerText = t.subiri;
+  }
+
   var urlParams = new URLSearchParams(window.location.search);
   if (urlParams.get('admin') === 'true') {
     document.getElementById('mtejaApp').style.display = 'none';
@@ -147,7 +178,6 @@ document.addEventListener('DOMContentLoaded', function() {
     return;
   }
 
-  // ANGALIA KAMA MTEJA AMETHIBITISHIWA
   if (urlParams.get('confirmed') === 'true') {
     onyeshaUkurasaWaDereva();
     return;
@@ -192,11 +222,15 @@ document.addEventListener('DOMContentLoaded', function() {
       njiaYaMalipo = btn.dataset.method;
       document.querySelectorAll('.payment-btn').forEach(b => b.classList.remove('selected'));
       btn.classList.add('selected');
-      document.getElementById('selectedText').innerText = 'Umechagua: ' + njiaYaMalipo;
+      var lang = document.getElementById('langSelect').value;
+      var t = tafsiri || tafsiri['sw'];
+      document.getElementById('selectedText').innerText = t.selected + ': ' + njiaYaMalipo;
     };
   });
 
   document.getElementById('priceBtn').onclick = function() {
+    var lang = document.getElementById('langSelect').value;
+    var t = tafsiri || tafsiri['sw'];
     var phone = document.getElementById('mtejaPhone').value.trim();
     var pickup = document.getElementById('pickup').value.trim();
     var dropoff = document.getElementById('dropoff').value.trim();
@@ -204,9 +238,12 @@ document.addEventListener('DOMContentLoaded', function() {
     var vehicle = document.getElementById('vehicleType').value;
     var labor = document.getElementById('labor').checked;
 
-    if(!phone ||!pickup ||!dropoff ||!distanceKm ||!njiaYaMalipo) {
-      return alert('Jaza sehemu zote na uchague malipo');
-    }
+    if(!phone) return alert(t.alertPhone);
+    if(!pickup) return alert(t.alertPickup);
+    if(!dropoff) return alert(t.alertDropoff);
+    if(!distanceKm || distanceKm <= 0) return alert(t.alertDistance);
+    if(!njiaYaMalipo) return alert(t.alertPayment);
+    if(pickup.toLowerCase() === dropoff.toLowerCase()) return alert(t.alertSame);
 
     var beiPerKm = 0, basePrice = 0;
     if(vehicle === "Bodaboda") { basePrice = 500; beiPerKm = 600; }
@@ -228,7 +265,7 @@ document.addEventListener('DOMContentLoaded', function() {
     document.getElementById('onyeshaBei').innerText = beiYaMwisho.toLocaleString();
     document.getElementById('onyeshaDeposit').innerText = depositAmount.toLocaleString();
     document.getElementById('onyeshaUmbali').innerText = distanceKm;
-    document.getElementById('driverInfo').innerText = 'Dereva Aliyepangwa: ' + derevaAliyechaguliwa.jina;
+    document.getElementById('driverInfo').innerText = t.driverText + ': ' + derevaAliyechaguliwa.jina;
     document.getElementById('kiasiChaKulipa').innerText = depositAmount.toLocaleString();
     document.getElementById('nambaYaMalipo').innerText = NAMBA_ZA_MALIPO[njiaYaMalipo];
     document.getElementById('beiContainer').style.display = 'block';
@@ -259,12 +296,10 @@ document.addEventListener('DOMContentLoaded', function() {
       time: new Date().toLocaleString()
     };
 
-    // Hifadhi kwenye LocalStorage
     var orders = JSON.parse(localStorage.getItem('amot_orders') || '[]');
     orders.push(order);
     localStorage.setItem('amot_orders', JSON.stringify(orders));
 
-    // Tuma WhatsApp kwako kukujulisha
     var msg = AMOT ODA MPYA!\nMteja: ${nambaYaMteja}\nMuamala: ${transId}\nDeposit: ${depositAmount}\nThibitisha: ${window.location.origin}${window.location.pathname}?admin=true;
     window.open('https://wa.me/' + NAMBA_YA_MMILIKI + '?text=' + encodeURIComponent(msg));
 
@@ -328,7 +363,6 @@ document.addEventListener('DOMContentLoaded', function() {
     order.status = 'confirmed';
     localStorage.setItem('amot_orders', JSON.stringify(orders));
 
-    // Tuma link kwa mteja
     var baseUrl = window.location.origin + window.location.pathname;
     var linkKwaMteja = baseUrl + "?confirmed=true";
     linkKwaMteja += "&driver=" + order.driver.namba;
@@ -343,6 +377,10 @@ document.addEventListener('DOMContentLoaded', function() {
     alert('Umethibitisha! Mteja ametumiwa link.');
     onyeshaOda();
   };
+
+  document.getElementById('langSelect').addEventListener('change', badiliLugha);
+  badiliLugha();
+  document.getElementById('debug').innerText = 'JS: Ready';
 });
 </script>
 </body>
