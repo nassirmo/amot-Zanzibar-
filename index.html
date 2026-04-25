@@ -108,13 +108,20 @@ document.addEventListener('DOMContentLoaded',function(){
     var njiaYaMalipo="";
     var beiYaMwisho=0;
     var depositAmount=0;
+    var ADMIN_PASSWORD="amot2024"; // BADILISHA HAPA WEKA NENO SIRI LAKO
     var NAMBA_YA_MMILIKI="255779771085"; // WEKA NAMBA YAKO HAPA
     var NAMBA_ZA_MALIPO={"M-Pesa":"255712345678","Tigo Pesa":"255779771085","Airtel Money":"255684567890","Halopesa":"255625678901"};
     var madereva=[{jina:"Juma",namba:"255776218038"},{jina:"Ali",namba:"255713333222"},{jina:"Hassan",namba:"255713333333"}];
 
-    // ANGALIA KAMA NI ADMIN
+    // ANGALIA KAMA NI ADMIN - KWA NENOSIRI
     var urlParams=new URLSearchParams(window.location.search);
     if(urlParams.get('admin')==='true'){
+      var password=prompt('Weka Nenosiri la Admin:');
+      if(password!==ADMIN_PASSWORD){
+        alert('Nenosiri si sahihi');
+        window.location.href=window.location.href.split('?')[0];
+        return;
+      }
       document.getElementById('mtejaApp').style.display='none';
       document.getElementById('adminPanel').style.display='block';
       onyeshaOda();
@@ -195,7 +202,8 @@ document.addEventListener('DOMContentLoaded',function(){
       orders.push(order);
       localStorage.setItem('amot_orders',JSON.stringify(orders));
 
-      var msg='AMOT ODA MPYA!\nMteja: '+nambaYaMteja+'\nSafari: '+order.pickup+' → '+order.dropoff+'\nMuamala: '+transId+'\nDeposit: '+depositAmount;
+      // UJUMBE KWA MMILIKI - BILA LINK YA ADMIN
+      var msg='AMOT ODA MPYA!\nMteja: '+nambaYaMteja+'\nSafari: '+order.pickup+' → '+order.dropoff+'\nMuamala: '+transId+'\nDeposit: TZS '+depositAmount.toLocaleString()+'\n\nFungua admin panel kuthibitisha.';
       window.open('https://wa.me/'+NAMBA_YA_MMILIKI+'?text='+encodeURIComponent(msg));
 
       document.getElementById('fomuYote').style.display='none';
