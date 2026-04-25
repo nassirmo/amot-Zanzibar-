@@ -195,7 +195,7 @@ document.addEventListener('DOMContentLoaded',function(){
       orders.push(order);
       localStorage.setItem('amot_orders',JSON.stringify(orders));
 
-      var msg='AMOT ODA MPYA!\nMteja: '+nambaYaMteja+'\nSafari: '+order.pickup+' → '+order.dropoff+'\nMuamala: '+transId+'\nDeposit: '+depositAmount+'\nThibitisha: '+window.location.href.split('?')[0]+'?admin=true';
+      var msg='AMOT ODA MPYA!\nMteja: '+nambaYaMteja+'\nSafari: '+order.pickup+' → '+order.dropoff+'\nMuamala: '+transId+'\nDeposit: '+depositAmount;
       window.open('https://wa.me/'+NAMBA_YA_MMILIKI+'?text='+encodeURIComponent(msg));
 
       document.getElementById('fomuYote').style.display='none';
