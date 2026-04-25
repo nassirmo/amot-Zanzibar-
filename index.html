@@ -16,63 +16,86 @@ button{width:100%;padding:15px;margin-top:20px;border:none;border-radius:8px;fon
 .payment-buttons{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:5px}
 .payment-btn{background:#404040;color:#fff;padding:12px;font-size:14px;margin-top:0}
 .payment-btn.selected{background:#4ade80;color:#000}
-#beiContainer,#paymentInfo,#uploadBox{margin-top:20px;padding:15px;background:#1a3a1a;border-left:5px solid #4ade80;display:none;border-radius:8px}
+#beiContainer,#paymentInfo,#uploadBox,#subiriUthibitisho{margin-top:20px;padding:15px;background:#1a3a1a;border-left:5px solid #4ade80;display:none;border-radius:8px}
+#subiriUthibitisho{background:#3a2a1a;border-left:5px solid #fbbf24}
 #debug{font-size:12px;color:#4ade80;text-align:center;min-height:15px}
+#adminPanel{display:none}
+.order-card{border:1px solid #555;padding:15px;margin:10px 0;border-radius:8px;background:#1a1a1a}
+.order-card button{background:#4ade80;margin-top:10px;padding:10px;color:#000}
+.order-card.confirmed{background:#2d5a2d;border-left:5px solid #22c55e}
 </style>
 </head>
 <body>
 <div class="container">
-  <h2>Amot Zanzibar</h2>
-  <div id="debug">Loading...</div>
+  <div id="mtejaApp">
+    <h2>Amot Zanzibar</h2>
+    <div id="debug">Loading...</div>
 
-  <label>Namba yako ya Simu</label>
-  <input type="tel" id="mtejaPhone" placeholder="07XX XXX XXX">
+    <div id="fomuYote">
+      <label>Namba yako ya Simu</label>
+      <input type="tel" id="mtejaPhone" placeholder="07XX XXX XXX">
 
-  <label>Anapotaka Kuchukuliwa</label>
-  <input type="text" id="pickup" placeholder="Stone Town">
+      <label>Anapotaka Kuchukuliwa</label>
+      <input type="text" id="pickup" placeholder="Stone Town">
 
-  <label>Anakoenda</label>
-  <input type="text" id="dropoff" placeholder="Airport">
+      <label>Anakoenda</label>
+      <input type="text" id="dropoff" placeholder="Airport">
 
-  <label>Umbali (km)</label>
-  <input type="number" id="distance" placeholder="10">
+      <label>Umbali (km)</label>
+      <input type="number" id="distance" placeholder="10">
 
-  <label>Chagua Chombo</label>
-  <select id="vehicleType">
-    <option value="Bodaboda">Bodaboda - 1 Person</option>
-    <option value="Bajaji">Bajaji - 2-3 People</option>
-    <option value="Sedan">Sedan Car - 4 People</option>
-    <option value="Pickup">Pickup - Mizigo</option>
-  </select>
+      <label>Chagua Chombo</label>
+      <select id="vehicleType">
+        <option value="Bodaboda">Bodaboda - 1 Person</option>
+        <option value="Bajaji">Bajaji - 2-3 People</option>
+        <option value="Sedan">Sedan Car - 4 People</option>
+        <option value="Pickup">Pickup - Mizigo</option>
+      </select>
 
-  <label>Chagua Njia ya Malipo:</label>
-  <div class="payment-buttons">
-    <button class="payment-btn" data-method="M-Pesa">M-Pesa</button>
-    <button class="payment-btn" data-method="Tigo Pesa">Tigo Pesa</button>
-    <button class="payment-btn" data-method="Airtel Money">Airtel Money</button>
-    <button class="payment-btn" data-method="Halopesa">Halopesa</button>
+      <div style="margin-top:15px">
+        <input type="checkbox" id="labor" style="width:auto;margin-right:10px">
+        <label for="labor" style="display:inline;font-weight:normal">Naomba msaada wa kubeba (+TSh 5,000)</label>
+      </div>
+
+      <label>Chagua Njia ya Malipo:</label>
+      <div class="payment-buttons">
+        <button class="payment-btn" data-method="M-Pesa">M-Pesa</button>
+        <button class="payment-btn" data-method="Tigo Pesa">Tigo Pesa</button>
+        <button class="payment-btn" data-method="Airtel Money">Airtel Money</button>
+        <button class="payment-btn" data-method="Halopesa">Halopesa</button>
+      </div>
+      <div id="selectedText" style="text-align:center;margin-top:10px;font-weight:bold">Umechagua: None</div>
+      <button id="priceBtn">Pata Bei Yako</button>
+    </div>
+
+    <div id="beiContainer">
+      <h3 style="margin-top:0;color:#4ade80">TZS <span id="onyeshaBei">0</span></h3>
+      <p><span id="onyeshaUmbali">0</span> km</p>
+      <p>Deposit 30%: TZS <span id="onyeshaDeposit">0</span></p>
+      <p id="driverInfo" style="font-weight:bold;color:#4ade80"></p>
+    </div>
+
+    <div id="paymentInfo">
+      <h4>LIPA DEPOSIT SASA</h4>
+      <p>1. Tuma TZS <span id="kiasiChaKulipa">0</span> kwenda:</p>
+      <p id="nambaYaMalipo" style="font-size:20px;font-weight:bold;text-align:center;color:#4ade80"></p>
+      <p>2. Weka namba ya muamala hapa chini</p>
+    </div>
+
+    <div id="uploadBox">
+      <h4>Thibitisha Malipo Yako</h4>
+      <label>Namba ya Muamala/Transaction ID</label>
+      <input type="text" id="transId" placeholder="MFANO: MP240423.1234.A12345">
+      <button id="btnWasilisha">WASILISHA UTHIBITISHO</button>
+    </div>
+
+    <div id="subiriUthibitisho">Umefanikiwa kuwasilisha. Tunasubiri mmiliki athibitishe malipo yako.</div>
   </div>
-  <div id="selectedText" style="text-align:center;margin-top:10px;font-weight:bold">Umechagua: None</div>
-  <button id="priceBtn">Pata Bei Yako</button>
 
-  <div id="beiContainer">
-    <h3 style="margin-top:0;color:#4ade80">TZS <span id="onyeshaBei">0</span></h3>
-    <p><span id="onyeshaUmbali">0</span> km</p>
-    <p>Deposit 30%: TZS <span id="onyeshaDeposit">0</span></p>
-    <p id="driverInfo" style="font-weight:bold;color:#4ade80"></p>
-  </div>
-
-  <div id="paymentInfo">
-    <h4>LIPA DEPOSIT SASA</h4>
-    <p>1. Tuma TZS <span id="kiasiChaKulipa">0</span> kwenda:</p>
-    <p id="nambaYaMalipo" style="font-size:20px;font-weight:bold;text-align:center;color:#4ade80"></p>
-  </div>
-
-  <div id="uploadBox">
-    <h4>Thibitisha Malipo Yako</h4>
-    <label>Namba ya Muamala/Transaction ID</label>
-    <input type="text" id="transId" placeholder="MFANO: MP240423.1234.A12345">
-    <button id="btnWasilisha">WASILISHA UTHIBITISHO</button>
+  <div id="adminPanel">
+    <h2 style="color:#4ade80">Amot Admin - Oda Zote</h2>
+    <button onclick="futaOdaZote()" style="background:#ef4444;color:#fff;margin-bottom:15px">Futa Oda Zote</button>
+    <div id="ordersList"></div>
   </div>
 </div>
 
@@ -85,9 +108,21 @@ document.addEventListener('DOMContentLoaded',function(){
     var njiaYaMalipo="";
     var beiYaMwisho=0;
     var depositAmount=0;
-    var NAMBA_YA_MMILIKI="255779771085";
+    var NAMBA_YA_MMILIKI="255779771085"; // WEKA NAMBA YAKO HAPA
     var NAMBA_ZA_MALIPO={"M-Pesa":"255712345678","Tigo Pesa":"255779771085","Airtel Money":"255684567890","Halopesa":"255625678901"};
+    var madereva=[{jina:"Juma",namba:"255776218038"},{jina:"Ali",namba:"255713333222"},{jina:"Hassan",namba:"255713333333"}];
 
+    // ANGALIA KAMA NI ADMIN
+    var urlParams=new URLSearchParams(window.location.search);
+    if(urlParams.get('admin')==='true'){
+      document.getElementById('mtejaApp').style.display='none';
+      document.getElementById('adminPanel').style.display='block';
+      onyeshaOda();
+      document.getElementById('debug').innerText='Admin Mode';
+      return;
+    }
+
+    // MTEJA APP
     document.querySelectorAll('.payment-btn').forEach(function(btn){
       btn.onclick=function(){
         njiaYaMalipo=btn.dataset.method;
@@ -103,6 +138,7 @@ document.addEventListener('DOMContentLoaded',function(){
       var dropoff=document.getElementById('dropoff').value.trim();
       var distanceKm=parseFloat(document.getElementById('distance').value);
       var vehicle=document.getElementById('vehicleType').value;
+      var labor=document.getElementById('labor').checked;
 
       if(!phone)return alert('Tafadhali andika namba yako ya simu');
       if(!pickup)return alert('Tafadhali andika anapotaka kuchukuliwa');
@@ -117,12 +153,14 @@ document.addEventListener('DOMContentLoaded',function(){
       if(vehicle==="Pickup"){basePrice=5000;beiPerKm=2500}
 
       beiYaMwisho=Math.round(basePrice+(beiPerKm*distanceKm));
+      if(labor)beiYaMwisho+=5000;
       depositAmount=Math.round(beiYaMwisho*0.3);
+      var derevaAliyechaguliwa=madereva[Math.floor(Math.random()*madereva.length)];
 
       document.getElementById('onyeshaBei').innerText=beiYaMwisho.toLocaleString();
       document.getElementById('onyeshaDeposit').innerText=depositAmount.toLocaleString();
       document.getElementById('onyeshaUmbali').innerText=distanceKm;
-      document.getElementById('driverInfo').innerText='Dereva Aliyepangwa: Juma';
+      document.getElementById('driverInfo').innerText='Dereva: '+derevaAliyechaguliwa.jina;
       document.getElementById('kiasiChaKulipa').innerText=depositAmount.toLocaleString();
       document.getElementById('nambaYaMalipo').innerText=NAMBA_ZA_MALIPO[njiaYaMalipo];
       document.getElementById('beiContainer').style.display='block';
@@ -133,10 +171,82 @@ document.addEventListener('DOMContentLoaded',function(){
 
     document.getElementById('btnWasilisha').onclick=function(){
       var transId=document.getElementById('transId').value.trim();
+      var nambaYaMteja=document.getElementById('mtejaPhone').value.replace(/[^0-9]/g,'');
+      if(nambaYaMteja.startsWith('0'))nambaYaMteja='255'+nambaYaMteja.substring(1);
       if(!transId)return alert('Weka namba ya muamala');
-      var msg='AMOT ODA MPYA!\nMuamala: '+transId+'\nDeposit: '+depositAmount;
+
+      var order={
+        id:Date.now(),
+        transId:transId,
+        phone:nambaYaMteja,
+        pickup:document.getElementById('pickup').value,
+        dropoff:document.getElementById('dropoff').value,
+        km:document.getElementById('distance').value,
+        vehicle:document.getElementById('vehicleType').value,
+        total:beiYaMwisho,
+        deposit:depositAmount,
+        payment:njiaYaMalipo,
+        driver:document.getElementById('driverInfo').innerText.replace('Dereva: ',''),
+        status:'pending',
+        time:new Date().toLocaleString('sw-TZ')
+      };
+
+      var orders=JSON.parse(localStorage.getItem('amot_orders')||'[]');
+      orders.push(order);
+      localStorage.setItem('amot_orders',JSON.stringify(orders));
+
+      var msg='AMOT ODA MPYA!\nMteja: '+nambaYaMteja+'\nSafari: '+order.pickup+' → '+order.dropoff+'\nMuamala: '+transId+'\nDeposit: '+depositAmount+'\nThibitisha: '+window.location.href.split('?')[0]+'?admin=true';
       window.open('https://wa.me/'+NAMBA_YA_MMILIKI+'?text='+encodeURIComponent(msg));
-      alert('Umefanikiwa! Mmiliki atapata WhatsApp.');
+
+      document.getElementById('fomuYote').style.display='none';
+      document.getElementById('beiContainer').style.display='none';
+      document.getElementById('paymentInfo').style.display='none';
+      document.getElementById('uploadBox').style.display='none';
+      document.getElementById('subiriUthibitisho').style.display='block';
+    };
+
+    // ADMIN FUNCTIONS
+    window.onyeshaOda=function(){
+      var orders=JSON.parse(localStorage.getItem('amot_orders')||'[]');
+      var html='';
+      orders.reverse().forEach(function(order){
+        var statusClass=order.status==='confirmed'?'confirmed':'';
+        html+='<div class="order-card '+statusClass+'">';
+        html+='<b>'+order.time+'</b><br>';
+        html+='Mteja: '+order.phone+'<br>';
+        html+='Safari: '+order.pickup+' → '+order.dropoff+' ('+order.km+'km)<br>';
+        html+='Chombo: '+order.vehicle+' | Malipo: '+order.payment+'<br>';
+        html+='Jumla: TZS '+order.total.toLocaleString()+' | Deposit: TZS '+order.deposit.toLocaleString()+'<br>';
+        html+='Muamala: '+order.transId+'<br>';
+        html+='Dereva: '+order.driver+'<br>';
+        html+='Status: <b>'+order.status.toUpperCase()+'</b><br>';
+        if(order.status==='pending'){
+          html+='<button onclick="thibitishaOda('+order.id+')">THIBITISHA MALIPO</button>';
+        }
+        html+='</div>';
+      });
+      document.getElementById('ordersList').innerHTML=html||'<p>Hakuna oda bado</p>';
+    }
+
+    window.thibitishaOda=function(orderId){
+      var orders=JSON.parse(localStorage.getItem('amot_orders')||'[]');
+      var order=orders.find(function(o){return o.id===orderId});
+      if(!order)return;
+      order.status='confirmed';
+      localStorage.setItem('amot_orders',JSON.stringify(orders));
+
+      var msg='Amot: Malipo yako ya TZS '+order.deposit.toLocaleString()+' yamethibitishwa. Dereva wako '+order.driver+' atakuja kukuchukua. Safari njema!';
+      window.open('https://wa.me/'+order.phone+'?text='+encodeURIComponent(msg));
+
+      alert('Umethibitisha! Mteja ametumiwa ujumbe.');
+      onyeshaOda();
+    };
+
+    window.futaOdaZote=function(){
+      if(confirm('Una uhakika unataka kufuta oda zote?')){
+        localStorage.removeItem('amot_orders');
+        onyeshaOda();
+      }
     };
 
     document.getElementById('debug').innerText='JS: Ready';
