@@ -86,12 +86,12 @@ document.addEventListener('DOMContentLoaded',function(){
     var beiYaMwisho=0;
     var depositAmount=0;
     var NAMBA_YA_MMILIKI="255779771085";
-    var NAMBA_ZA_MALIPO={"M-Pesa":"255712345678","Tigo Pesa":"255779771085","Airtel Money":"255783823722","Halopesa":"255625678901"};
+    var NAMBA_ZA_MALIPO={"M-Pesa":"255712345678","Tigo Pesa":"255779771085","Airtel Money":"255684567890","Halopesa":"255625678901"};
 
-    document.querySelectorAll('.payment-btn').forEach(btn=>{
-      btn.onclick=()=>{
+    document.querySelectorAll('.payment-btn').forEach(function(btn){
+      btn.onclick=function(){
         njiaYaMalipo=btn.dataset.method;
-        document.querySelectorAll('.payment-btn').forEach(b=>b.classList.remove('selected'));
+        document.querySelectorAll('.payment-btn').forEach(function(b){b.classList.remove('selected')});
         btn.classList.add('selected');
         document.getElementById('selectedText').innerText='Umechagua: '+njiaYaMalipo;
       }
@@ -134,7 +134,9 @@ document.addEventListener('DOMContentLoaded',function(){
     document.getElementById('btnWasilisha').onclick=function(){
       var transId=document.getElementById('transId').value.trim();
       if(!transId)return alert('Weka namba ya muamala');
-      alert('Umefanikiwa kuwasilisha! Namba ya muamala: '+transId);
+      var msg='AMOT ODA MPYA!\nMuamala: '+transId+'\nDeposit: '+depositAmount;
+      window.open('https://wa.me/'+NAMBA_YA_MMILIKI+'?text='+encodeURIComponent(msg));
+      alert('Umefanikiwa! Mmiliki atapata WhatsApp.');
     };
 
     document.getElementById('debug').innerText='JS: Ready';
