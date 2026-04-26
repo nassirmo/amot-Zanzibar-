@@ -178,26 +178,48 @@ document.addEventListener('DOMContentLoaded',function(){
     };
 
     document.getElementById('btnWasilisha').onclick=function(){
-      var transId=document.getElementById('transId').value.trim();
-      var nambaYaMteja=document.getElementById('mtejaPhone').value.replace(/[^0-9]/g,'');
-      if(nambaYaMteja.startsWith('0'))nambaYaMteja='255'+nambaYaMteja.substring(1);
-      if(!transId)return alert('Weka namba ya muamala');
+  var transId=document.getElementById('transId').value.trim();
+  var nambaYaMteja=document.getElementById('mtejaPhone').value.replace(/[^0-9]/g,'');
+  if(nambaYaMteja.startsWith('0'))nambaYaMteja='255'+nambaYaMteja.substring(1);
+  if(!transId)return alert('Weka namba ya muamala');
 
-      var order={
-        id:Date.now(),
-        transId:transId,
-        phone:nambaYaMteja,
-        pickup:document.getElementById('pickup').value,
-        dropoff:document.getElementById('dropoff').value,
-        km:document.getElementById('distance').value,
-        vehicle:document.getElementById('vehicleType').value,
-        total:beiYaMwisho,
-        deposit:depositAmount,
-        payment:njiaYaMalipo,
-        driver:document.getElementById('driverInfo').innerText.replace('Dereva: ',''),
-        status:'pending',
-        time:new Date().toLocaleString('sw-TZ')
-      };
+  var order={
+    id:Date.now(),
+    transId:transId,
+    phone:nambaYaMteja,
+    pickup:document.getElementById('pickup').value,
+    dropoff:document.getElementById('dropoff').value,
+    km:document.getElementById('km').value,
+    vehicle:document.getElementById('vehicle').value,
+    total:document.getElementById('total').value,
+    deposit:document.getElementById('deposit').value,
+    payment:document.querySelector('input[name="payment"]:checked').value,
+    driver:document.getElementById('driver').value
+  };  // <-- hapa ndio mwisho wa object ya order
+
+  // Weka hii hapa chini yake moja kwa moja
+  var form = document.createElement('form');
+  form.method = 'POST';
+  form.action = SHEET_URL;
+  form.target = 'hidden_iframe';
+
+  var input = document.createElement('input');
+  input.type = 'hidden';
+  input.name = 'postData';
+  input.value = JSON.stringify(order);
+  form.appendChild(input);
+
+  var iframe = document.createElement('iframe');
+  iframe.name = 'hidden_iframe';
+  iframe.style.display = 'none';
+  document.body.appendChild(iframe);
+  document.body.appendChild(form);
+
+  form.submit();
+  showDebug("SEND: OK");
+  alert('Oda imetumwa! Utapokea SMS.');
+  
+};
 
       var orders=JSON.parse(localStorage.getItem('amot_orders')||'[]');
       orders.push(order);
