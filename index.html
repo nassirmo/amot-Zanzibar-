@@ -109,7 +109,7 @@ document.addEventListener('DOMContentLoaded',function(){
     var beiYaMwisho=0;
     var depositAmount=0;
     var derevaAliyechaguliwa={};
-    var SHEET_URL="https://script.google.com/macros/s/AKfycbxKiNQHb2IYvYSQz5hcetdphz9K6wjOR9DaeJcfY89s79HyTRt81Xci1QxvFvZZ-ZMO_w/exec"; // <-- WEKA URL YAKO HAPA
+    var SHEET_URL="https://script.google.com/macros/s/AKfycbxDm63z6nA7mwGQOLsjqqiUlm8FkFfGFAD_cWPbE_9kubh_X7zxrZ-L6WdZXHjr6pgTDw/exec"; // <-- WEKA URL YAKO HAPA
     var ADMIN_PASSWORD="amot2024@";
     var NAMBA_YA_MMILIKI="255779771085";
     var NAMBA_ZA_MALIPO={"M-Pesa":"255712345678","Tigo Pesa":"255779771085","Airtel Money":"255684567890","Halopesa":"255625678901"};
@@ -200,27 +200,18 @@ document.addEventListener('DOMContentLoaded',function(){
         time:new Date().toLocaleString('sw-TZ')
       };
 
-      // TUMA GOOGLE SHEET
-      var form = document.createElement('form');
-      form.method = 'POST';
-      form.action = SHEET_URL;
-      form.target = 'hidden_iframe';
+      // TUMA GOOGLE SHEET - NJIA YA IFRAME ISIYOONEKANA
+var url = SHEET_URL + '?data=' + encodeURIComponent(JSON.stringify(order));
 
-      var input = document.createElement('input');
-      input.type = 'hidden';
-      input.name = 'postData';
-      input.value = JSON.stringify(order);
-      form.appendChild(input);
+var iframe = document.createElement('iframe');
+iframe.style.display = 'none';
+iframe.src = url;
+document.body.appendChild(iframe);
+setTimeout(function(){ document.body.removeChild(iframe); 
+}, 3000);
 
-      var iframe = document.createElement('iframe');
-      iframe.name = 'hidden_iframe';
-      iframe.style.display = 'none';
-      document.body.appendChild(iframe);
-      document.body.appendChild(form);
-
-      form.submit();
-      document.getElementById('debug').innerText="SEND: OK";
-      alert('Oda imetumwa! Utapokea SMS.');
+document.getElementById('debug').innerText="SEND: OK";
+alert('Oda imetumwa! Utapokea SMS.');
 
       // SAVE LOCALSTORAGE
       var orders=JSON.parse(localStorage.getItem('amot_orders')||'[]');
