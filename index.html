@@ -178,56 +178,54 @@ document.addEventListener('DOMContentLoaded',function(){
       document.getElementById('btnWasilisha').style.display='block';
     };
 
-    document.getElementById('btnWasilisha').onclick=function(){
-      var transId=document.getElementById('transId').value.trim();
-      var nambaYaMteja=document.getElementById('mtejaPhone').value.replace(/[^0-9]/g,'');
-      if(nambaYaMteja.startsWith('0'))nambaYaMteja='255'+nambaYaMteja.substring(1);
-      if(!transId)return alert('Weka namba ya muamala');
+   document.getElementById('btnWasilisha').onclick=function(){
+  var transId=document.getElementById('transId').value.trim();
+  var nambaYaMteja=document.getElementById('mtejaPhone').value.replace(/[^0-9]/g,'');
+  if(nambaYaMteja.startsWith('0'))nambaYaMteja='255'+nambaYaMteja.substring(1);
+  if(!transId)return alert('Weka namba ya muamala');
 
-      var order={
-        id:Date.now(),
-        transId:transId,
-        phone:nambaYaMteja,
-        pickup:document.getElementById('pickup').value,
-        dropoff:document.getElementById('dropoff').value,
-        km:document.getElementById('distance').value,
-        vehicle:document.getElementById('vehicleType').value,
-        total:beiYaMwisho,
-        deposit:depositAmount,
-        payment:njiaYaMalipo,
-        driver:derevaAliyechaguliwa.jina,
-        status:'pending',
-        time:new Date().toLocaleString('sw-TZ')
-      };
+  var order={
+    id:Date.now(),
+    transId:transId,
+    phone:nambaYaMteja,
+    pickup:document.getElementById('pickup').value,
+    dropoff:document.getElementById('dropoff').value,
+    km:document.getElementById('distance').value,
+    vehicle:document.getElementById('vehicleType').value,
+    total:beiYaMwisho,
+    deposit:depositAmount,
+    payment:njiaYaMalipo,
+    driver:derevaAliyechaguliwa.jina,
+    status:'pending',
+    time:new Date().toLocaleString('sw-TZ')
+  };
 
-      // TUMA GOOGLE SHEET - NJIA YA IFRAME ISIYOONEKANA
-var url = SHEET_URL + '?data=' + encodeURIComponent(JSON.stringify(order));
+  // HAPA NDIPO INAKAA - TUMA GOOGLE SHEET
+  var url = SHEET_URL + '?data=' + encodeURIComponent(JSON.stringify(order));
+  var iframe = document.createElement('iframe');
+  iframe.style.display = 'none';
+  iframe.src = url;
+  document.body.appendChild(iframe);
+  setTimeout(function(){ document.body.removeChild(iframe); }, 3000);
+  
+  document.getElementById('debug').innerText="SEND: OK";
+  alert('Oda imetumwa! Utapokea SMS.');
 
-var iframe = document.createElement('iframe');
-iframe.style.display = 'none';
-iframe.src = url;
-document.body.appendChild(iframe);
-setTimeout(function(){ document.body.removeChild(iframe); 
-}, 3000);
+  // SAVE LOCALSTORAGE
+  var orders=JSON.parse(localStorage.getItem('amot_orders')||'[]');
+  orders.push(order);
+  localStorage.setItem('amot_orders',JSON.stringify(orders));
 
-document.getElementById('debug').innerText="SEND: OK";
-alert('Oda imetumwa! Utapokea SMS.');
+  // UJUMBE KWA MMILIKI
+  var msg='AMOT ODA MPYA!\nMteja: '+nambaYaMteja+'\nSafari: '+order.pickup+' → '+order.dropoff+'\nMuamala: '+transId+'\nDeposit: TZS '+depositAmount.toLocaleString()+'\n\nFungua admin panel kuthibitisha.';
+  window.open('https://wa.me/'+0779771085+'?text='+encodeURIComponent(msg));
 
-      // SAVE LOCALSTORAGE
-      var orders=JSON.parse(localStorage.getItem('amot_orders')||'[]');
-      orders.push(order);
-      localStorage.setItem('amot_orders',JSON.stringify(orders));
-
-      // UJUMBE KWA MMILIKI
-      var msg='AMOT ODA MPYA!\nMteja: '+nambaYaMteja+'\nSafari: '+order.pickup+' → '+order.dropoff+'\nMuamala: '+transId+'\nDeposit: TZS '+depositAmount.toLocaleString()+'\n\nFungua admin panel kuthibitisha.';
-      window.open('https://wa.me/'+NAMBA_YA_MMILIKI+'?text='+encodeURIComponent(msg));
-
-      document.getElementById('fomuYote').style.display='none';
-      document.getElementById('beiContainer').style.display='none';
-      document.getElementById('paymentInfo').style.display='none';
-      document.getElementById('uploadBox').style.display='none';
-      document.getElementById('subiriUthibitisho').style.display='block';
-    };
+  document.getElementById('fomuYote').style.display='none';
+  document.getElementById('beiContainer').style.display='none';
+  document.getElementById('paymentInfo').style.display='none';
+  document.getElementById('uploadBox').style.display='none';
+  document.getElementById('subiriUthibitisho').style.display='block';
+};
 
     // ADMIN FUNCTIONS
     window.onyeshaOda=function(){
