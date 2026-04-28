@@ -1,24 +1,172 @@
 <!DOCTYPE html>
-<html>
+<html lang="sw">
 <head>
-    <title>Test Map</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Amot - Nauli Calculator Zanzibar</title>
     <style>
-        #map { height: 400px; width: 100%; }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Segoe UI', sans-serif; background: #f0f4f8; padding: 20px; }
+       .container { max-width: 500px; margin: 0 auto; background: white; padding: 20px; border-radius: 16px; box-shadow: 0 4px 12px rgba(0,0,0,0.1); }
+        h1 { color: #1e40af; text-align: center; margin-bottom: 5px; }
+       .subtitle { text-align: center; color: #64748b; margin-bottom: 20px; font-size: 14px; }
+        #map { width: 100%; height: 350px; border-radius: 12px; margin-bottom: 15px; border: 2px solid #e2e8f0; }
+        input, button { width: 100%; padding: 12px; margin: 8px 0; border-radius: 8px; border: 1px solid #cbd5e1; font-size: 16px; }
+        button { background: #2563eb; color: white; border: none; font-weight: bold; cursor: pointer; }
+        button:hover { background: #1d4ed8; }
+        button:disabled { background: #94a3b8; cursor: not-allowed; }
+       .result { background: #f8fafc; padding: 15px; border-radius: 8px; margin-top: 15px; display: none; }
+       .result-show { display: block; }
+       .row { display: flex; justify-content: space-between; margin: 8px 0; }
+       .label { color: #475569; }
+       .value { font-weight: bold; color: #0f172a; }
+       .total { font-size: 20px; color: #16a34a; }
+       .error { background: #fee2e2; color: #b91c1c; padding: 10px; border-radius: 8px; margin-top: 10px; display: none; }
     </style>
 </head>
 <body>
-    <h1>Kama unaona ramani hapa, Amot itafanya kazi</h1>
-    <div id="map"></div>
+    <div class="container">
+        <h1>Amot</h1>
+        <p class="subtitle">Pata nauli halisi Zanzibar</p>
+
+        <div id="map"></div>
+
+        <input type="text" id="pickup" placeholder="Unapoanzia - mf: Darajani">
+        <input type="text" id="dropoff" placeholder="Unapoenda - mf: Airport">
+        <button id="calcBtn" onclick="calculateFare()">Hesabu Nauli</button>
+
+        <div id="error" class="error"></div>
+
+        <div id="result" class="result">
+            <div class="row">
+                <span class="label">Umbali:</span>
+                <span class="value" id="distance">-</span>
+            </div>
+            <div class="row">
+                <span class="label">Muda:</span>
+                <span class="value" id="duration">-</span>
+            </div>
+            <div class="row">
+                <span class="label">Nauli ya Msingi:</span>
+                <span class="value" id="baseFare">-</span>
+            </div>
+            <div class="row">
+                <span class="label">Ada ya Huduma 15%:</span>
+                <span class="value" id="serviceFee">-</span>
+            </div>
+            <div class="row">
+                <span class="label">Jumla ya Nauli:</span>
+                <span class="value total" id="totalFare">-</span>
+            </div>
+        </div>
+    </div>
 
     <script>
-        function initMap() {
-            new google.maps.Map(document.getElementById("map"), {
-                center: { lat: -6.1659, lng: 39.2026 },
+        // ========== BADILISHA HAPA TU ==========
+        const API_KEY = "AIzaSyBMzrL-oUkVDU14u15itY9q5pkiDMj2NFE"; // Weka key yako ya Google hapa
+        const SHEETDB_URL = "1YegOqyELfTp30qIo67yzvzjjkVQPMTqSkwMDxeJsDYc"; // Weka URL yako ya SheetDB hapa
+        // =======================================
+
+        let map, directionsService, directionsRenderer;
+        let pickupAutocomplete, dropoffAutocomplete;
+
+        // Lazima iwe window.initMap kwa sababu ya Google
+        window.initMap = function() {
+            console.log("Ramani inaanza...");
+
+            map = new google.maps.Map(document.getElementById("map"), {
+                center: { lat: -6.1659, lng: 39.2026 }, // Zanzibar Stone Town
                 zoom: 13,
+                mapTypeControl: false,
+                streetViewControl: false,
             });
+
+            directionsService = new google.maps.DirectionsService();
+            directionsRenderer = new google.maps.DirectionsRenderer({
+                map: map,
+                suppressMarkers: false,
+                polylineOptions: { strokeColor: "#2563eb", strokeWeight: 5 }
+            });
+
+            // Autocomplete ya sehemu
+            pickupAutocomplete = new google.maps.places.Autocomplete(
+                document.getElementById("pickup"),
+                { componentRestrictions: { country: "tz" } }
+            );
+            dropoffAutocomplete = new google.maps.places.Autocomplete(
+                document.getElementById("dropoff"),
+                { componentRestrictions: { country: "tz" } }
+            );
+        }
+
+        async function calculateFare() {
+            const pickup = document.getElementById("pickup").value;
+            const dropoff = document.getElementById("dropoff").value;
+            const btn = document.getElementById("calcBtn");
+            const errorDiv = document.getElementById("error");
+
+            errorDiv.style.display = "none";
+
+            if (!pickup ||!dropoff) {
+                showError("Tafadhali jaza sehemu zote mbili");
+                return;
+            }
+
+            btn.disabled = true;
+            btn.textContent = "Inahesabu...";
+
+            try {
+                // 1. Pata route kutoka Google
+                const routeResult = await new Promise((resolve, reject) => {
+                    directionsService.route({
+                        origin: pickup,
+                        destination: dropoff,
+                        travelMode: google.maps.TravelMode.DRIVING,
+                    }, (result, status) => {
+                        if (status === "OK") resolve(result);
+                        else reject("Imeshindwa kupata njia. Jaribu majina mengine.");
+                    });
+                });
+
+                directionsRenderer.setDirections(routeResult);
+                const leg = routeResult.routes[0].legs[0];
+                const distanceKm = leg.distance.value / 1000;
+                const durationText = leg.duration.text;
+
+                // 2. Pata rate kutoka SheetDB
+                const rateRes = await fetch(SHEETDB_URL);
+                const rates = await rateRes.json();
+                const rate = parseFloat(rates[0].rate_per_km);
+
+                // 3. Hesabu nauli
+                const baseFare = distanceKm * rate;
+                const serviceFee = baseFare * 0.15;
+                const totalFare = baseFare + serviceFee;
+
+                // 4. Onyesha matokeo
+                document.getElementById("distance").textContent = distanceKm.toFixed(1) + " km";
+                document.getElementById("duration").textContent = durationText;
+                document.getElementById("baseFare").textContent = "TSh " + Math.round(baseFare).toLocaleString();
+                document.getElementById("serviceFee").textContent = "TSh " + Math.round(serviceFee).toLocaleString();
+                document.getElementById("totalFare").textContent = "TSh " + Math.round(totalFare).toLocaleString();
+                document.getElementById("result").classList.add("result-show");
+
+            } catch (err) {
+                showError(err.toString());
+            } finally {
+                btn.disabled = false;
+                btn.textContent = "Hesabu Nauli";
+            }
+        }
+
+        function showError(msg) {
+            const errorDiv = document.getElementById("error");
+            errorDiv.textContent = msg;
+            errorDiv.style.display = "block";
         }
     </script>
-    
-    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBMzrL-oUkVDU14u15itY9q5pkiDMj2NFE&callback=initMap" async defer></script>
+
+    <!-- BADILISHA API_KEY_YAKO HAPA PIA -->
+    <script src="https://maps.googleapis.com/maps/api/js?key=API_KEY_YAKO&libraries=places&callback=initMap" async defer></script>
 </body>
 </html>
