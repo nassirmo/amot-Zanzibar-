@@ -1,281 +1,298 @@
 <!DOCTYPE html>
-<html>
+<html lang="sw">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1.0">
-<title>Amot Zanzibar</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Amot - Book Ride</title>
 <style>
-body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:#1a1a1a;margin:0;padding:10px;color:#fff}
-.container{max-width:500px;margin:0 auto;background:#2d2d2d;padding:20px;border-radius:12px}
-h2{text-align:center;color:#4ade80;margin-top:0}
-label{font-weight:600;margin-top:15px;display:block;font-size:14px;color:#e5e5e5}
-input,select{width:100%;padding:12px;margin-top:5px;border:1px solid #555;border-radius:8px;box-sizing:border-box;font-size:16px;background:#1a1a1a;color:#fff}
-button{width:100%;padding:15px;margin-top:20px;border:none;border-radius:8px;font-size:18px;font-weight:bold;cursor:pointer;color:#000}
-#priceBtn{background:#4ade80}
-#btnWasilisha{background:#22c55e;display:none}
-.payment-buttons{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:5px}
-.payment-btn{background:#404040;color:#fff;padding:12px;font-size:14px;margin-top:0}
-.payment-btn.selected{background:#4ade80;color:#000}
-#beiContainer,#paymentInfo,#uploadBox,#subiriUthibitisho{margin-top:20px;padding:15px;background:#1a3a1a;border-left:5px solid #4ade80;display:none;border-radius:8px}
-#subiriUthibitisho{background:#3a2a1a;border-left:5px solid #fbbf24}
-#debug{font-size:12px;color:#4ade80;text-align:center;min-height:15px}
-#adminPanel{display:none}
-.order-card{border:1px solid #555;padding:15px;margin:10px 0;border-radius:8px;background:#1a1a1a}
-.order-card button{background:#4ade80;margin-top:10px;padding:10px;color:#000}
-.order-card.confirmed{background:#2d5a2d;border-left:5px solid #22c55e}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:Arial,sans-serif;background:#f5f5f5;padding:15px}
+.kontena{max-width:500px;margin:auto;background:white;border-radius:12px;box-shadow:0 2px 10px rgba(0,0,0,0.1);overflow:hidden}
+.kichwa{background:#25D366;color:white;padding:20px;text-align:center}
+.kichwa h1{font-size:24px}
+.sehemu-ya-kadi{padding:20px}
+.lebo{display:block;margin:15px 0 5px;font-weight:bold;color:#333}
+.chaguo-langu{width:100%;padding:12px;border:2px solid #ddd;border-radius:8px;font-size:16px}
+.chaguo-langu:focus{border-color:#25D366;outline:none}
+#map{height:300px;width:100%;border-radius:8px;margin:15px 0;border:2px solid #ddd}
+#umbaliBei{background:#e8f5e9;padding:12px;border-radius:8px;margin:15px 0;text-align:center;font-weight:bold;color:#1b5e20}
+.kitufe{width:100%;padding:15px;background:#25D366;color:white;border:none;border-radius:8px;font-size:18px;font-weight:bold;cursor:pointer;margin-top:15px}
+.kitufe:hover{background:#1faa52}
+.kitufe:disabled{background:#ccc;cursor:not-allowed}
+.muhtasari{background:#f9f9f9;padding:15px;border-radius:8px;margin:15px 0}
+.muhtasari p{margin:8px 0;display:flex;justify-content:space-between}
+.muhtasari.jumla{font-size:20px;font-weight:bold;color:#25D366;border-top:2px solid #ddd;padding-top:10px}
+.fichwa{display:none}
+#debug{font-size:12px;color:#999;margin-top:10px;word-break:break-all}
+.dereva-kadi{display:flex;align-items:center;gap:15px;background:#f0f0f0;padding:12px;border-radius:8px;margin:10px 0}
+.dereva-kadi img{width:60px;height:60px;border-radius:50%;object-fit:cover}
+.pac-container{z-index:10000!important}
 </style>
 </head>
 <body>
-<div class="container">
-  <div id="mtejaApp">
-    <h2>Amot Zanzibar</h2>
-    <div id="debug">Loading...</div>
 
-    <div id="fomuYote">
-      <label>Namba yako ya Simu</label>
-      <input type="tel" id="mtejaPhone" placeholder="07XX XXX XXX">
-
-      <label>Anapotaka Kuchukuliwa</label>
-      <input type="text" id="pickup" placeholder="Stone Town">
-
-      <label>Anakoenda</label>
-      <input type="text" id="dropoff" placeholder="Airport">
-
-      <label>Umbali (km)</label>
-      <input type="number" id="distance" placeholder="10">
-
-      <label>Chagua Chombo</label>
-      <select id="vehicleType">
-        <option value="Bodaboda">Bodaboda - 1 Person</option>
-        <option value="Bajaji">Bajaji - 2-3 People</option>
-        <option value="Sedan">Sedan Car - 4 People</option>
-        <option value="Pickup">Pickup - Mizigo</option>
-      </select>
-
-      <div style="margin-top:15px">
-        <input type="checkbox" id="labor" style="width:auto;margin-right:10px">
-        <label for="labor" style="display:inline;font-weight:normal">Naomba msaada wa kubeba (+TSh 5,000)</label>
-      </div>
-
-      <label>Chagua Njia ya Malipo:</label>
-      <div class="payment-buttons">
-        <button class="payment-btn" data-method="M-Pesa">M-Pesa</button>
-        <button class="payment-btn" data-method="Tigo Pesa">Tigo Pesa</button>
-        <button class="payment-btn" data-method="Airtel Money">Airtel Money</button>
-        <button class="payment-btn" data-method="Halopesa">Halopesa</button>
-      </div>
-      <div id="selectedText" style="text-align:center;margin-top:10px;font-weight:bold">Umechagua: None</div>
-      <button id="priceBtn">Pata Bei Yako</button>
-    </div>
-
-    <div id="beiContainer">
-      <h3 style="margin-top:0;color:#4ade80">TZS <span id="onyeshaBei">0</span></h3>
-      <p><span id="onyeshaUmbali">0</span> km</p>
-      <p>Deposit 30%: TZS <span id="onyeshaDeposit">0</span></p>
-      <p id="driverInfo" style="font-weight:bold;color:#4ade80"></p>
-    </div>
-
-    <div id="paymentInfo">
-      <h4>LIPA DEPOSIT SASA</h4>
-      <p>1. Tuma TZS <span id="kiasiChaKulipa">0</span> kwenda:</p>
-      <p id="nambaYaMalipo" style="font-size:20px;font-weight:bold;text-align:center;color:#4ade80"></p>
-      <p>2. Weka namba ya muamala hapa chini</p>
-    </div>
-
-    <div id="uploadBox">
-      <h4>Thibitisha Malipo Yako</h4>
-      <label>Namba ya Muamala/Transaction ID</label>
-      <input type="text" id="transId" placeholder="MFANO: MP240423.1234.A12345">
-      <button id="btnWasilisha">WASILISHA UTHIBITISHO</button>
-    </div>
-
-    <div id="subiriUthibitisho">Umefanikiwa kuwasilisha. Tunasubiri mmiliki athibitishe malipo yako.</div>
+<div class="kontena">
+  <div class="kichwa">
+    <h1>🚗 AMOT</h1>
+    <p>Book ride yako haraka</p>
   </div>
 
-  <div id="adminPanel">
-    <h2 style="color:#4ade80">Amot Admin - Oda Zote</h2>
-    <button onclick="futaOdaZote()" style="background:#ef4444;color:#fff;margin-bottom:15px">Futa Oda Zote</button>
-    <div id="ordersList"></div>
+  <div id="fomuYote" class="sehemu-ya-kadi">
+    <label class="lebo">📱 Namba Yako ya Simu</label>
+    <input id="mtejaPhone" class="chaguo-langu" type="tel" placeholder="07XX XXX XXX">
+
+    <label class="lebo">📍 Chagua Safari Kwenye Ramani</label>
+    <div id="map"></div>
+    <input id="pickup" class="chaguo-langu" placeholder="Bonyeza ramani au andika pa kuchukulia" style="margin-bottom:10px">
+    <input id="dropoff" class="chaguo-langu" placeholder="Bonyeza ramani au andika pa kushushia">
+    <input type="hidden" id="distance">
+
+    <div id="umbaliBei">Umbali: -- km | Bei: TZS --</div>
+
+    <label class="lebo">🚙 Chagua Gari</label>
+    <select id="vehicleType" class="chaguo-langu">
+      <option value="bodaboda">Bodaboda - TZS 1,000/km</option>
+      <option value="bajaji">Bajaji - TZS 1,500/km</option>
+      <option value="gari">Gari Ndogo - TZS 2,000/km</option>
+      <option value="gari_kubwa">Gari Kubwa - TZS 3,000/km</option>
+    </select>
+
+    <div id="sehemuDereva" class="fichwa">
+      <label class="lebo">👨‍✈️ Dereva Wako</label>
+      <div id="derevaInfo" class="dereva-kadi"></div>
+    </div>
+
+    <button id="btnEndelea" class="kitufe" disabled>Endelea Kulipa</button>
+  </div>
+
+  <div id="sehemuMalipo" class="sehemu-ya-kadi fichwa">
+    <h2 style="margin-bottom:15px">💰 Lipa Deposit</h2>
+
+    <div class="muhtasari">
+      <p><span>Safari:</span> <span id="muhtPickupDropoff">--</span></p>
+      <p><span>Umbali:</span> <span id="muhtUmbali">-- km</span></p>
+      <p><span>Gari:</span> <span id="muhtGari">--</span></p>
+      <p><span>Dereva:</span> <span id="muhtDereva">--</span></p>
+      <p class="jumla"><span>Deposit (50%):</span> <span id="muhtDeposit">TZS --</span></p>
+    </div>
+
+    <label class="lebo">Chagua Njia ya Malipo</label>
+    <select id="paymentMethod" class="chaguo-langu">
+      <option value="mpesa">M-Pesa</option>
+      <option value="tigopesa">Tigo Pesa</option>
+      <option value="airtel">Airtel Money</option>
+    </select>
+
+    <div id="maelekezoMalipo" style="background:#fff3cd;padding:12px;border-radius:8px;margin:15px 0;font-size:14px">
+      <b>Maelekezo:</b><br>
+      1. Tuma TZS <span id="kiasiChaKulipa">--</span> kwenda <b id="nambaYaMalipo">+255 714 377 004</b><br>
+      2. Jina: <b>MOHAMED SALIM SAID</b><br>
+      3. Weka namba ya muamala hapo chini
+    </div>
+
+    <label class="lebo">Namba ya Muamala</label>
+    <input id="transId" class="chaguo-langu" placeholder="Mfano: QGW12ABC34">
+
+    <button id="btnWasilisha" class="kitufe">Wasilisha Oda</button>
+    <button id="btnRudi" class="kitufe" style="background:#666">Rudi Nyuma</button>
+    <div id="debug"></div>
+  </div>
+
+  <div id="subiriUthibitisho" class="sehemu-ya-kadi fichwa" style="text-align:center">
+    <h2>✅ Oda Imetumwa!</h2>
+    <p style="margin:20px 0">Tumepokea oda yako. Dereva atakupigia ndani ya dakika 5.</p>
+    <p><b>Namba ya Oda:</b> <span id="nambaYaOda"></span></p>
   </div>
 </div>
 
 <script>
-document.getElementById('debug').innerText='JS: Starting...';
-window.onerror=function(msg){document.getElementById('debug').innerText='ERROR: '+msg;return false};
+// ======= BADILISHA HIZI 2 TU =======
+const API_KEY = "API_KEY_YAKO_HAPA";
+const SHEETDB_URL = "https://sheetdb.io/api/v1/SHEETDB_URL_YAKO";
+// ====================================
 
-document.addEventListener('DOMContentLoaded',function(){
-  try{
-    var njiaYaMalipo="";
-    var beiYaMwisho=0;
-    var depositAmount=0;
-    var derevaAliyechaguliwa={};
-    var SHEET_URL="https://sheetdb.io/api/v1/uay5sdcyaecy2"; // <-- WEKA URL YAKO HAPA
-    var ADMIN_PASSWORD="amot2024@";
-    var NAMBA_YA_MMILIKI="255779771085";
-    var NAMBA_ZA_MALIPO={"M-Pesa":"255712345678","Tigo Pesa":"255779771085","Airtel Money":"255684567890","Halopesa":"255625678901"};
-    var madereva=[{jina:"Juma",namba:"255776218038"},{jina:"Ali",namba:"255713333222"},{jina:"Hassan",namba:"255713333333"}];
+const NAMBA_YA_MMILIKI = "255714377004";
+const BEI_KWA_KM = {bodaboda:1000,bajaji:1500,gari:2000,gari_kubwa:3000};
+const MADEREVA = [
+  {jina:"Juma Ali",simu:"255712345678",picha:"https://i.pravatar.cc/150?img=12",gari:"bajaji"},
+  {jina:"Saidi Mohamed",simu:"255713456789",picha:"https://i.pravatar.cc/150?img=33",gari:"bodaboda"},
+  {jina:"Hassan Omar",simu:"255714567890",picha:"https://i.pravatar.cc/150?img=51",gari:"gari"}
+];
 
-    // ANGALIA KAMA NI ADMIN
-    var urlParams=new URLSearchParams(window.location.search);
-    if(urlParams.get('admin')==='true'){
-      var password=prompt('Weka Nenosiri la Admin:');
-      if(password!==ADMIN_PASSWORD){
-        alert('Nenosiri si sahihi');
-        window.location.href=window.location.href.split('?')[0];
-        return;
-      }
-      document.getElementById('mtejaApp').style.display='none';
-      document.getElementById('adminPanel').style.display='block';
-      onyeshaOda();
-      document.getElementById('debug').innerText='Admin Mode';
-      return;
+let map, markerA, markerB, directionsService, directionsRenderer;
+let beiYaMwisho = 0, depositAmount = 0, derevaAliyechaguliwa = null, njiaYaMalipo = 'mpesa';
+
+// GOOGLE MAPS
+function initMap() {
+  map = new google.maps.Map(document.getElementById("map"), {
+    center: { lat: -6.1659, lng: 39.2026 }, // Zanzibar
+    zoom: 13,
+  });
+
+  directionsService = new google.maps.DirectionsService();
+  directionsRenderer = new google.maps.DirectionsRenderer({suppressMarkers:true});
+  directionsRenderer.setMap(map);
+
+  const pickupInput = document.getElementById('pickup');
+  const dropoffInput = document.getElementById('dropoff');
+  new google.maps.places.Autocomplete(pickupInput);
+  new google.maps.places.Autocomplete(dropoffInput);
+
+  map.addListener("click", (e) => {
+    if (!markerA) {
+      markerA = new google.maps.Marker({ position: e.latLng, map, label: "A" });
+      getAddress(e.latLng, 'pickup');
+    } else if (!markerB) {
+      markerB = new google.maps.Marker({ position: e.latLng, map, label: "B" });
+      getAddress(e.latLng, 'dropoff');
+      setTimeout(calcRoute, 500);
+    } else {
+      markerA.setMap(null); markerB.setMap(null); directionsRenderer.setDirections({routes: []});
+      markerA = markerB = null;
+      pickupInput.value = ''; dropoffInput.value = '';
+      document.getElementById('umbaliBei').innerText = 'Umbali: -- km | Bei: TZS --';
+      document.getElementById('btnEndelea').disabled = true;
     }
+  });
 
-    // MTEJA APP
-    document.querySelectorAll('.payment-btn').forEach(function(btn){
-      btn.onclick=function(){
-        njiaYaMalipo=btn.dataset.method;
-        document.querySelectorAll('.payment-btn').forEach(function(b){b.classList.remove('selected')});
-        btn.classList.add('selected');
-        document.getElementById('selectedText').innerText='Umechagua: '+njiaYaMalipo;
-      }
-    });
+  pickupInput.addEventListener('change', checkRoute);
+  dropoffInput.addEventListener('change', checkRoute);
+}
 
-    document.getElementById('priceBtn').onclick=function(){
-      var phone=document.getElementById('mtejaPhone').value.trim();
-      var pickup=document.getElementById('pickup').value.trim();
-      var dropoff=document.getElementById('dropoff').value.trim();
-      var distanceKm=parseFloat(document.getElementById('distance').value);
-      var vehicle=document.getElementById('vehicleType').value;
-      var labor=document.getElementById('labor').checked;
+function getAddress(latlng, inputId) {
+  new google.maps.Geocoder().geocode({ location: latlng }, (results, status) => {
+    if (status === "OK" && results[0]) {
+      document.getElementById(inputId).value = results[0].formatted_address;
+    }
+  });
+}
 
-      if(!phone)return alert('Tafadhali andika namba yako ya simu');
-      if(!pickup)return alert('Tafadhali andika anapotaka kuchukuliwa');
-      if(!dropoff)return alert('Tafadhali andika anakoenda');
-      if(!distanceKm||distanceKm<=0)return alert('Tafadhali andika umbali kwa km');
-      if(!njiaYaMalipo)return alert('Chagua njia ya malipo kwanza');
+function checkRoute() {
+  if (document.getElementById('pickup').value && document.getElementById('dropoff').value) {
+    calcRoute();
+  }
+}
 
-      var beiPerKm=0,basePrice=0;
-      if(vehicle==="Bodaboda"){basePrice=500;beiPerKm=600}
-      if(vehicle==="Bajaji"){basePrice=1000;beiPerKm=1000}
-      if(vehicle==="Sedan"){basePrice=2000;beiPerKm=1500}
-      if(vehicle==="Pickup"){basePrice=5000;beiPerKm=2500}
+function calcRoute() {
+  const pickup = document.getElementById('pickup').value;
+  const dropoff = document.getElementById('dropoff').value;
+  if (!pickup ||!dropoff) return;
 
-      beiYaMwisho=Math.round(basePrice+(beiPerKm*distanceKm));
-      if(labor)beiYaMwisho+=5000;
-      depositAmount=Math.round(beiYaMwisho*0.3);
-      derevaAliyechaguliwa=madereva[Math.floor(Math.random()*madereva.length)];
+  directionsService.route({
+    origin: pickup,
+    destination: dropoff,
+    travelMode: 'DRIVING',
+  }, (result, status) => {
+    if (status === 'OK') {
+      directionsRenderer.setDirections(result);
+      let distanceKm = result.routes[0].legs[0].distance.value / 1000;
+      document.getElementById('distance').value = distanceKm.toFixed(1);
+      calculateBei();
+    } else {
+      alert('Imeshindikana kupata njia. Jaribu kuandika majina halisi ya sehemu.');
+    }
+  });
+}
 
-      document.getElementById('onyeshaBei').innerText=beiYaMwisho.toLocaleString();
-      document.getElementById('onyeshaDeposit').innerText=depositAmount.toLocaleString();
-      document.getElementById('onyeshaUmbali').innerText=distanceKm;
-      document.getElementById('driverInfo').innerText='Dereva: '+derevaAliyechaguliwa.jina;
-      document.getElementById('kiasiChaKulipa').innerText=depositAmount.toLocaleString();
-      document.getElementById('nambaYaMalipo').innerText=NAMBA_ZA_MALIPO[njiaYaMalipo];
-      document.getElementById('beiContainer').style.display='block';
-      document.getElementById('paymentInfo').style.display='block';
-      document.getElementById('uploadBox').style.display='block';
-      document.getElementById('btnWasilisha').style.display='block';
-    };
+function calculateBei() {
+  const distance = parseFloat(document.getElementById('distance').value);
+  const vehicle = document.getElementById('vehicleType').value;
+  if (!distance ||!vehicle) return;
 
-   document.getElementById('btnWasilisha').onclick=function(){
-  var transId=document.getElementById('transId').value.trim();
-  var nambaYaMteja=document.getElementById('mtejaPhone').value.replace(/[^0-9]/g,'');
-  if(nambaYaMteja.startsWith('0'))nambaYaMteja='255'+nambaYaMteja.substring(1);
-  if(!transId)return alert('Weka namba ya muamala');
+  beiYaMwisho = Math.round(distance * BEI_KWA_KM[vehicle]);
+  depositAmount = Math.round(beiYaMwisho * 0.5);
+  document.getElementById('umbaliBei').innerText = Umbali: ${distance.toFixed(1)} km | Bei: TZS ${beiYaMwisho.toLocaleString()};
 
-  var order={
-    id:Date.now(),
-    transId:transId,
-    phone:nambaYaMteja,
-    pickup:document.getElementById('pickup').value,
-    dropoff:document.getElementById('dropoff').value,
-    km:document.getElementById('distance').value,
-    vehicle:document.getElementById('vehicleType').value,
-    total:beiYaMwisho,
-    deposit:depositAmount,
-    payment:njiaYaMalipo,
-    driver:derevaAliyechaguliwa.jina,
-    status:'pending',
-    time:new Date().toLocaleString('sw-TZ')
-  };
+  // Chagua dereva
+  const maderevaWaGari = MADEREVA.filter(d => d.gari === vehicle);
+  derevaAliyechaguliwa = maderevaWaGari.length > 0? maderevaWaGari[Math.floor(Math.random() * maderevaWaGari.length)] : MADEREVA[0];
 
-  // HAPA NDIPO INAKAA - TUMA GOOGLE SHEET
-  var url = SHEET_URL + '?data=' + encodeURIComponent(JSON.stringify(order));
-  var iframe = document.createElement('iframe');
-  iframe.style.display = 'none';
-  iframe.src = url;
-  document.body.appendChild(iframe);
-  setTimeout(function(){ document.body.removeChild(iframe); }, 3000);
-  
-  document.getElementById('debug').innerText="SEND: OK";
-  alert('Oda imetumwa! Utapokea SMS.');
+  document.getElementById('derevaInfo').innerHTML = `
+    <img src="${derevaAliyechaguliwa.picha}" alt="Dereva">
+    <div><b>${derevaAliyechaguliwa.jina}</b><br><small>${derevaAliyechaguliwa.simu}</small></div>
+  `;
+  document.getElementById('sehemuDereva').classList.remove('fichwa');
+  document.getElementById('btnEndelea').disabled = false;
+}
 
-  // SAVE LOCALSTORAGE
-  var orders=JSON.parse(localStorage.getItem('amot_orders')||'[]');
-  orders.push(order);
-  localStorage.setItem('amot_orders',JSON.stringify(orders));
+// BUTTONS
+document.getElementById('vehicleType').onchange = calculateBei;
 
-  // UJUMBE KWA MMILIKI
-  var msg='AMOT ODA MPYA!\nMteja: '+nambaYaMteja+'\nSafari: '+order.pickup+' → '+order.dropoff+'\nMuamala: '+transId+'\nDeposit: TZS '+depositAmount.toLocaleString()+'\n\nFungua admin panel kuthibitisha.';
-  window.open('https://wa.me/'+0779771085+'?text='+encodeURIComponent(msg));
+document.getElementById('btnEndelea').onclick = function() {
+  const phone = document.getElementById('mtejaPhone').value.replace(/[^0-9]/g,'');
+  if (phone.length < 9) return alert('Weka namba sahihi ya simu');
+  if (!document.getElementById('distance').value) return alert('Chagua safari kwanza kwenye ramani');
 
-  document.getElementById('fomuYote').style.display='none';
-  document.getElementById('beiContainer').style.display='none';
-  document.getElementById('paymentInfo').style.display='none';
-  document.getElementById('uploadBox').style.display='none';
-  document.getElementById('subiriUthibitisho').style.display='block';
+  document.getElementById('fomuYote').classList.add('fichwa');
+  document.getElementById('sehemuMalipo').classList.remove('fichwa');
+
+  document.getElementById('muhtPickupDropoff').innerText = document.getElementById('pickup').value.substring(0,20) + ' → ' + document.getElementById('dropoff').value.substring(0,20);
+  document.getElementById('muhtUmbali').innerText = document.getElementById('distance').value + ' km';
+  document.getElementById('muhtGari').innerText = document.getElementById('vehicleType').selectedOptions[0].text;
+  document.getElementById('muhtDereva').innerText = derevaAliyechaguliwa.jina;
+  document.getElementById('muhtDeposit').innerText = 'TZS ' + depositAmount.toLocaleString();
+  document.getElementById('kiasiChaKulipa').innerText = depositAmount.toLocaleString();
 };
 
-    // ADMIN FUNCTIONS
-    window.onyeshaOda=function(){
-      var orders=JSON.parse(localStorage.getItem('amot_orders')||'[]');
-      var html='';
-      orders.reverse().forEach(function(order){
-        var statusClass=order.status==='confirmed'?'confirmed':'';
-        html+='<div class="order-card '+statusClass+'">';
-        html+='<b>'+order.time+'</b><br>';
-        html+='Mteja: '+order.phone+'<br>';
-        html+='Safari: '+order.pickup+' → '+order.dropoff+' ('+order.km+'km)<br>';
-        html+='Chombo: '+order.vehicle+' | Malipo: '+order.payment+'<br>';
-        html+='Jumla: TZS '+order.total.toLocaleString()+' | Deposit: TZS '+order.deposit.toLocaleString()+'<br>';
-        html+='Muamala: '+order.transId+'<br>';
-        html+='Dereva: '+order.driver+'<br>';
-        html+='Status: <b>'+order.status.toUpperCase()+'</b><br>';
-        if(order.status==='pending'){
-          html+='<button onclick="thibitishaOda('+order.id+')">THIBITISHA MALIPO</button>';
-        }
-        html+='</div>';
-      });
-      document.getElementById('ordersList').innerHTML=html||'<p>Hakuna oda bado</p>';
-    }
+document.getElementById('btnRudi').onclick = function() {
+  document.getElementById('sehemuMalipo').classList.add('fichwa');
+  document.getElementById('fomuYote').classList.remove('fichwa');
+};
 
-    window.thibitishaOda=function(orderId){
-      var orders=JSON.parse(localStorage.getItem('amot_orders')||'[]');
-      var order=orders.find(function(o){return o.id===orderId});
-      if(!order)return;
-      order.status='confirmed';
-      localStorage.setItem('amot_orders',JSON.stringify(orders));
+document.getElementById('paymentMethod').onchange = function() {
+  njiaYaMalipo = this.value;
+};
 
-      var msg='Amot: Malipo yako ya TZS '+order.deposit.toLocaleString()+' yamethibitishwa. Dereva wako '+order.driver+' atakuja kukuchukua. Safari njema!';
-      window.open('https://wa.me/'+order.phone+'?text='+encodeURIComponent(msg));
+document.getElementById('btnWasilisha').onclick = function() {
+  const transId = document.getElementById('transId').value.trim();
+  let nambaYaMteja = document.getElementById('mtejaPhone').value.replace(/[^0-9]/g,'');
+  if (nambaYaMteja.startsWith('0')) nambaYaMteja = '255' + nambaYaMteja.substring(1);
+  if (!transId) return alert('Weka namba ya muamala');
 
-      alert('Umethibitisha! Mteja ametumiwa ujumbe.');
-      onyeshaOda();
-    };
+  const order = {
+    Time: new Date().toLocaleString('sw-TZ'),
+    Phone: nambaYaMteja,
+    Pickup: document.getElementById('pickup').value,
+    Dropoff: document.getElementById('dropoff').value,
+    KM: document.getElementById('distance').value,
+    Vehicle: document.getElementById('vehicleType').value,
+    Total: beiYaMwisho,
+    Deposit: depositAmount,
+    Payment: njiaYaMalipo,
+    TransID: transId,
+    Status: 'pending',
+    Driver: derevaAliyechaguliwa.jina
+  };
 
-    window.futaOdaZote=function(){
-      if(confirm('Una uhakika unataka kufuta oda zote?')){
-        localStorage.removeItem('amot_orders');
-        onyeshaOda();
-      }
-    };
+  document.getElementById('debug').innerText = "SENDING...";
+  document.getElementById('btnWasilisha').disabled = true;
 
-    document.getElementById('debug').innerText='JS: Ready';
-  }catch(e){
-    document.getElementById('debug').innerText='ERROR: '+e.message
-  }
-});
+  fetch(SHEETDB_URL, {
+    method: 'POST',
+    headers: {'Accept': 'application/json','Content-Type': 'application/json'},
+    body: JSON.stringify({data: [order]})
+  })
+ .then(r => r.json())
+ .then(data => {
+    document.getElementById('debug').innerText = "SEND: OK";
+    document.getElementById('nambaYaOda').innerText = 'AMOT-' + Date.now();
+
+    const msg = AMOT ODA MPYA!\nMteja: ${nambaYaMteja}\nSafari: ${order.Pickup} → ${order.Dropoff}\nKM: ${order.KM}\nMuamala: ${transId}\nDeposit: TZS ${depositAmount.toLocaleString()}\nDereva: ${order.Driver};
+    window.open('https://wa.me/' + NAMBA_YA_MMILIKI + '?text=' + encodeURIComponent(msg));
+
+    document.getElementById('sehemuMalipo').classList.add('fichwa');
+    document.getElementById('subiriUthibitisho').classList.remove('fichwa');
+  })
+ .catch(e => {
+    document.getElementById('debug').innerText = "ERROR: " + e.message;
+    alert('Imeshindikana kutuma oda. Tafadhali jaribu tena.');
+    document.getElementById('btnWasilisha').disabled = false;
+  });
+};
 </script>
+
+<!-- BADILISHA API_KEY_YAKO HAPA CHINI -->
+<script src="https://maps.googleapis.com/maps/api/js?key=API_KEY_YAKO&libraries=places&callback=initMap" async defer></script>
+
 </body>
 </html>
