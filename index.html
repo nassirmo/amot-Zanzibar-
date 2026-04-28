@@ -1,298 +1,183 @@
 <!DOCTYPE html>
 <html lang="sw">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Amot - Book Ride</title>
-<style>
-*{margin:0;padding:0;box-sizing:border-box}
-body{font-family:Arial,sans-serif;background:#f5f5f5;padding:15px}
-.kontena{max-width:500px;margin:auto;background:white;border-radius:12px;box-shadow:0 2px 10px rgba(0,0,0,0.1);overflow:hidden}
-.kichwa{background:#25D366;color:white;padding:20px;text-align:center}
-.kichwa h1{font-size:24px}
-.sehemu-ya-kadi{padding:20px}
-.lebo{display:block;margin:15px 0 5px;font-weight:bold;color:#333}
-.chaguo-langu{width:100%;padding:12px;border:2px solid #ddd;border-radius:8px;font-size:16px}
-.chaguo-langu:focus{border-color:#25D366;outline:none}
-#map{height:300px;width:100%;border-radius:8px;margin:15px 0;border:2px solid #ddd}
-#umbaliBei{background:#e8f5e9;padding:12px;border-radius:8px;margin:15px 0;text-align:center;font-weight:bold;color:#1b5e20}
-.kitufe{width:100%;padding:15px;background:#25D366;color:white;border:none;border-radius:8px;font-size:18px;font-weight:bold;cursor:pointer;margin-top:15px}
-.kitufe:hover{background:#1faa52}
-.kitufe:disabled{background:#ccc;cursor:not-allowed}
-.muhtasari{background:#f9f9f9;padding:15px;border-radius:8px;margin:15px 0}
-.muhtasari p{margin:8px 0;display:flex;justify-content:space-between}
-.muhtasari.jumla{font-size:20px;font-weight:bold;color:#25D366;border-top:2px solid #ddd;padding-top:10px}
-.fichwa{display:none}
-#debug{font-size:12px;color:#999;margin-top:10px;word-break:break-all}
-.dereva-kadi{display:flex;align-items:center;gap:15px;background:#f0f0f0;padding:12px;border-radius:8px;margin:10px 0}
-.dereva-kadi img{width:60px;height:60px;border-radius:50%;object-fit:cover}
-.pac-container{z-index:10000!important}
-</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Amot - Nauli Calculator Zanzibar</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: #f0f4f8; padding: 15px; }
+      .container { max-width: 500px; margin: 0 auto; background: white; padding: 20px; border-radius: 16px; box-shadow: 0 4px 20px rgba(0,0,0,0.08); }
+        h1 { color: #1e40af; text-align: center; margin-bottom: 5px; font-size: 28px; }
+      .subtitle { text-align: center; color: #64748b; margin-bottom: 20px; font-size: 14px; }
+        #map { width: 100%; height: 350px; border-radius: 12px; margin-bottom: 15px; border: 2px solid #e2e8f0; }
+        input, button { width: 100%; padding: 14px; margin: 8px 0; border-radius: 10px; border: 1px solid #cbd5e1; font-size: 16px; }
+        input:focus { outline: none; border-color: #2563eb; }
+        button { background: #2563eb; color: white; border: none; font-weight: 600; cursor: pointer; transition: 0.2s; }
+        button:hover { background: #1d4ed8; transform: translateY(-1px); }
+        button:disabled { background: #94a3b8; cursor: not-allowed; transform: none; }
+      .result { background: #f8fafc; padding: 15px; border-radius: 10px; margin-top: 15px; display: none; border: 1px solid #e2e8f0; }
+      .result-show { display: block; animation: fadeIn 0.3s; }
+      .row { display: flex; justify-content: space-between; margin: 10px 0; }
+      .label { color: #475569; }
+      .value { font-weight: 600; color: #0f172a; }
+      .total { font-size: 22px; color: #16a34a; }
+      .error { background: #fee2e2; color: #b91c1c; padding: 12px; border-radius: 8px; margin-top: 10px; display: none; font-size: 14px; }
+       @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+    </style>
 </head>
 <body>
+    <div class="container">
+        <h1>Amot</h1>
+        <p class="subtitle">Pata nauli halisi Zanzibar</p>
 
-<div class="kontena">
-  <div class="kichwa">
-    <h1>🚗 AMOT</h1>
-    <p>Book ride yako haraka</p>
-  </div>
+        <div id="map"></div>
 
-  <div id="fomuYote" class="sehemu-ya-kadi">
-    <label class="lebo">📱 Namba Yako ya Simu</label>
-    <input id="mtejaPhone" class="chaguo-langu" type="tel" placeholder="07XX XXX XXX">
+        <input type="text" id="pickup" placeholder="Unapoanzia - mf: Darajani">
+        <input type="text" id="dropoff" placeholder="Unapoenda - mf: Airport">
+        <button id="calcBtn" onclick="calculateFare()">Hesabu Nauli</button>
 
-    <label class="lebo">📍 Chagua Safari Kwenye Ramani</label>
-    <div id="map"></div>
-    <input id="pickup" class="chaguo-langu" placeholder="Bonyeza ramani au andika pa kuchukulia" style="margin-bottom:10px">
-    <input id="dropoff" class="chaguo-langu" placeholder="Bonyeza ramani au andika pa kushushia">
-    <input type="hidden" id="distance">
+        <div id="error" class="error"></div>
 
-    <div id="umbaliBei">Umbali: -- km | Bei: TZS --</div>
-
-    <label class="lebo">🚙 Chagua Gari</label>
-    <select id="vehicleType" class="chaguo-langu">
-      <option value="bodaboda">Bodaboda - TZS 1,000/km</option>
-      <option value="bajaji">Bajaji - TZS 1,500/km</option>
-      <option value="gari">Gari Ndogo - TZS 2,000/km</option>
-      <option value="gari_kubwa">Gari Kubwa - TZS 3,000/km</option>
-    </select>
-
-    <div id="sehemuDereva" class="fichwa">
-      <label class="lebo">👨‍✈️ Dereva Wako</label>
-      <div id="derevaInfo" class="dereva-kadi"></div>
+        <div id="result" class="result">
+            <div class="row">
+                <span class="label">Umbali:</span>
+                <span class="value" id="distance">-</span>
+            </div>
+            <div class="row">
+                <span class="label">Muda:</span>
+                <span class="value" id="duration">-</span>
+            </div>
+            <div class="row">
+                <span class="label">Nauli ya Msingi:</span>
+                <span class="value" id="baseFare">-</span>
+            </div>
+            <div class="row">
+                <span class="label">Ada ya Huduma 15%:</span>
+                <span class="value" id="serviceFee">-</span>
+            </div>
+            <div class="row">
+                <span class="label">Jumla ya Nauli:</span>
+                <span class="value total" id="totalFare">-</span>
+            </div>
+        </div>
     </div>
 
-    <button id="btnEndelea" class="kitufe" disabled>Endelea Kulipa</button>
-  </div>
+    <script>
+        // ========== BADILISHA HAPA TU ==========
+        const API_KEY = "AIzaSyBMzrL-oUkVDU14u15itY9q5pkiDMj2NFE"; // Weka key yako hapa
+        const SHEETDB_URL = "1YegOqyELfTp30qIo67yzvzjjkVQPMTqSkwMDxeJsDYc"; // Weka URL ya SheetDB hapa: https://sheetdb.io/api/v1/xxxxx
+        // =======================================
 
-  <div id="sehemuMalipo" class="sehemu-ya-kadi fichwa">
-    <h2 style="margin-bottom:15px">💰 Lipa Deposit</h2>
+        let map, directionsService, directionsRenderer;
+        let pickupAutocomplete, dropoffAutocomplete;
 
-    <div class="muhtasari">
-      <p><span>Safari:</span> <span id="muhtPickupDropoff">--</span></p>
-      <p><span>Umbali:</span> <span id="muhtUmbali">-- km</span></p>
-      <p><span>Gari:</span> <span id="muhtGari">--</span></p>
-      <p><span>Dereva:</span> <span id="muhtDereva">--</span></p>
-      <p class="jumla"><span>Deposit (50%):</span> <span id="muhtDeposit">TZS --</span></p>
-    </div>
+        window.initMap = function() {
+            map = new google.maps.Map(document.getElementById("map"), {
+                center: { lat: -6.1659, lng: 39.2026 },
+                zoom: 13,
+                mapTypeControl: false,
+                streetViewControl: false,
+                fullscreenControl: false
+            });
 
-    <label class="lebo">Chagua Njia ya Malipo</label>
-    <select id="paymentMethod" class="chaguo-langu">
-      <option value="mpesa">M-Pesa</option>
-      <option value="tigopesa">Tigo Pesa</option>
-      <option value="airtel">Airtel Money</option>
-    </select>
+            directionsService = new google.maps.DirectionsService();
+            directionsRenderer = new google.maps.DirectionsRenderer({
+                map: map,
+                suppressMarkers: false,
+                polylineOptions: { strokeColor: "#2563eb", strokeWeight: 5 }
+            });
 
-    <div id="maelekezoMalipo" style="background:#fff3cd;padding:12px;border-radius:8px;margin:15px 0;font-size:14px">
-      <b>Maelekezo:</b><br>
-      1. Tuma TZS <span id="kiasiChaKulipa">--</span> kwenda <b id="nambaYaMalipo">+255 714 377 004</b><br>
-      2. Jina: <b>MOHAMED SALIM SAID</b><br>
-      3. Weka namba ya muamala hapo chini
-    </div>
+            const options = { componentRestrictions: { country: "tz" }, fields: ["formatted_address", "geometry"] };
+            pickupAutocomplete = new google.maps.places.Autocomplete(document.getElementById("pickup"), options);
+            dropoffAutocomplete = new google.maps.places.Autocomplete(document.getElementById("dropoff"), options);
+        }
 
-    <label class="lebo">Namba ya Muamala</label>
-    <input id="transId" class="chaguo-langu" placeholder="Mfano: QGW12ABC34">
+        async function calculateFare() {
+            const pickup = document.getElementById("pickup").value.trim();
+            const dropoff = document.getElementById("dropoff").value.trim();
+            const btn = document.getElementById("calcBtn");
+            const errorDiv = document.getElementById("error");
+            const resultDiv = document.getElementById("result");
 
-    <button id="btnWasilisha" class="kitufe">Wasilisha Oda</button>
-    <button id="btnRudi" class="kitufe" style="background:#666">Rudi Nyuma</button>
-    <div id="debug"></div>
-  </div>
+            errorDiv.style.display = "none";
+            resultDiv.classList.remove("result-show");
 
-  <div id="subiriUthibitisho" class="sehemu-ya-kadi fichwa" style="text-align:center">
-    <h2>✅ Oda Imetumwa!</h2>
-    <p style="margin:20px 0">Tumepokea oda yako. Dereva atakupigia ndani ya dakika 5.</p>
-    <p><b>Namba ya Oda:</b> <span id="nambaYaOda"></span></p>
-  </div>
-</div>
+            if (!pickup ||!dropoff) {
+                showError("Tafadhali jaza sehemu zote mbili");
+                return;
+            }
 
-<script>
-// ======= BADILISHA HIZI 2 TU =======
-const API_KEY = "AIzaSyBMzrL-oUkVDU14u15itY9q5pkiDMj2NFE";
-const SHEETDB_URL = "https://sheetdb.io/api/v1/1YegOqyELfTp30qIo67yzvzjjkVQPMTqSkwMDxeJsDYc";
-// ====================================
+            if (SHEETDB_URL === "WEKA_URL_YAKO_HAPA" ||!SHEETDB_URL.includes("sheetdb.io")) {
+                showError("Tafadhali weka URL sahihi ya SheetDB kwenye code kwanza");
+                return;
+            }
 
-const NAMBA_YA_MMILIKI = "255714377004";
-const BEI_KWA_KM = {bodaboda:1000,bajaji:1500,gari:2000,gari_kubwa:3000};
-const MADEREVA = [
-  {jina:"Juma Ali",simu:"255712345678",picha:"https://i.pravatar.cc/150?img=12",gari:"bajaji"},
-  {jina:"Saidi Mohamed",simu:"255713456789",picha:"https://i.pravatar.cc/150?img=33",gari:"bodaboda"},
-  {jina:"Hassan Omar",simu:"255714567890",picha:"https://i.pravatar.cc/150?img=51",gari:"gari"}
-];
+            btn.disabled = true;
+            btn.textContent = "Inahesabu...";
 
-let map, markerA, markerB, directionsService, directionsRenderer;
-let beiYaMwisho = 0, depositAmount = 0, derevaAliyechaguliwa = null, njiaYaMalipo = 'mpesa';
+            try {
+                // 1. Pata route
+                const routeResult = await new Promise((resolve, reject) => {
+                    directionsService.route({
+                        origin: pickup,
+                        destination: dropoff,
+                        travelMode: google.maps.TravelMode.DRIVING,
+                    }, (result, status) => {
+                        if (status === "OK" && result.routes.length) resolve(result);
+                        else reject("Imeshindwa kupata njia. Hakikisha majina ya sehemu ni sahihi");
+                    });
+                });
 
-// GOOGLE MAPS
-function initMap() {
-  map = new google.maps.Map(document.getElementById("map"), {
-    center: { lat: -6.1659, lng: 39.2026 }, // Zanzibar
-    zoom: 13,
-  });
+                directionsRenderer.setDirections(routeResult);
+                const leg = routeResult.routes[0].legs[0];
+                const distanceKm = leg.distance.value / 1000;
+                const durationText = leg.duration.text;
 
-  directionsService = new google.maps.DirectionsService();
-  directionsRenderer = new google.maps.DirectionsRenderer({suppressMarkers:true});
-  directionsRenderer.setMap(map);
+                // 2. Pata rate kutoka SheetDB
+                const rateRes = await fetch(SHEETDB_URL);
 
-  const pickupInput = document.getElementById('pickup');
-  const dropoffInput = document.getElementById('dropoff');
-  new google.maps.places.Autocomplete(pickupInput);
-  new google.maps.places.Autocomplete(dropoffInput);
+                if (!rateRes.ok) throw new Error("SheetDB haipatikani. Angalia URL yako");
 
-  map.addListener("click", (e) => {
-    if (!markerA) {
-      markerA = new google.maps.Marker({ position: e.latLng, map, label: "A" });
-      getAddress(e.latLng, 'pickup');
-    } else if (!markerB) {
-      markerB = new google.maps.Marker({ position: e.latLng, map, label: "B" });
-      getAddress(e.latLng, 'dropoff');
-      setTimeout(calcRoute, 500);
-    } else {
-      markerA.setMap(null); markerB.setMap(null); directionsRenderer.setDirections({routes: []});
-      markerA = markerB = null;
-      pickupInput.value = ''; dropoffInput.value = '';
-      document.getElementById('umbaliBei').innerText = 'Umbali: -- km | Bei: TZS --';
-      document.getElementById('btnEndelea').disabled = true;
-    }
-  });
+                const rates = await rateRes.json();
 
-  pickupInput.addEventListener('change', checkRoute);
-  dropoffInput.addEventListener('change', checkRoute);
-}
+                if (!rates.length ||!rates[0].rate_per_km) {
+                    throw new Error("SheetDB haina column 'rate_per_km' au haina data");
+                }
 
-function getAddress(latlng, inputId) {
-  new google.maps.Geocoder().geocode({ location: latlng }, (results, status) => {
-    if (status === "OK" && results[0]) {
-      document.getElementById(inputId).value = results[0].formatted_address;
-    }
-  });
-}
+                const rate = parseFloat(rates[0].rate_per_km);
+                if (isNaN(rate)) throw new Error("Rate kwenye SheetDB si namba. Weka mf: 500");
 
-function checkRoute() {
-  if (document.getElementById('pickup').value && document.getElementById('dropoff').value) {
-    calcRoute();
-  }
-}
+                // 3. Hesabu nauli
+                const baseFare = distanceKm * rate;
+                const serviceFee = baseFare * 0.15;
+                const totalFare = baseFare + serviceFee;
 
-function calcRoute() {
-  const pickup = document.getElementById('pickup').value;
-  const dropoff = document.getElementById('dropoff').value;
-  if (!pickup ||!dropoff) return;
+                // 4. Onyesha matokeo
+                document.getElementById("distance").textContent = distanceKm.toFixed(1) + " km";
+                document.getElementById("duration").textContent = durationText;
+                document.getElementById("baseFare").textContent = "TSh " + Math.round(baseFare).toLocaleString();
+                document.getElementById("serviceFee").textContent = "TSh " + Math.round(serviceFee).toLocaleString();
+                document.getElementById("totalFare").textContent = "TSh " + Math.round(totalFare).toLocaleString();
+                resultDiv.classList.add("result-show");
 
-  directionsService.route({
-    origin: pickup,
-    destination: dropoff,
-    travelMode: 'DRIVING',
-  }, (result, status) => {
-    if (status === 'OK') {
-      directionsRenderer.setDirections(result);
-      let distanceKm = result.routes[0].legs[0].distance.value / 1000;
-      document.getElementById('distance').value = distanceKm.toFixed(1);
-      calculateBei();
-    } else {
-      alert('Imeshindikana kupata njia. Jaribu kuandika majina halisi ya sehemu.');
-    }
-  });
-}
+            } catch (err) {
+                showError(err.message || err.toString());
+                console.error(err);
+            } finally {
+                btn.disabled = false;
+                btn.textContent = "Hesabu Nauli";
+            }
+        }
 
-function calculateBei() {
-  const distance = parseFloat(document.getElementById('distance').value);
-  const vehicle = document.getElementById('vehicleType').value;
-  if (!distance ||!vehicle) return;
+        function showError(msg) {
+            const errorDiv = document.getElementById("error");
+            errorDiv.textContent = msg;
+            errorDiv.style.display = "block";
+        }
+    </script>
 
-  beiYaMwisho = Math.round(distance * BEI_KWA_KM[vehicle]);
-  depositAmount = Math.round(beiYaMwisho * 0.5);
-  document.getElementById('umbaliBei').innerText = Umbali: ${distance.toFixed(1)} km | Bei: TZS ${beiYaMwisho.toLocaleString()};
-
-  // Chagua dereva
-  const maderevaWaGari = MADEREVA.filter(d => d.gari === vehicle);
-  derevaAliyechaguliwa = maderevaWaGari.length > 0? maderevaWaGari[Math.floor(Math.random() * maderevaWaGari.length)] : MADEREVA[0];
-
-  document.getElementById('derevaInfo').innerHTML = `
-    <img src="${derevaAliyechaguliwa.picha}" alt="Dereva">
-    <div><b>${derevaAliyechaguliwa.jina}</b><br><small>${derevaAliyechaguliwa.simu}</small></div>
-  `;
-  document.getElementById('sehemuDereva').classList.remove('fichwa');
-  document.getElementById('btnEndelea').disabled = false;
-}
-
-// BUTTONS
-document.getElementById('vehicleType').onchange = calculateBei;
-
-document.getElementById('btnEndelea').onclick = function() {
-  const phone = document.getElementById('mtejaPhone').value.replace(/[^0-9]/g,'');
-  if (phone.length < 9) return alert('Weka namba sahihi ya simu');
-  if (!document.getElementById('distance').value) return alert('Chagua safari kwanza kwenye ramani');
-
-  document.getElementById('fomuYote').classList.add('fichwa');
-  document.getElementById('sehemuMalipo').classList.remove('fichwa');
-
-  document.getElementById('muhtPickupDropoff').innerText = document.getElementById('pickup').value.substring(0,20) + ' → ' + document.getElementById('dropoff').value.substring(0,20);
-  document.getElementById('muhtUmbali').innerText = document.getElementById('distance').value + ' km';
-  document.getElementById('muhtGari').innerText = document.getElementById('vehicleType').selectedOptions[0].text;
-  document.getElementById('muhtDereva').innerText = derevaAliyechaguliwa.jina;
-  document.getElementById('muhtDeposit').innerText = 'TZS ' + depositAmount.toLocaleString();
-  document.getElementById('kiasiChaKulipa').innerText = depositAmount.toLocaleString();
-};
-
-document.getElementById('btnRudi').onclick = function() {
-  document.getElementById('sehemuMalipo').classList.add('fichwa');
-  document.getElementById('fomuYote').classList.remove('fichwa');
-};
-
-document.getElementById('paymentMethod').onchange = function() {
-  njiaYaMalipo = this.value;
-};
-
-document.getElementById('btnWasilisha').onclick = function() {
-  const transId = document.getElementById('transId').value.trim();
-  let nambaYaMteja = document.getElementById('mtejaPhone').value.replace(/[^0-9]/g,'');
-  if (nambaYaMteja.startsWith('0')) nambaYaMteja = '255' + nambaYaMteja.substring(1);
-  if (!transId) return alert('Weka namba ya muamala');
-
-  const order = {
-    Time: new Date().toLocaleString('sw-TZ'),
-    Phone: nambaYaMteja,
-    Pickup: document.getElementById('pickup').value,
-    Dropoff: document.getElementById('dropoff').value,
-    KM: document.getElementById('distance').value,
-    Vehicle: document.getElementById('vehicleType').value,
-    Total: beiYaMwisho,
-    Deposit: depositAmount,
-    Payment: njiaYaMalipo,
-    TransID: transId,
-    Status: 'pending',
-    Driver: derevaAliyechaguliwa.jina
-  };
-
-  document.getElementById('debug').innerText = "SENDING...";
-  document.getElementById('btnWasilisha').disabled = true;
-
-  fetch(SHEETDB_URL, {
-    method: 'POST',
-    headers: {'Accept': 'application/json','Content-Type': 'application/json'},
-    body: JSON.stringify({data: [order]})
-  })
- .then(r => r.json())
- .then(data => {
-    document.getElementById('debug').innerText = "SEND: OK";
-    document.getElementById('nambaYaOda').innerText = 'AMOT-' + Date.now();
-
-    const msg = AMOT ODA MPYA!\nMteja: ${nambaYaMteja}\nSafari: ${order.Pickup} → ${order.Dropoff}\nKM: ${order.KM}\nMuamala: ${transId}\nDeposit: TZS ${depositAmount.toLocaleString()}\nDereva: ${order.Driver};
-    window.open('https://wa.me/' + NAMBA_YA_MMILIKI + '?text=' + encodeURIComponent(msg));
-
-    document.getElementById('sehemuMalipo').classList.add('fichwa');
-    document.getElementById('subiriUthibitisho').classList.remove('fichwa');
-  })
- .catch(e => {
-    document.getElementById('debug').innerText = "ERROR: " + e.message;
-    alert('Imeshindikana kutuma oda. Tafadhali jaribu tena.');
-    document.getElementById('btnWasilisha').disabled = false;
-  });
-};
-</script>
-
-<!-- BADILISHA API_KEY_YAKO HAPA CHINI -->
-<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBMzrL-oUkVDU14u15itY9q5pkiDMj2NFE&libraries=places&callback=initMap" async defer></script>
-
+    <!-- API Key imewekwa tayari hapa chini -->
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBMzrL-oUkVDU14u15itY9q5pkiDMj2NFE&libraries=places&callback=initMap" async defer></script>
 </body>
 </html>
