@@ -7,64 +7,45 @@
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: #f0f4f8; padding: 15px; }
-     .container { max-width: 500px; margin: 0 auto; background: white; padding: 20px; border-radius: 16px; box-shadow: 0 4px 20px rgba(0,0,0,0.08); }
+       .container { max-width: 500px; margin: 0 auto; background: white; padding: 20px; border-radius: 16px; box-shadow: 0 4px 20px rgba(0,0,0,0.08); }
         h1 { color: #1e40af; text-align: center; margin-bottom: 5px; font-size: 28px; }
-     .subtitle { text-align: center; color: #64748b; margin-bottom: 20px; font-size: 14px; }
+       .subtitle { text-align: center; color: #64748b; margin-bottom: 20px; font-size: 14px; }
         #map { width: 100%; height: 350px; border-radius: 12px; margin-bottom: 15px; border: 2px solid #e2e8f0; }
         input, button { width: 100%; padding: 14px; margin: 8px 0; border-radius: 10px; border: 1px solid #cbd5e1; font-size: 16px; }
         input:focus { outline: none; border-color: #2563eb; }
         button { background: #2563eb; color: white; border: none; font-weight: 600; cursor: pointer; transition: 0.2s; }
-        button:hover { background: #1d4ed8; transform: translateY(-1px); }
-        button:disabled { background: #94a3b8; cursor: not-allowed; transform: none; }
-     .result { background: #f8fafc; padding: 15px; border-radius: 10px; margin-top: 15px; display: none; border: 1px solid #e2e8f0; }
-     .result-show { display: block; animation: fadeIn 0.3s; }
-     .row { display: flex; justify-content: space-between; margin: 10px 0; }
-     .label { color: #475569; }
-     .value { font-weight: 600; color: #0f172a; }
-     .total { font-size: 22px; color: #16a34a; }
-     .error { background: #fee2e2; color: #b91c1c; padding: 12px; border-radius: 8px; margin-top: 10px; display: none; font-size: 14px; }
-     .btn-cash { background: #16a34a!important; flex: 1; }
-     .btn-mpesa { background: #25D366!important; flex: 1; }
-     .pay-buttons { display: flex; gap: 10px; margin-top: 20px; }
-       @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        button:hover { background: #1d4ed8; }
+        button:disabled { background: #94a3b8; cursor: not-allowed; }
+       .result { background: #f8fafc; padding: 15px; border-radius: 10px; margin-top: 15px; display: none; border: 1px solid #e2e8f0; }
+       .result-show { display: block; }
+       .row { display: flex; justify-content: space-between; margin: 10px 0; }
+       .label { color: #475569; }
+       .value { font-weight: 600; color: #0f172a; }
+       .total { font-size: 22px; color: #16a34a; }
+       .error { background: #fee2e2; color: #b91c1c; padding: 12px; border-radius: 8px; margin-top: 10px; display: none; font-size: 14px; }
+       .pay-buttons { display: flex; gap: 10px; margin-top: 20px; }
+       .btn-cash { background: #16a34a!important; flex: 1; }
+       .btn-mpesa { background: #25D366!important; flex: 1; }
     </style>
 </head>
 <body>
     <div class="container">
         <h1>Amot</h1>
         <p class="subtitle">Pata nauli halisi Zanzibar</p>
-
         <div id="map"></div>
-
         <input type="text" id="pickup" placeholder="Unapoanzia - mf: Darajani">
         <input type="text" id="dropoff" placeholder="Unapoenda - mf: Airport">
         <button id="calcBtn" onclick="calculateFare()">Hesabu Nauli</button>
-
         <div id="error" class="error"></div>
-
         <div id="result" class="result">
-            <div class="row">
-                <span class="label">Umbali:</span>
-                <span class="value" id="distance">-</span>
-            </div>
-            <div class="row">
-                <span class="label">Muda:</span>
-                <span class="value" id="duration">-</span>
-            </div>
-            <div class="row">
-                <span class="label">Nauli ya Msingi:</span>
-                <span class="value" id="baseFare">-</span>
-            </div>
-            <div class="row">
-                <span class="label">Ada ya Huduma 15%:</span>
-                <span class="value" id="serviceFee">-</span>
-            </div>
+            <div class="row"><span class="label">Umbali:</span><span class="value" id="distance">-</span></div>
+            <div class="row"><span class="label">Muda:</span><span class="value" id="duration">-</span></div>
+            <div class="row"><span class="label">Nauli ya Msingi:</span><span class="value" id="baseFare">-</span></div>
+            <div class="row"><span class="label">Ada ya Huduma 15%:</span><span class="value" id="serviceFee">-</span></div>
             <div class="row" style="border-top: 1px solid #e2e8f0; padding-top: 10px; margin-top: 10px;">
-                <span class="label">Jumla ya Nauli:</span>
-                <span class="value total" id="totalFare">-</span>
+                <span class="label">Jumla ya Nauli:</span><span class="value total" id="totalFare">-</span>
             </div>
-
-            <!-- BUTTONS ZA MALIPO -->
+            <!-- HAPA NDIPO BUTTONS ZILIPO -->
             <div class="pay-buttons">
                 <button onclick="lipanaCash()" class="btn-cash">💵 Lipa Cash</button>
                 <button onclick="lipanaWhatsApp()" class="btn-mpesa">📱 Lipa M-Pesa</button>
@@ -74,145 +55,89 @@
             </p>
         </div>
     </div>
-
     <script>
-        // ========== BADILISHA HAPA TU ==========
-        const API_KEY = "AIzaSyBMzrL-oUkVDU14u15itY9q5pkiDMj2NFE"; // 1. API Key yako
-        const SHEETDB_URL = "https://sheetdb.io/api/v1/yn3j4gb8hupyl"; // 2. URL yako ya SheetDB
-        const NAMBA_YA_MTEJA_KAZI = "255712345678"; // 3. Namba yako ya M-Pesa, anza na 255
+        // ========== BADILISHA HIZI 3 TU ==========
+        const API_KEY = "AIzaSyBMzrL-oUkVDU14u15itY9q5pkiDMj2NFE";
+        const SHEETDB_URL = "https://sheetdb.io/api/v1/yn3j4gb8hupyl"; // BADILISHA
+        const NAMBA_YA_MTEJA_KAZI = "25579771085"; // BADILISHA
         // =======================================
-
         let map, directionsService, directionsRenderer;
         let pickupAutocomplete, dropoffAutocomplete;
-
         window.initMap = function() {
             map = new google.maps.Map(document.getElementById("map"), {
-                center: { lat: -6.1659, lng: 39.2026 },
-                zoom: 13,
-                mapTypeControl: false,
-                streetViewControl: false,
-                fullscreenControl: false
+                center: { lat: -6.1659, lng: 39.2026 }, zoom: 13, mapTypeControl: false, streetViewControl: false, fullscreenControl: false
             });
-
             directionsService = new google.maps.DirectionsService();
-            directionsRenderer = new google.maps.DirectionsRenderer({
-                map: map,
-                suppressMarkers: false,
-                polylineOptions: { strokeColor: "#2563eb", strokeWeight: 5 }
-            });
-
-            // Zuia kwenda Bara - Zanzibar tu
-            const bounds = new google.maps.LatLngBounds(
-                { lat: -6.5, lng: 39.0 }, // Kusini-Magharibi Unguja
-                { lat: -5.7, lng: 39.8 } // Kaskazini-Mashariki + Pemba
-            );
-
-            const options = {
-                bounds: bounds,
-                strictBounds: true,
-                componentRestrictions: { country: "tz" },
-                fields: ["formatted_address", "geometry"]
-            };
-
+            directionsRenderer = new google.maps.DirectionsRenderer({ map: map, suppressMarkers: false, polylineOptions: { strokeColor: "#2563eb", strokeWeight: 5 } });
+            const bounds = new google.maps.LatLngBounds({ lat: -6.5, lng: 39.0 }, { lat: -5.7, lng: 39.8 });
+            const options = { bounds: bounds, strictBounds: true, componentRestrictions: { country: "tz" }, fields: ["formatted_address", "geometry"] };
             pickupAutocomplete = new google.maps.places.Autocomplete(document.getElementById("pickup"), options);
             dropoffAutocomplete = new google.maps.places.Autocomplete(document.getElementById("dropoff"), options);
         }
-
         async function calculateFare() {
             const pickup = document.getElementById("pickup").value.trim();
             const dropoff = document.getElementById("dropoff").value.trim();
             const btn = document.getElementById("calcBtn");
             const errorDiv = document.getElementById("error");
             const resultDiv = document.getElementById("result");
-
             errorDiv.style.display = "none";
             resultDiv.classList.remove("result-show");
-
-            if (!pickup ||!dropoff) {
-                showError("Tafadhali jaza sehemu zote mbili");
-                return;
-            }
-
-            if (!SHEETDB_URL.includes("sheetdb.io")) {
-                showError("Tafadhali weka URL sahihi ya SheetDB kwenye code");
-                return;
-            }
-
-            btn.disabled = true;
-            btn.textContent = "Inahesabu...";
-
+            if (!pickup ||!dropoff) { showError("Tafadhali jaza sehemu zote mbili"); return; }
+            if (!SHEETDB_URL.includes("sheetdb.io")) { showError("Weka URL sahihi ya SheetDB"); return; }
+            btn.disabled = true; btn.textContent = "Inahesabu...";
             try {
                 const routeResult = await new Promise((resolve, reject) => {
-                    directionsService.route({
-                        origin: pickup,
-                        destination: dropoff,
-                        travelMode: google.maps.TravelMode.DRIVING,
-                    }, (result, status) => {
+                    directionsService.route({ origin: pickup, destination: dropoff, travelMode: google.maps.TravelMode.DRIVING }, (result, status) => {
                         if (status === "OK" && result.routes.length) resolve(result);
-                        else reject("Imeshindwa kupata njia. Hakikisha majina ni ya Zanzibar tu");
+                        else reject("Imeshindwa kupata njia. Tumia majina ya Zanzibar tu");
                     });
                 });
-
                 directionsRenderer.setDirections(routeResult);
                 const leg = routeResult.routes[0].legs[0];
                 const distanceKm = leg.distance.value / 1000;
                 const durationText = leg.duration.text;
-
                 const rateRes = await fetch(SHEETDB_URL);
-                if (!rateRes.ok) throw new Error("SheetDB haipatikani. Angalia URL");
+                if (!rateRes.ok) throw new Error("SheetDB haipatikani");
                 const rates = await rateRes.json();
                 if (!rates.length ||!rates[0].rate_per_km) throw new Error("SheetDB haina 'rate_per_km'");
-
                 const rate = parseFloat(rates[0].rate_per_km);
                 if (isNaN(rate)) throw new Error("Rate si namba");
-
                 const baseFare = distanceKm * rate;
                 const serviceFee = baseFare * 0.15;
                 const totalFare = baseFare + serviceFee;
-
                 document.getElementById("distance").textContent = distanceKm.toFixed(1) + " km";
                 document.getElementById("duration").textContent = durationText;
                 document.getElementById("baseFare").textContent = "TSh " + Math.round(baseFare).toLocaleString();
                 document.getElementById("serviceFee").textContent = "TSh " + Math.round(serviceFee).toLocaleString();
                 document.getElementById("totalFare").textContent = "TSh " + Math.round(totalFare).toLocaleString();
                 resultDiv.classList.add("result-show");
-
             } catch (err) {
                 showError(err.message || err.toString());
             } finally {
-                btn.disabled = false;
-                btn.textContent = "Hesabu Nauli";
+                btn.disabled = false; btn.textContent = "Hesabu Nauli";
             }
         }
-
         function showError(msg) {
             const errorDiv = document.getElementById("error");
             errorDiv.textContent = msg;
             errorDiv.style.display = "block";
         }
-
-        // FUNCTIONS ZA MALIPO
         function lipanaCash() {
             const total = document.getElementById("totalFare").textContent;
             if (total === "-") return;
             alert(Asante kwa kutumia Amot!\n\nNauli yako: ${total}\n\nMwambie dereva bei hii na lipa cash ukifika. Safari njema!);
         }
-
         function lipanaWhatsApp() {
             const total = document.getElementById("totalFare").textContent;
             const pickup = document.getElementById("pickup").value;
             const dropoff = document.getElementById("dropoff").value;
             const distance = document.getElementById("distance").textContent;
-
             if (total === "-") return;
-
             const msg = *ORDER MPYA - AMOT*%0A%0A📍 *Kutoka:* ${pickup}%0A📍 *Kwenda:* ${dropoff}%0A🛣️ *Umbali:* ${distance}%0A💰 *Nauli:* ${total}%0A%0ANatuma order hii. Nitalipa kwa M-Pesa/Tigo Pesa.%0ANapatikana wapi?;
-
-            const url = https://wa.me/${225779771085}?text=${msg};
+            const url = https://wa.me/${NAMBA_YA_MTEJA_KAZI}?text=${msg};
             window.open(url, '_blank');
         }
     </script>
-
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBMzrL-oUkVDU14u15itY9q5pkiDMj2NFE&libraries=places&callback=initMap" async defer></script>
 </body>
 </html>
