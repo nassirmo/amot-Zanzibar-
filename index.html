@@ -39,7 +39,7 @@
 
         <div id="error" class="error"></div>
 
-        <div id="result" class="result">
+            <div id="result" class="result">
             <div class="row">
                 <span class="label">Umbali:</span>
                 <span class="value" id="distance">-</span>
@@ -56,10 +56,21 @@
                 <span class="label">Ada ya Huduma 15%:</span>
                 <span class="value" id="serviceFee">-</span>
             </div>
-            <div class="row">
+            <div class="row" style="border-top: 1px solid #e2e8f0; padding-top: 10px; margin-top: 10px;">
                 <span class="label">Jumla ya Nauli:</span>
                 <span class="value total" id="totalFare">-</span>
             </div>
+
+            <!-- BUTTONS ZA MALIPO ZINAANZIA HAPA -->
+            <div style="display: flex; gap: 10px; margin-top: 20px;">
+                <button onclick="lipanaCash()" style="background:#16a34a; flex:1;">💵 Lipa Cash</button>
+                <button onclick="lipanaWhatsApp()" style="background:#25D366; flex:1;">📱 Lipa M-Pesa</button>
+            </div>
+            <p style="text-align:center; color:#64748b; font-size:12px; margin-top:10px;">
+                *Bonyeza Lipa M-Pesa kutuma order yako WhatsApp
+            </p>
+            <!-- BUTTONS ZINAISHIA HAPA -->
+        </div>
         </div>
     </div>
 
@@ -175,6 +186,30 @@
             errorDiv.textContent = msg;
             errorDiv.style.display = "block";
         }
+
+        // ========== FUNCTIONS ZA MALIPO ==========
+        const NAMBA_YA_MTEJA_KAZI = "255779771085"; // BADILISHA HII NA NAMBA YAKO
+
+        function lipanaCash() {
+            const total = document.getElementById("totalFare").textContent;
+            if (total === "-") return;
+            alert(Asante kwa kutumia Amot!\n\nNauli yako: ${total}\n\nMwambie dereva bei hii na lipa cash ukifika. Safari njema!);
+        }
+
+        function lipanaWhatsApp() {
+            const total = document.getElementById("totalFare").textContent;
+            const pickup = document.getElementById("pickup").value;
+            const dropoff = document.getElementById("dropoff").value;
+            const distance = document.getElementById("distance").textContent;
+            
+            if (total === "-") return;
+
+            const msg = *ORDER MPYA - AMOT*%0A%0A📍 *Kutoka:* ${pickup}%0A📍 *Kwenda:* ${dropoff}%0A🛣️ *Umbali:* ${distance}%0A💰 *Nauli:* ${total}%0A%0ANatuma order hii. Nitalipa kwa M-Pesa/Tigo Pesa.%0ANapatikana wapi?;
+            
+            const url = https://wa.me/${NAMBA_YA_MTEJA_KAZI}?text=${msg};
+            window.open(url, '_blank');
+        }
+        // ========== MWISHO WA FUNCTIONS ZA MALIPO ==========
     </script>
 
     <!-- API Key imewekwa tayari hapa chini -->
