@@ -1,18 +1,24 @@
 <!DOCTYPE html>
-<html>
+<html lang="sw">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Amot</title>
+    <title>Amot - Pata Nauli Zanzibar</title>
     <style>
-        body { font-family: sans-serif; background: #f0f9ff; padding: 10px; }
-      .box { max-width: 400px; margin: 0 auto; }
-      .card { background: white; padding: 15px; border-radius: 15px; margin-bottom: 10px; }
-        h1 { text-align: center; color: #0c4a6e; }
-        select, button { width: 100%; padding: 15px; margin: 5px 0; border-radius: 10px; border: 1px solid #ccc; font-size: 16px; }
-        button { background: #0284c7; color: white; border: none; font-weight: bold; }
-     .result { background: #dcfce7; border: 2px solid #22c55e; padding: 15px; border-radius: 15px; text-align: center; display: none; }
-     .price { font-size: 30px; font-weight: bold; color: #166534; }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: -apple-system, sans-serif; background: #f0f9ff; }
+     .box { max-width: 400px; margin: 20px auto; padding: 10px; }
+     .card { background: white; padding: 16px; border-radius: 16px; margin-bottom: 12px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
+        h1 { text-align: center; color: #0c4a6e; margin-bottom: 20px; }
+        select, button { width: 100%; padding: 15px; margin: 8px 0; border-radius: 10px; border: 1px solid #bae6fd; font-size: 16px; }
+        button { background: #0284c7; color: white; border: none; font-weight: 700; cursor: pointer; }
+     .btn-mpesa { background: #d92c27!important; margin-top: 15px; }
+     .btn-cash { background: #16a34a!important; }
+     .btn-wa { background: #25D366!important; }
+     .matokeo { background: #dcfce7; border: 2px solid #22c55e; padding: 20px; border-radius: 15px; text-align: center; margin-top: 15px; display: none; }
+     .bei { font-size: 36px; font-weight: 800; color: #166534; }
+     .maelezo { font-size: 14px; color: #475569; margin-top: 8px; }
+     .usiku { background: #fef3c7; color: #92400e; padding: 3px 10px; border-radius: 8px; font-size: 12px; font-weight: 600; display: none; }
     </style>
 </head>
 <body>
@@ -23,41 +29,114 @@
                 <option value="">Unatoka wapi?</option>
                 <option value="stone town">Stone Town</option>
                 <option value="airport">Airport</option>
+                <option value="paje">Paje</option>
+                <option value="nungwi">Nungwi</option>
+                <option value="kendwa">Kendwa</option>
             </select>
             <select id="kwenda">
                 <option value="">Unakwenda wapi?</option>
                 <option value="stone town">Stone Town</option>
                 <option value="airport">Airport</option>
+                <option value="paje">Paje</option>
+                <option value="nungwi">Nungwi</option>
+                <option value="kendwa">Kendwa</option>
             </select>
-            <button onclick="pataNauli()">Hesabu Nauli</button>
+            <button id="hesabuBtn">Hesabu Nauli</button>
         </div>
 
-        <div id="matokeo" class="result">
-            <div>Nauli Yako</div>
-            <div class="price" id="bei">TSh 0</div>
-            <div id="details">Umbali: 7.6 km</div>
+        <div id="matokeo" class="matokeo">
+            <div>Nauli Yako <span id="tagUsiku" class="usiku">BEI YA USIKU</span></div>
+            <div class="bei" id="kiasi">TSh 0</div>
+            <div class="maelezo" id="details">Umbali: 0 km</div>
+            
+            <button class="btn-mpesa" id="mpesaBtn">Lipa kwa M-Pesa</button>
+            <button class="btn-cash" id="cashBtn">Lipa Cash kwa Dereva</button>
+            <button class="btn-wa" id="waBtn">Tuma kwa Dereva WhatsApp</button>
         </div>
     </div>
 
     <script>
-        function pataNauli() {
-            var k1 = document.getElementById('kutoka').value;
-            var k2 = document.getElementById('kwenda').value;
+        // DATABASE YA UMBALI ZANZIBAR KM
+        const routes = {
+            "stone town-airport": 7.6,
+            "airport-stone town": 7.6,
+            "stone town-paje": 51.2,
+            "paje-stone town": 51.2,
+            "stone town-nungwi": 58.5,
+            "nungwi-stone town": 58.5,
+            "stone town-kendwa": 55.1,
+            "kendwa-stone town": 55.1,
+            "airport-paje": 58.8,
+            "paje-airport": 58.8,
+            "airport-nungwi": 66.1,
+            "nungwi-airport": 66.1,
+            "paje-nungwi": 73.4,
+            "nungwi-paje": 73.4,
+            "paje-kendwa": 70.2,
+            "kendwa-paje": 70.2,
+            "nungwi-kendwa": 4.5,
+            "kendwa-nungwi": 4.5
+        };
+
+        let nauliSasa = 0;
+        let kutokaSasa = "";
+        let kwendaSasa = "";
+
+        // BUTTON YA KUHESABU
+        document.getElementById('hesabuBtn').addEventListener('click', function() {
+            const kutoka = document.getElementById('kutoka').value;
+            const kwenda = document.getElementById('kwenda').value;
             
-            if (k1 === "" || k2 === "") {
-                alert("Chagua sehemu zote mbili");
+            if (!kutoka ||!kwenda) {
+                alert('Chagua unatoka wapi na unakwenda wapi');
                 return;
             }
-            if (k1 === k2) {
-                alert("Huwezi kwenda ulipo");
+            if (kutoka === kwenda) {
+                alert('Huwezi kwenda ulipo tayari');
                 return;
             }
+
+            kutokaSasa = kutoka;
+            kwendaSasa = kwenda;
             
-            var nauli = 12400; // Stone Town > Airport = 7.6km * 1500 + 1000 = 12400
+            const routeKey = kutoka + "-" + kwenda;
+            const umbali = routes[routeKey] || 10; // Default 10km
             
-            document.getElementById('bei').innerHTML = "TSh " + nauli.toLocaleString();
-            document.getElementById('matokeo').style.display = "block";
-        }
+            const saa = new Date().getHours();
+            const niUsiku = saa >= 22 || saa < 5;
+            const beiKm = niUsiku? 2500 : 1500;
+            
+            nauliSasa = Math.round(1000 + (beiKm * umbali));
+            nauliSasa = Math.round(nauliSasa / 50) * 50;
+
+            document.getElementById('kiasi').textContent = 'TSh ' + nauliSasa.toLocaleString();
+            document.getElementById('details').textContent = Umbali: ${umbali} km | Bei: TSh ${beiKm}/km;
+            document.getElementById('matokeo').style.display = 'block';
+            
+            if (niUsiku) {
+                document.getElementById('tagUsiku').style.display = 'inline-block';
+            } else {
+                document.getElementById('tagUsiku').style.display = 'none';
+            }
+        });
+
+        // BUTTON ZA MALIPO
+        document.getElementById('mpesaBtn').addEventListener('click', function() {
+            const namba = prompt("Weka namba yako ya M-Pesa:", "255");
+            if (namba && namba.length >= 12) {
+                window.location.href = "tel:150*00" + nauliSasa + "*" + namba + "#";
+            }
+        });
+
+        document.getElementById('cashBtn').addEventListener('click', function() {
+            alert("Sawa. Mweleze dereva bei ni TSh " + nauliSasa.toLocaleString() + ". Utalipa cash ukifika.");
+        });
+
+        document.getElementById('waBtn').addEventListener('click', function() {
+            const msg = Habari, naomba safari kwa Amot.%0A%0AKutoka: ${kutokaSasa}%0AKwenda: ${kwendaSasa}%0ANauli: TSh ${nauliSasa.toLocaleString()}%0A%0AUnapatikana?;
+            const nambaDereva = "255700000000"; // BADILISHA HII
+            window.open("https://wa.me/" + nambaDereva + "?text=" + msg, '_blank');
+        });
     </script>
 </body>
 </html>
