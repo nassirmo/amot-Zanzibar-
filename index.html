@@ -6,143 +6,66 @@
     <title>Amot - Pata Nauli Zanzibar</title>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: #f0f9ff; }
+        body { font-family: sans-serif; background: #f0f9ff; }
      .container { max-width: 500px; margin: 0 auto; padding: 10px; }
      .header { text-align: center; padding: 15px 0; }
      .header h1 { color: #0c4a6e; font-size: 28px; }
-     .header p { color: #0369a1; font-size: 14px; }
      .card { background: white; padding: 16px; border-radius: 16px; margin-bottom: 12px; box-shadow: 0 2px 10px rgba(0,0,0,0.08); }
         select, button { width: 100%; padding: 14px; margin: 6px 0; border-radius: 10px; border: 1px solid #bae6fd; font-size: 16px; }
         button { background: #0284c7; color: white; border: none; font-weight: 700; cursor: pointer; }
-     .btn-mpesa { background: #d92c27!important; }
-     .btn-whatsapp { background: #25D366!important; }
-     .btn-cash { background: #16a34a!important; }
-     .fare-box { background: #f0fdf4; border: 2px solid #16a34a; padding: 16px; border-radius: 12px; text-align: center; margin: 12px 0; display: none; }
+     .fare-box { background: #f0fdf4; border: 2px solid #16a34a; padding: 16px; border-radius: 12px; text-align: center; margin: 12px 0; }
      .fare-amount { font-size: 32px; font-weight: 800; color: #15803d; }
-     .fare-details { font-size: 13px; color: #475569; margin-top: 5px; }
-     .payment-buttons { display: none; }
-     .small { font-size: 12px; color: #64748b; text-align: center; }
-     .night-tag { background: #fbbf24; color: #78350f; padding: 2px 8px; border-radius: 6px; font-size: 12px; font-weight: 600; }
+     .hidden { display: none; }
     </style>
 </head>
 <body>
     <div class="container">
-        <div class="header">
-            <h1>AMOT</h1>
-            <p>Pata nauli ya haki Zanzibar</p>
-        </div>
-
+        <div class="header"><h1>AMOT</h1></div>
         <div class="card">
-            <label>1. Chagua Safari</label>
             <select id="from">
                 <option value="">Unatoka wapi?</option>
                 <option value="stone town">Stone Town</option>
                 <option value="airport">Airport</option>
-                <option value="paje">Paje</option>
-                <option value="nungwi">Nungwi</option>
-                <option value="kendwa">Kendwa</option>
             </select>
             <select id="to">
                 <option value="">Unakwenda wapi?</option>
                 <option value="stone town">Stone Town</option>
                 <option value="airport">Airport</option>
-                <option value="paje">Paje</option>
-                <option value="nungwi">Nungwi</option>
-                <option value="kendwa">Kendwa</option>
             </select>
             <button onclick="hesabuNauli()">Hesabu Nauli</button>
         </div>
 
-        <div id="fareBox" class="fare-box">
-            <div>Nauli Yako <span id="nightTag" class="hidden night-tag">BEI YA USIKU</span></div>
+        <div id="fareBox" class="fare-box hidden">
+            <div>Nauli Yako</div>
             <div class="fare-amount" id="nauli">TSh 0</div>
-            <div class="fare-details" id="maelezo">Umbali: 0 km</div>
+            <div id="maelezo">Umbali: 0 km</div>
         </div>
-
-        <div id="paymentButtons" class="card payment-buttons">
-            <label>2. Chagua Njia ya Kulipa</label>
-            <button class="btn-mpesa" onclick="lipaMpesa()">Lipa kwa M-Pesa</button>
-            <button class="btn-cash" onclick="lipaCash()">Lipa Cash kwa Dereva</button>
-            <button class="btn-whatsapp" onclick="tumaWhatsApp()">Tuma kwa Dereva WhatsApp</button>
-        </div>
-
-        <p class="small">Amot v3.0 | INAFANYA KAZI OFFLINE | Bei: TSh 1,500/km + TSh 1,000 kuanzia</p>
     </div>
 
     <script>
-        let nauliYaSasa = 0;
-        let kutokaSafari = "";
-        let kwendaSafari = "";
-
-        // DATABASE YA UMBALI ZANZIBAR - KM HALISI
-        const umbaliZanzibar = {
-            'stone town-airport': 7.6,
-            'airport-stone town': 7.6,
-            'stone town-paje': 51.2,
-            'paje-stone town': 51.2,
-            'stone town-nungwi': 58.5,
-            'nungwi-stone town': 58.5,
-            'stone town-kendwa': 55.1,
-            'kendwa-stone town': 55.1,
-            'airport-paje': 58.8,
-            'paje-airport': 58.8,
-            'airport-nungwi': 66.1,
-            'nungwi-airport': 66.1,
-            'paje-nungwi': 73.4,
-            'nungwi-paje': 73.4
-        };
-
         function hesabuNauli() {
+            alert("Button inafanya kazi!"); // Hii ni test
+            
             const kutoka = document.getElementById('from').value;
             const kwenda = document.getElementById('to').value;
             
             if(!kutoka ||!kwenda) {
-                alert('Chagua unatoka wapi na unakwenda wapi'); return;
+                alert('Chagua sehemu zote mbili'); 
+                return;
             }
             if(kutoka === kwenda) {
-                alert('Huwezi kwenda sehemu uliyopo tayari'); return;
+                alert('Huwezi kwenda sehemu uliyopo'); 
+                return;
             }
 
-            kutokaSafari = kutoka;
-            kwendaSafari = kwenda;
+            let umbali = 7.6; // Stone Town > Airport
+            let beiKm = 1500;
+            let nauli = Math.round(1000 + (beiKm * umbali));
+            nauli = Math.round(nauli / 50) * 50;
 
-            const route = ${kutoka}-${kwenda};
-            const umbali = umbaliZanzibar[route] || 5; // Default 5km kama route haijulikani
-
-            const saa = new Date().getHours();
-            const niUsiku = saa >= 22 || saa < 5;
-            const beiKm = niUsiku? 2500 : 1500;
-            
-            nauliYaSasa = Math.round(1000 + (beiKm * umbali));
-            nauliYaSasa = Math.round(nauliYaSasa / 50) * 50;
-
-            document.getElementById('nauli').textContent = 'TSh ' + nauliYaSasa.toLocaleString();
-            document.getElementById('maelezo').textContent = Umbali: ${umbali} km | Bei: TSh ${beiKm}/km;
-            document.getElementById('fareBox').style.display = 'block';
-            document.getElementById('paymentButtons').style.display = 'block';
-            
-            if(niUsiku) {
-                document.getElementById('nightTag').classList.remove('hidden');
-            } else {
-                document.getElementById('nightTag').classList.add('hidden');
-            }
-        }
-
-        function lipaMpesa() {
-            const namba = prompt("Weka namba yako ya M-Pesa:", "255");
-            if(namba && namba.length >= 12) {
-                window.location.href = tel:*150*00*${nauliYaSasa}*${namba}#;
-            }
-        }
-
-        function lipaCash() {
-            alert(Sawa. Mweleze dereva bei ni TSh ${nauliYaSasa.toLocaleString()}. Utalipa cash ukifika.);
-        }
-
-        function tumaWhatsApp() {
-            const msg = Habari, naomba safari kwa Amot.%0A%0AKutoka: ${kutokaSafari}%0AKwenda: ${kwendaSafari}%0ANauli: TSh ${nauliYaSasa.toLocaleString()}%0A%0AUnapatikana?;
-            const nambaDereva = "255700000000"; // Weka namba yako
-            window.open(https://wa.me/${nambaDereva}?text=${msg}, '_blank');
+            document.getElementById('nauli').textContent = 'TSh ' + nauli.toLocaleString();
+            document.getElementById('maelezo').textContent = Umbali: ${umbali} km;
+            document.getElementById('fareBox').classList.remove('hidden');
         }
     </script>
 </body>
