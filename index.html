@@ -4,29 +4,25 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Amot - Pata Nauli Zanzibar</title>
-    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: #f0f9ff; }
-      .container { max-width: 500px; margin: 0 auto; padding: 10px; }
-      .header { text-align: center; padding: 15px 0; }
-      .header h1 { color: #0c4a6e; font-size: 28px; }
-      .header p { color: #0369a1; font-size: 14px; }
-      .card { background: white; padding: 16px; border-radius: 16px; margin-bottom: 12px; box-shadow: 0 2px 10px rgba(0,0,0,0.08); }
-        #map { height: 250px; border-radius: 12px; margin: 10px 0; }
-        input, button { width: 100%; padding: 14px; margin: 6px 0; border-radius: 10px; border: 1px solid #bae6fd; font-size: 16px; }
+     .container { max-width: 500px; margin: 0 auto; padding: 10px; }
+     .header { text-align: center; padding: 15px 0; }
+     .header h1 { color: #0c4a6e; font-size: 28px; }
+     .header p { color: #0369a1; font-size: 14px; }
+     .card { background: white; padding: 16px; border-radius: 16px; margin-bottom: 12px; box-shadow: 0 2px 10px rgba(0,0,0,0.08); }
+        select, button { width: 100%; padding: 14px; margin: 6px 0; border-radius: 10px; border: 1px solid #bae6fd; font-size: 16px; }
         button { background: #0284c7; color: white; border: none; font-weight: 700; cursor: pointer; }
-      .btn-mpesa { background: #d92c27!important; }
-      .btn-whatsapp { background: #25D366!important; }
-      .btn-cash { background: #16a34a!important; }
-      .grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
-      .fare-box { background: #f0fdf4; border: 2px solid #16a34a; padding: 16px; border-radius: 12px; text-align: center; margin: 12px 0; display: none; }
-      .fare-amount { font-size: 32px; font-weight: 800; color: #15803d; }
-      .fare-details { font-size: 13px; color: #475569; margin-top: 5px; }
-      .payment-buttons { display: none; }
-      .hidden { display: none; }
-      .small { font-size: 12px; color: #64748b; text-align: center; }
-      .night-tag { background: #fbbf24; color: #78350f; padding: 2px 8px; border-radius: 6px; font-size: 12px; font-weight: 600; }
+     .btn-mpesa { background: #d92c27!important; }
+     .btn-whatsapp { background: #25D366!important; }
+     .btn-cash { background: #16a34a!important; }
+     .fare-box { background: #f0fdf4; border: 2px solid #16a34a; padding: 16px; border-radius: 12px; text-align: center; margin: 12px 0; display: none; }
+     .fare-amount { font-size: 32px; font-weight: 800; color: #15803d; }
+     .fare-details { font-size: 13px; color: #475569; margin-top: 5px; }
+     .payment-buttons { display: none; }
+     .small { font-size: 12px; color: #64748b; text-align: center; }
+     .night-tag { background: #fbbf24; color: #78350f; padding: 2px 8px; border-radius: 6px; font-size: 12px; font-weight: 600; }
     </style>
 </head>
 <body>
@@ -37,14 +33,24 @@
         </div>
 
         <div class="card">
-            <label>1. Chagua Mahali</label>
-            <input type="text" id="from" placeholder="Unatoka wapi? Mfano: Stone Town" value="Stone Town">
-            <input type="text" id="to" placeholder="Unakwenda wapi? Mfano: Airport" value="Airport">
-            <div class="grid2">
-                <button onclick="getLocation()">📍 Mahali Nilipo</button>
-                <button onclick="hesabuNauli()">Hesabu Nauli</button>
-            </div>
-            <div id="map"></div>
+            <label>1. Chagua Safari</label>
+            <select id="from">
+                <option value="">Unatoka wapi?</option>
+                <option value="stone town">Stone Town</option>
+                <option value="airport">Airport</option>
+                <option value="paje">Paje</option>
+                <option value="nungwi">Nungwi</option>
+                <option value="kendwa">Kendwa</option>
+            </select>
+            <select id="to">
+                <option value="">Unakwenda wapi?</option>
+                <option value="stone town">Stone Town</option>
+                <option value="airport">Airport</option>
+                <option value="paje">Paje</option>
+                <option value="nungwi">Nungwi</option>
+                <option value="kendwa">Kendwa</option>
+            </select>
+            <button onclick="hesabuNauli()">Hesabu Nauli</button>
         </div>
 
         <div id="fareBox" class="fare-box">
@@ -60,90 +66,49 @@
             <button class="btn-whatsapp" onclick="tumaWhatsApp()">Tuma kwa Dereva WhatsApp</button>
         </div>
 
-        <p class="small">Amot v2.1 | HAIHITAJI API KEY | Bei: TSh 1,500/km + TSh 1,000 kuanzia</p>
+        <p class="small">Amot v3.0 | INAFANYA KAZI OFFLINE | Bei: TSh 1,500/km + TSh 1,000 kuanzia</p>
     </div>
 
-    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
     <script>
-        let map, markerKutoka, markerKwenda;
-        let latKutoka, lngKutoka, latKwenda, lngKwenda;
         let nauliYaSasa = 0;
+        let kutokaSafari = "";
+        let kwendaSafari = "";
 
-        map = L.map('map').setView([-6.1659, 39.2026], 13);
-        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(map);
+        // DATABASE YA UMBALI ZANZIBAR - KM HALISI
+        const umbaliZanzibar = {
+            'stone town-airport': 7.6,
+            'airport-stone town': 7.6,
+            'stone town-paje': 51.2,
+            'paje-stone town': 51.2,
+            'stone town-nungwi': 58.5,
+            'nungwi-stone town': 58.5,
+            'stone town-kendwa': 55.1,
+            'kendwa-stone town': 55.1,
+            'airport-paje': 58.8,
+            'paje-airport': 58.8,
+            'airport-nungwi': 66.1,
+            'nungwi-airport': 66.1,
+            'paje-nungwi': 73.4,
+            'nungwi-paje': 73.4
+        };
 
-        function getLocation() {
-            if (navigator.geolocation) {
-                navigator.geolocation.getCurrentPosition(pos => {
-                    latKutoka = pos.coords.latitude;
-                    lngKutoka = pos.coords.longitude;
-                    document.getElementById('from').value = 'Mahali Nilipo Sasa';
-                    wekaMarkerKutoka(latKutoka, lngKutoka);
-                    map.setView([latKutoka, lngKutoka], 15);
-                }, () => alert('Ruhusu GPS kwanza'));
-            }
-        }
-
-        // HII INATUMIA NOMINATIM - BURE BILA KEY
-        async function tafutaMahali(jina) {
-            try {
-                const url = https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(jina + ', Zanzibar, Tanzania')}&limit=1;
-                const res = await fetch(url);
-                const data = await res.json();
-                if(data.length > 0) {
-                    return { lat: parseFloat(data[0].lat), lng: parseFloat(data[0].lon) };
-                }
-                return null;
-            } catch (e) {
-                alert('Mtandao dhaifu. Jaribu tena.');
-                return null;
-            }
-        }
-
-        async function hesabuNauli() {
-            const kutoka = document.getElementById('from').value.trim();
-            const kwenda = document.getElementById('to').value.trim();
+        function hesabuNauli() {
+            const kutoka = document.getElementById('from').value;
+            const kwenda = document.getElementById('to').value;
             
             if(!kutoka ||!kwenda) {
-                alert('Jaza sehemu zote mbili'); return;
+                alert('Chagua unatoka wapi na unakwenda wapi'); return;
+            }
+            if(kutoka === kwenda) {
+                alert('Huwezi kwenda sehemu uliyopo tayari'); return;
             }
 
-            // Hardcode coordinates za Stone Town na Airport ili isigome
-            const maeneoMaarufu = {
-                'stone town': {lat: -6.1622, lng: 39.1921},
-                'airport': {lat: -6.2220, lng: 39.2248},
-                'abeid amani karume airport': {lat: -6.2220, lng: 39.2248}
-            };
+            kutokaSafari = kutoka;
+            kwendaSafari = kwenda;
 
-            if(!latKutoka) {
-                const keyKutoka = kutoka.toLowerCase();
-                if(maeneoMaarufu[keyKutoka]) {
-                    latKutoka = maeneoMaarufu[keyKutoka].lat;
-                    lngKutoka = maeneoMaarufu[keyKutoka].lng;
-                } else {
-                    const mahali1 = await tafutaMahali(kutoka);
-                    if(!mahali1) { alert('Mahali pa kuanzia hakijulikani'); return; }
-                    latKutoka = mahali1.lat; lngKutoka = mahali1.lng;
-                }
-                wekaMarkerKutoka(latKutoka, lngKutoka);
-            }
+            const route = ${kutoka}-${kwenda};
+            const umbali = umbaliZanzibar[route] || 5; // Default 5km kama route haijulikani
 
-            const keyKwenda = kwenda.toLowerCase();
-            if(maeneoMaarufu[keyKwenda]) {
-                latKwenda = maeneoMaarufu[keyKwenda].lat;
-                lngKwenda = maeneoMaarufu[keyKwenda].lng;
-            } else {
-                const mahali2 = await tafutaMahali(kwenda);
-                if(!mahali2) { alert('Mahali pa kwenda hakijulikani'); return; }
-                latKwenda = mahali2.lat; lngKwenda = mahali2.lng;
-            }
-            wekaMarkerKwenda(latKwenda, lngKwenda);
-
-            const bounds = L.latLngBounds([latKutoka, lngKutoka], [latKwenda, lngKwenda]);
-            map.fitBounds(bounds, { padding: [30, 30] });
-            L.polyline([[latKutoka, lngKutoka], [latKwenda, lngKwenda]], {color: '#0284c7'}).addTo(map);
-
-            const umbali = getDistance(latKutoka, lngKutoka, latKwenda, lngKwenda);
             const saa = new Date().getHours();
             const niUsiku = saa >= 22 || saa < 5;
             const beiKm = niUsiku? 2500 : 1500;
@@ -152,7 +117,7 @@
             nauliYaSasa = Math.round(nauliYaSasa / 50) * 50;
 
             document.getElementById('nauli').textContent = 'TSh ' + nauliYaSasa.toLocaleString();
-            document.getElementById('maelezo').textContent = Umbali: ${umbali.toFixed(1)} km | Bei: TSh ${beiKm}/km;
+            document.getElementById('maelezo').textContent = Umbali: ${umbali} km | Bei: TSh ${beiKm}/km;
             document.getElementById('fareBox').style.display = 'block';
             document.getElementById('paymentButtons').style.display = 'block';
             
@@ -175,32 +140,9 @@
         }
 
         function tumaWhatsApp() {
-            const kutoka = document.getElementById('from').value;
-            const kwenda = document.getElementById('to').value;
-            const msg = Habari, naomba safari kwa Amot.%0A%0AKutoka: ${kutoka}%0AKwenda: ${kwenda}%0ANauli: TSh ${nauliYaSasa.toLocaleString()}%0A%0AUnapatikana?;
-            const nambaDereva = "255700000000";
+            const msg = Habari, naomba safari kwa Amot.%0A%0AKutoka: ${kutokaSafari}%0AKwenda: ${kwendaSafari}%0ANauli: TSh ${nauliYaSasa.toLocaleString()}%0A%0AUnapatikana?;
+            const nambaDereva = "255700000000"; // Weka namba yako
             window.open(https://wa.me/${nambaDereva}?text=${msg}, '_blank');
-        }
-
-        function wekaMarkerKutoka(lat, lng) {
-            if(markerKutoka) map.removeLayer(markerKutoka);
-            markerKutoka = L.marker([lat, lng]).addTo(map).bindPopup('Unatoka hapa').openPopup();
-        }
-
-        function wekaMarkerKwenda(lat, lng) {
-            if(markerKwenda) map.removeLayer(markerKwenda);
-            markerKwenda = L.marker([lat, lng]).addTo(map).bindPopup('Unakwenda hapa');
-        }
-
-        function getDistance(lat1, lon1, lat2, lon2) {
-            const R = 6371;
-            const dLat = (lat2-lat1) * Math.PI/180;
-            const dLon = (lon2-lon1) * Math.PI/180;
-            const a = Math.sin(dLat/2) * Math.sin(dLat/2) +
-                      Math.cos(lat1 * Math.PI/180) * Math.cos(lat2 * Math.PI/180) *
-                      Math.sin(dLon/2) * Math.sin(dLon/2);
-            const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
-            return R * c;
         }
     </script>
 </body>
