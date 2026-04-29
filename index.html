@@ -1,71 +1,62 @@
 <!DOCTYPE html>
-<html lang="sw">
+<html>
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Amot - Pata Nauli Zanzibar</title>
+    <title>Amot</title>
     <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { font-family: sans-serif; background: #f0f9ff; }
-     .container { max-width: 500px; margin: 0 auto; padding: 10px; }
-     .header { text-align: center; padding: 15px 0; }
-     .header h1 { color: #0c4a6e; font-size: 28px; }
-     .card { background: white; padding: 16px; border-radius: 16px; margin-bottom: 12px; box-shadow: 0 2px 10px rgba(0,0,0,0.08); }
-        select, button { width: 100%; padding: 14px; margin: 6px 0; border-radius: 10px; border: 1px solid #bae6fd; font-size: 16px; }
-        button { background: #0284c7; color: white; border: none; font-weight: 700; cursor: pointer; }
-     .fare-box { background: #f0fdf4; border: 2px solid #16a34a; padding: 16px; border-radius: 12px; text-align: center; margin: 12px 0; }
-     .fare-amount { font-size: 32px; font-weight: 800; color: #15803d; }
-     .hidden { display: none; }
+        body { font-family: sans-serif; background: #f0f9ff; padding: 10px; }
+      .box { max-width: 400px; margin: 0 auto; }
+      .card { background: white; padding: 15px; border-radius: 15px; margin-bottom: 10px; }
+        h1 { text-align: center; color: #0c4a6e; }
+        select, button { width: 100%; padding: 15px; margin: 5px 0; border-radius: 10px; border: 1px solid #ccc; font-size: 16px; }
+        button { background: #0284c7; color: white; border: none; font-weight: bold; }
+     .result { background: #dcfce7; border: 2px solid #22c55e; padding: 15px; border-radius: 15px; text-align: center; display: none; }
+     .price { font-size: 30px; font-weight: bold; color: #166534; }
     </style>
 </head>
 <body>
-    <div class="container">
-        <div class="header"><h1>AMOT</h1></div>
+    <div class="box">
+        <h1>AMOT</h1>
         <div class="card">
-            <select id="from">
+            <select id="kutoka">
                 <option value="">Unatoka wapi?</option>
                 <option value="stone town">Stone Town</option>
                 <option value="airport">Airport</option>
             </select>
-            <select id="to">
+            <select id="kwenda">
                 <option value="">Unakwenda wapi?</option>
                 <option value="stone town">Stone Town</option>
                 <option value="airport">Airport</option>
             </select>
-            <button onclick="hesabuNauli()">Hesabu Nauli</button>
+            <button onclick="pataNauli()">Hesabu Nauli</button>
         </div>
 
-        <div id="fareBox" class="fare-box hidden">
+        <div id="matokeo" class="result">
             <div>Nauli Yako</div>
-            <div class="fare-amount" id="nauli">TSh 0</div>
-            <div id="maelezo">Umbali: 0 km</div>
+            <div class="price" id="bei">TSh 0</div>
+            <div id="details">Umbali: 7.6 km</div>
         </div>
     </div>
 
     <script>
-        function hesabuNauli() {
-            alert("Button inafanya kazi!"); // Hii ni test
+        function pataNauli() {
+            var k1 = document.getElementById('kutoka').value;
+            var k2 = document.getElementById('kwenda').value;
             
-            const kutoka = document.getElementById('from').value;
-            const kwenda = document.getElementById('to').value;
-            
-            if(!kutoka ||!kwenda) {
-                alert('Chagua sehemu zote mbili'); 
+            if (k1 === "" || k2 === "") {
+                alert("Chagua sehemu zote mbili");
                 return;
             }
-            if(kutoka === kwenda) {
-                alert('Huwezi kwenda sehemu uliyopo'); 
+            if (k1 === k2) {
+                alert("Huwezi kwenda ulipo");
                 return;
             }
-
-            let umbali = 7.6; // Stone Town > Airport
-            let beiKm = 1500;
-            let nauli = Math.round(1000 + (beiKm * umbali));
-            nauli = Math.round(nauli / 50) * 50;
-
-            document.getElementById('nauli').textContent = 'TSh ' + nauli.toLocaleString();
-            document.getElementById('maelezo').textContent = Umbali: ${umbali} km;
-            document.getElementById('fareBox').classList.remove('hidden');
+            
+            var nauli = 12400; // Stone Town > Airport = 7.6km * 1500 + 1000 = 12400
+            
+            document.getElementById('bei').innerHTML = "TSh " + nauli.toLocaleString();
+            document.getElementById('matokeo').style.display = "block";
         }
     </script>
 </body>
