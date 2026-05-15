@@ -1,226 +1,423 @@
 <!DOCTYPE html>
-<html lang="sw">
+<html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>DukaPro - Mfumo wa Biashara</title>
-    <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { font-family: -apple-system, sans-serif; background: #f8fafc; color: #0f172a; }
-   .box { max-width: 600px; margin: 0 auto; padding: 10px; }
-   .header { background: linear-gradient(135deg, #0ea5e9, #0284c7); color: white; padding: 20px; text-align: center; border-radius: 0 0 20px 20px; }
-   .card { background: white; padding: 16px; border-radius: 16px; margin: 12px 0; box-shadow: 0 2px 8px rgba(0,0,0,0.06); }
-        input, select, button { width: 100%; padding: 12px; margin: 6px 0; border-radius: 8px; border: 1px solid #e2e8f0; font-size: 15px; }
-        button { background: #0ea5e9; color: white; border: none; font-weight: 700; cursor: pointer; }
-   .btn-green { background: #22c55e!important; }
-   .grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
-   .grid4 { display: grid; grid-template-columns: repeat(4,1fr); gap: 8px; }
-   .kpi { text-align: center; padding: 12px; background: #f1f5f9; border-radius: 10px; }
-   .kpi-num { font-size: 18px; font-weight: 800; color: #0ea5e9; }
-   .kpi-label { font-size: 11px; color: #64748b; }
-   .tabs { display: flex; background: #e2e8f0; border-radius: 10px; padding: 4px; margin: 15px 0; overflow-x: auto; }
-   .tab { flex: 1; padding: 8px; text-align: center; border-radius: 8px; font-weight: 600; cursor: pointer; font-size: 13px; }
-   .tab.active { background: white; color: #0ea5e9; }
-   .hidden { display: none; }
-   .item { display: flex; justify-content: space-between; padding: 10px 0; border-bottom: 1px solid #f1f5f9; font-size: 14px; }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Amot Zanzibar</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      background: #1a1a1a; padding: 20px; min-height: 100vh;
+    }
+.card {
+      max-width: 420px; margin: 0 auto; background: white;
+      border-radius: 20px; padding: 24px; box-shadow: 0 8px 30px rgba(0,0,0,0.3);
+      position: relative;
+    }
+.logo-text {
+      font-size: 28px; font-weight: 800; color: #00a651; line-height: 1.1;
+      text-align: center; width: 100%; padding: 8px 0; margin-bottom: 8px;
+    }
+.lang-select {
+      position: absolute; top: 12px; right: 12px;
+      padding: 4px 6px; border: 1px solid #ddd; border-radius: 6px;
+      font-size: 12px; background: #f8f8f8; width: auto;
+    }
+    h2 { font-size: 22px; margin: 16px 0 20px; color: #1a1a1a; }
+    label { display: block; font-size: 15px; font-weight: 700; margin: 18px 0 8px; color: #2c3e50; }
+    input, select {
+      width: 100%; padding: 14px; font-size: 16px;
+      border: 2px solid #e8eaed; border-radius: 12px; background: #fff;
+    }
+    input:focus, select:focus { border-color: #00a651; outline: none; }
+.hint { font-size: 12px; color: #666; margin-top: 4px; }
+.checkbox-row { display: flex; align-items: center; margin: 18px 0; }
+.checkbox-row input { width: 20px; height: 20px; margin-right: 10px; }
+.checkbox-row label { margin: 0; font-weight: 500; font-size: 15px; }
+.payment-title { font-size: 17px; font-weight: 700; margin: 20px 0 12px; color: #1a1a1a; }
+.payment-grid {
+      display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px; margin-bottom: 8px;
+    }
+.payment-btn {
+      padding: 12px 8px; border: none; border-radius: 10px; font-weight: 700;
+      font-size: 14px; cursor: pointer; transition: all 0.2s; color: white;
+    }
+.payment-btn:active { transform: scale(0.95); }
+.mpesa { background: #00a651; }.tigo { background: #0066cc; }
+.airtel { background: #e31e24; }.halopesa { background: #ff6f00; }
+.payment-btn.selected { box-shadow: 0 0 0 3px #1a1a1a; }
+.selected-text { font-size: 15px; font-weight: 600; color: #00a651; margin: 8px 0 16px; }
+.btn-price {
+      width: 100%; padding: 16px; font-size: 17px; font-weight: 700;
+      background: #00a651; color: white; border: none; border-radius: 12px;
+      cursor: pointer; margin-top: 8px;
+    }
+.btn-price:active { transform: scale(0.98); }
+    #beiContainer {
+      display: none; margin-top: 24px; padding: 20px;
+      background: #f0fdf4; border-radius: 12px; border: 2px solid #00a651;
+    }
+.price-big { font-size: 28px; font-weight: 800; color: #00a651; text-align: center; }
+.price-small { text-align: center; margin-top: 8px; color: #666; }
+.deposit { text-align: center; margin-top: 12px; font-weight: 700; color: #d97706; }
+.driver-info { text-align: center; margin-top: 12px; font-size: 14px; color: #1a1a1a; background: #fff3cd; padding: 10px; border-radius: 8px; }
+.payment-info {
+      background: #e3f2fd; padding: 15px; border-radius: 10px; margin-top: 15px;
+      border: 2px solid #0066cc; display: none;
+    }
+.payment-info h4 { color: #0066cc; margin-bottom: 8px; font-size: 16px; }
+.payment-info p { font-size: 14px; margin: 5px 0; }
+.payment-info.namba { font-size: 20px; font-weight: 800; color: #d97706; text-align: center; margin: 10px 0; }
+ #btnLipa {
+      width: 100%; padding: 16px; font-size: 17px; font-weight: 700;
+      background: #d97706; color: white; border: none; border-radius: 12px;
+      cursor: pointer; margin-top: 16px; display: none;
+    }
+.chat-buttons { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 15px; }
+.chat-btn {
+      padding: 12px; font-size: 14px; font-weight: 700; border: none;
+      border-radius: 10px; cursor: pointer; color: white;
+    }
+.chat-mmiliki { background: #1a1a1a; }
+.chat-dereva { background: #00a651; }
+ #debug { font-size: 10px; color: red; text-align: center; margin-top: 5px; min-height: 12px; }
+  </style>
 </head>
 <body>
-    <div class="header">
-        <h1>DUKAPRO</h1>
-        <p id="tarehe"></p>
+  <datalist id="locations">
+    <option value="Stone Town"><option value="Airport"><option value="Mwanakwerekwe">
+    <option value="Michenzani"><option value="Mlandege"><option value="Mkokotoni">
+    <option value="Nungwi"><option value="Kendwa"><option value="Paje"><option value="Jambiani">
+    <option value="Kiwengwa"><option value="Matemwe"><option value="Bububu"><option value="Fuoni">
+    <option value="Kisauni"><option value="Mbweni"><option value="Chukwani"><option value="Fumba">
+    <option value="Kizimkazi"><option value="Makunduchi"><option value="darajabovu"><option value="kwahani">
+    <option value="soda"><option value="saateni"><option value="masingini"><option value="chumbuni">
+  </datalist>
+
+  <div class="card">
+    <select class="lang-select" id="langSelect">
+      <option value="en">🇬🇧 EN</option>
+      <option value="sw">🇹🇿 SW</option>
+      <option value="ar">🇸🇦 AR</option>
+      <option value="fr">🇫🇷 FR</option>
+      <option value="es">🇪🇸 ES</option>
+      <option value="de">🇩🇪 DE</option>
+      <option value="zh">🇨🇳 ZH</option>
+    </select>
+
+    <div class="logo-text">Amot Zanzibar</div>
+    <div id="debug">JS: Loading...</div>
+    <h2 id="title">Book Your Ride</h2>
+
+    <label id="labelPhone">Namba yako ya Simu</label>
+    <input type="tel" id="mtejaPhone" placeholder="07XX XXX XXX">
+
+    <label id="labelPickup">Pick-up Location</label>
+    <input type="text" id="pickup" list="locations" placeholder="Chagua au andika sehemu">
+
+    <label id="labelDropoff">Drop-off Location</label>
+    <input type="text" id="dropoff" list="locations" placeholder="Chagua au andika sehemu">
+
+    <label id="labelDistance">Distance (km)</label>
+    <input type="number" id="distance" placeholder="Auto au andika km" step="0.1">
+    <div class="hint" id="distanceHint">Chagua sehemu maarufu = auto. Nyingine = angalia Google Maps</div>
+
+    <label id="labelVehicle">Vehicle Type</label>
+    <select id="vehicleType">
+      <option value="Bodaboda">Bodaboda - 1 Person</option>
+      <option value="Bajaji">Bajaji - 3 People</option>
+      <option value="Sedan">Sedan - 4 People</option>
+      <option value="Pickup">Pickup - Mizigo midogo</option>
+      <option value="Lorry">Lorry 3T - Mizigo mikubwa</option>
+      <option value="Fuso">Fuso 5T - Mizigo mizito</option>
+    </select>
+
+    <div class="checkbox-row">
+      <input type="checkbox" id="labor">
+      <label for="labor" id="labelLabor">I need loading labor (+TSh 5,000)</label>
     </div>
 
-    <div class="box">
-        <div class="tabs">
-            <div class="tab active" data-tab="dashibodi">Dashibodi</div>
-            <div class="tab" data-tab="uza">Uza</div>
-            <div class="tab" data-tab="bidhaa">Bidhaa</div>
-            <div class="tab" data-tab="matumizi">Matumizi</div>
-        </div>
-
-        <div id="tab-dashibodi">
-            <div class="card">
-                <div class="grid4">
-                    <div class="kpi">
-                        <div class="kpi-num" id="mauzoLeo">0</div>
-                        <div class="kpi-label">Mauzo Leo</div>
-                    </div>
-                    <div class="kpi">
-                        <div class="kpi-num" id="faidaLeo">0</div>
-                        <div class="kpi-label">Faida Leo</div>
-                    </div>
-                    <div class="kpi">
-                        <div class="kpi-num" id="madeni">0</div>
-                        <div class="kpi-label">Madeni</div>
-                    </div>
-                    <div class="kpi">
-                        <div class="kpi-num" id="faidaHalisi">0</div>
-                        <div class="kpi-label">Faida Halisi</div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div id="tab-uza" class="hidden">
-            <div class="card">
-                <h3>Rekodi Mauzo</h3>
-                <input type="text" id="jinaMnunuzi" placeholder="Jina la Mnunuzi">
-                <select id="chaguaBidhaa"></select>
-                <div class="grid2">
-                    <input type="number" id="idadi" placeholder="Idadi" value="1">
-                    <input type="number" id="bei" placeholder="Bei ya Kuuza">
-                </div>
-                <input type="number" id="kilicholipwa" placeholder="Kilicholipwa">
-                <button id="btnUza" class="btn-green">Rekodi Mauzo</button>
-            </div>
-        </div>
-
-        <div id="tab-bidhaa" class="hidden">
-            <div class="card">
-                <h3>Ongeza Bidhaa</h3>
-                <input type="text" id="jinaBidhaa" placeholder="Jina la Bidhaa">
-                <div class="grid2">
-                    <input type="number" id="beiKununua" placeholder="Bei Kununua">
-                    <input type="number" id="beiKuuza" placeholder="Bei Kuuza">
-                </div>
-                <input type="number" id="stock" placeholder="Stock">
-                <button id="btnOngezaBidhaa">Ongeza Bidhaa</button>
-            </div>
-            <div class="card">
-                <h3>Bidhaa Zote</h3>
-                <div id="orodhaBidhaa">Hakuna bidhaa</div>
-            </div>
-        </div>
-
-        <div id="tab-matumizi" class="hidden">
-            <div class="card">
-                <h3>Rekodi Matumizi</h3>
-                <select id="ainaMatumizi">
-                    <option value="">Chagua Aina</option>
-                    <option value="Mshahara">Mshahara</option>
-                    <option value="Kodi Store">Kodi ya Store</option>
-                    <option value="Kodi Serikali">Kodi ya Serikali</option>
-                    <option value="Umeme">Umeme</option>
-                </select>
-                <input type="number" id="kiasiMatumizi" placeholder="Kiasi TSh">
-                <button id="btnMatumizi">Rekodi Matumizi</button>
-            </div>
-        </div>
+    <div class="payment-title" id="labelPayment">Choose Payment Method:</div>
+    <div class="payment-grid">
+      <button class="payment-btn mpesa" data-method="M-Pesa">M-Pesa</button>
+      <button class="payment-btn tigo" data-method="Tigo Pesa">Tigo Pesa</button>
+      <button class="payment-btn airtel" data-method="Airtel Money">Airtel Money</button>
+      <button class="payment-btn halopesa" data-method="Halopesa">Halopesa</button>
     </div>
+    <div class="selected-text" id="selectedText">Selected: None</div>
 
-    <script>
-        let bidhaa = JSON.parse(localStorage.getItem('pro_bidhaa')) || [];
-        let mauzo = JSON.parse(localStorage.getItem('pro_mauzo')) || [];
-        let matumizi = JSON.parse(localStorage.getItem('pro_matumizi')) || [];
+    <button class="btn-price" id="priceBtn">Get Your Price</button>
 
-        document.getElementById('tarehe').innerText = new Date().toLocaleDateString('sw-TZ', {weekday:'long', year:'numeric', month:'long', day:'numeric'});
-        
-        document.querySelectorAll('.tab').forEach(function(tab) {
-            tab.addEventListener('click', function() {
-                document.querySelectorAll('.tab').forEach(function(t) { t.classList.remove('active'); });
-                document.querySelectorAll('[id^="tab-"]').forEach(function(t) { t.classList.add('hidden'); });
-                this.classList.add('active');
-                document.getElementById('tab-' + this.dataset.tab).classList.remove('hidden');
-                updateUI();
-            });
-        });
+    <div id="beiContainer">
+      <div class="price-big">TZS <span id="onyeshaBei">0</span></div>
+      <div class="price-small"><span id="onyeshaUmbali">0</span> km</div>
+      <div class="deposit">Deposit 30%: TZS <span id="onyeshaDeposit">0</span></div>
+      <div class="driver-info" id="driverInfo"></div>
 
-        document.getElementById('btnOngezaBidhaa').addEventListener('click', function() {
-            let b = {
-                id: Date.now(),
-                jina: document.getElementById('jinaBidhaa').value,
-                beiKununua: parseFloat(document.getElementById('beiKununua').value) || 0,
-                beiKuuza: parseFloat(document.getElementById('beiKuuza').value) || 0,
-                stock: parseInt(document.getElementById('stock').value) || 0
-            };
-            if(!b.jina) { alert('Weka jina la bidhaa'); return; }
-            bidhaa.push(b);
-            localStorage.setItem('pro_bidhaa', JSON.stringify(bidhaa));
-            document.getElementById('jinaBidhaa').value = '';
-            document.getElementById('beiKununua').value = '';
-            document.getElementById('beiKuuza').value = '';
-            document.getElementById('stock').value = '';
-            updateUI();
-            alert('Bidhaa imeongezwa!');
-        });
+      <div class="payment-info" id="paymentInfo">
+        <h4 id="paymentTitle">LIPA DEPOSIT SASA</h4>
+        <p id="paymentInstructions">Tuma TZS <span id="kiasiChaKulipa">0</span> kwenda:</p>
+        <div class="namba" id="nambaYaMalipo">07XX XXX XXX</div>
+        <p id="paymentNote">Tumia jina lako kama reference. Ukishalipa, bonyeza kitufe hapa chini.</p>
+      </div>
 
-        document.getElementById('btnUza').addEventListener('click', function() {
-            let bidhaaId = document.getElementById('chaguaBidhaa').value;
-            let b = bidhaa.find(function(x) { return x.id == bidhaaId; });
-            if(!b) { alert('Chagua bidhaa kwanza'); return; }
-            
-            let idadi = parseInt(document.getElementById('idadi').value) || 1;
-            if(idadi > b.stock) { alert('Stock haitoshi. Iliyopo: ' + b.stock); return; }
-            
-            let bei = parseFloat(document.getElementById('bei').value) || b.beiKuuza;
-            let kilicholipwa = parseFloat(document.getElementById('kilicholipwa').value) || 0;
-            
-            b.stock -= idadi;
-            mauzo.push({
-                id: Date.now(),
-                tarehe: new Date().toISOString(),
-                jinaMnunuzi: document.getElementById('jinaMnunuzi').value || 'Cash',
-                jinaBidhaa: b.jina,
-                idadi: idadi,
-                jumla: bei * idadi,
-                faida: (bei - b.beiKununua) * idadi,
-                cost: b.beiKununua * idadi,
-                deni: (bei * idadi) - kilicholipwa
-            });
-            
-            saveAll();
-            updateUI();
-            alert('Mauzo yame rekodiwa!');
-        });
+      <button id="btnLipa">NIMELIPA - TUMA UTHIBITISHO</button>
 
-        document.getElementById('btnMatumizi').addEventListener('click', function() {
-            let m = {
-                id: Date.now(),
-                aina: document.getElementById('ainaMatumizi').value,
-                kiasi: parseFloat(document.getElementById('kiasiMatumizi').value) || 0
-            };
-            if(!m.aina ||!m.kiasi) { alert('Jaza sehemu zote'); return; }
-            matumizi.push(m);
-            localStorage.setItem('pro_matumizi', JSON.stringify(matumizi));
-            document.getElementById('kiasiMatumizi').value = '';
-            updateUI();
-            alert('Matumizi yame rekodiwa!');
-        });
+      <div class="chat-buttons" id="chatButtons" style="display:none;">
+        <button class="chat-btn chat-mmiliki" id="chatMmiliki">Chat na Mmiliki</button>
+        <button class="chat-btn chat-dereva" id="chatDereva">Chat na Dereva</button>
+      </div>
+    </div>
+  </div>
 
-        function saveAll() {
-            localStorage.setItem('pro_bidhaa', JSON.stringify(bidhaa));
-            localStorage.setItem('pro_mauzo', JSON.stringify(mauzo));
-            localStorage.setItem('pro_matumizi', JSON.stringify(matumizi));
+<script>
+window.onerror = function(msg, url, line) {
+  document.getElementById('debug').innerText = 'ERROR: ' + msg + ' Line:' + line;
+  return false;
+};
+
+document.addEventListener('DOMContentLoaded', function() {
+  try {
+    document.getElementById('debug').innerText = 'JS: Loaded OK';
+
+    var njiaYaMalipo = "";
+    var beiYaMwisho = 0;
+    var depositAmount = 0;
+    var derevaAliyechaguliwa = null;
+
+    // ===== BADILISHA HIZI NAMBA ZAKO =====
+    var NAMBA_YA_MMILIKI = "255779771085"; // Namba yako ya WhatsApp
+    var NAMBA_ZA_MALIPO = {
+      "M-Pesa": "255712345678",
+      "Tigo Pesa": "255779771085",
+      "Airtel Money": "255783823722",
+      "Halopesa": "255625678901"
+    };
+    // ======================================
+
+    var madereva = [
+      { jina: "chandimu", namba: "255776218038", eneo: "Stone Town", lat: -6.1659, lon: 39.1919 },
+      { jina: "abuu machapati", namba: "255713333222", eneo: "Mwanakwerekwe", lat: -6.1717, lon: 39.2186 },
+      { jina: "Hassan", namba: "255713333333", eneo: "Nungwi", lat: -5.7261, lon: 39.2950 },
+      { jina: "Mussa", namba: "255713333444", eneo: "Paje", lat: -6.2667, lon: 39.5333 },
+      { jina: "Bakari", namba: "255713333555", eneo: "Airport", lat: -6.2186, lon: 39.2231 }
+    ];
+
+    var coordinates = {
+      "Stone Town": [-6.1659, 39.1919], "Airport": [-6.2186, 39.2231],
+      "Mwanakwerekwe": [-6.1717, 39.2186], "Michenzani": [-6.1650, 39.2050],
+      "Mlandege": [-6.1500, 39.2200], "Mkokotoni": [-5.9333, 39.2667],
+      "Nungwi": [-5.7261, 39.2950], "Kendwa": [-5.7444, 39.2847],
+      "Paje": [-6.2667, 39.5333], "Jambiani": [-6.3167, 39.5500],
+      "Kiwengwa": [-5.9833, 39.3833], "Matemwe": [-5.8667, 39.3500],
+      "Bububu": [-6.1167, 39.2167], "Fuoni": [-6.1833, 39.2500],
+      "Kisauni": [-6.1333, 39.2167], "Mbweni": [-6.2167, 39.2833],
+      "Chukwani": [-6.2667, 39.2167], "Fumba": [-6.3167, 39.2833],
+      "Kizimkazi": [-6.4500, 39.4667], "Makunduchi": [-6.4167, 39.5500]
+    };
+
+    function pimaUmbali(lat1, lon1, lat2, lon2) {
+      var R = 6371;
+      var dLat = (lat2 - lat1) * Math.PI / 180;
+      var dLon = (lon2 - lon1) * Math.PI / 180;
+      var a = Math.sin(dLat/2) * Math.sin(dLat/2) +
+                Math.cos(lat1 * Math.PI / 180) * Math.cos(lat2 * Math.PI / 180) *
+                Math.sin(dLon/2) * Math.sin(dLon/2);
+      var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+      return Math.round(R * c * 10) / 10;
+    }
+
+    function tafutaDerevaKaribu(lat, lon) {
+      var derevaKaribu = null;
+      var umbaliMdogo = 99999;
+      for (var i = 0; i < madereva.length; i++) {
+        var d = madereva[i];
+        var umbali = pimaUmbali(lat, lon, d.lat, d.lon);
+        if (umbali < umbaliMdogo) {
+          umbaliMdogo = umbali;
+          derevaKaribu = d;
         }
+      }
+      return derevaKaribu;
+    }
 
-        function updateUI() {
-            let leo = new Date().toDateString();
-            let mauzoLeo = mauzo.filter(function(m) { return new Date(m.tarehe).toDateString() === leo; });
-            document.getElementById('mauzoLeo').innerText = mauzoLeo.reduce(function(s,m) { return s + m.jumla; }, 0).toLocaleString();
-            document.getElementById('faidaLeo').innerText = mauzoLeo.reduce(function(s,m) { return s + m.faida; }, 0).toLocaleString();
-            document.getElementById('madeni').innerText = mauzo.reduce(function(s,m) { return s + m.deni; }, 0).toLocaleString();
-            
-            let mwezi = new Date().getMonth();
-            let mauzoM = mauzo.filter(function(m) { return new Date(m.tarehe).getMonth() === mwezi; });
-            let faidaGhafi = mauzoM.reduce(function(s,m) { return s + m.faida; }, 0);
-            let jumlaMatumizi = matumizi.reduce(function(s,m) { return s + m.kiasi; }, 0);
-            document.getElementById('faidaHalisi').innerText = (faidaGhafi - jumlaMatumizi).toLocaleString();
+    function jaribuKuhesabuUmbali() {
+      var pickup = document.getElementById('pickup').value.trim();
+      var dropoff = document.getElementById('dropoff').value.trim();
+      var distanceField = document.getElementById('distance');
 
-            document.getElementById('orodhaBidhaa').innerHTML = bidhaa.map(function(b) {
-                return '<div class="item"><div>' + b.jina + ' - Stock: ' + b.stock + '</div><div style="color:#16a34a;font-weight:700;">TSh ' + b.beiKuuza.toLocaleString() + '</div></div>';
-            }).join('') || 'Hakuna bidhaa';
+      if(coordinates[pickup] && coordinates[dropoff] && pickup!== dropoff) {
+        var c1 = coordinates[pickup];
+        var c2 = coordinates[dropoff];
+        var km = pimaUmbali(c1[0], c1[1], c2[0], c2[1]);
+        distanceField.value = km;
+        document.getElementById('debug').innerText = 'JS: Auto Distance = ' + km + 'km';
+      } else {
+        document.getElementById('debug').innerText = 'JS: Andika distance mwenyewe';
+      }
+    }
 
-            document.getElementById('chaguaBidhaa').innerHTML = '<option value="">Chagua Bidhaa</option>' +
-                bidhaa.map(function(b) { return '<option value="' + b.id + '">' + b.jina + ' - Stock: ' + b.stock + '</option>'; }).join('');
+    var tafsiri = {
+      en: { title: "Book Your Ride", labelPhone: "Your Phone Number", labelPickup: "Pick-up Location", labelDropoff: "Drop-off Location", labelDistance: "Distance (km)", distanceHint: "Choose popular place = auto. Others = check Google Maps", labelVehicle: "Vehicle Type", labelLabor: "I need loading labor (+TSh 5,000)", labelPayment: "Choose Payment Method:", priceBtn: "Get Your Price", btnLipa: "I HAVE PAID - SEND CONFIRMATION", selected: "Selected", alertPickup: "Please enter pickup location", alertDropoff: "Please enter dropoff location", alertDistance: "Please enter distance in km", alertPayment: "Please choose payment method first", alertSame: "Pickup and dropoff cannot be the same", alertPhone: "Please enter your phone number", driverText: "Assigned Driver", paymentTitle: "PAY DEPOSIT NOW", paymentInstructions: "Send TZS", paymentNote: "Use your name as reference. After paying, click button below.", chatMmiliki: "Chat with Owner", chatDereva: "Chat with Driver" },
+      sw: { title: "Agiza Safari Yako", labelPhone: "Namba yako ya Simu", labelPickup: "Anapotaka Kuchukuliwa", labelDropoff: "Anakoenda", labelDistance: "Umbali (km)", distanceHint: "Chagua sehemu maarufu = auto. Nyingine = angalia Google Maps", labelVehicle: "Chagua Chombo", labelLabor: "Naomba msaada wa kubeba (+TSh 5,000)", labelPayment: "Chagua Njia ya Malipo:", priceBtn: "Pata Bei Yako", btnLipa: "NIMELIPA - TUMA UTHIBITISHO", selected: "Umechagua", alertPickup: "Tafadhali andika anapotaka kuchukuliwa", alertDropoff: "Tafadhali andika anakoenda", alertDistance: "Tafadhali andika umbali kwa km", alertPayment: "Chagua njia ya malipo kwanza", alertSame: "Sehemu za kuchukulia na kupeleka zisiwe sawa", alertPhone: "Tafadhali andika namba yako ya simu", driverText: "Dereva Aliyepangwa", paymentTitle: "LIPA DEPOSIT SASA", paymentInstructions: "Tuma TZS", paymentNote: "Tumia jina lako kama reference. Ukishalipa, bonyeza kitufe hapa chini.", chatMmiliki: "Chat na Mmiliki", chatDereva: "Chat na Dereva" }
+    };
 
-            document.getElementById('chaguaBidhaa').onchange = function() {
-                let b = bidhaa.find(function(x) { return x.id == this.value; });
-                if(b) document.getElementById('bei').value = b.beiKuuza;
-            };
-        }
+    function badiliLugha() {
+      var lang = document.getElementById('langSelect').value;
+      var t = tafsiri;
+      document.getElementById('title').innerText = t.title;
+      document.getElementById('labelPhone').innerText = t.labelPhone;
+      document.getElementById('labelPickup').innerText = t.labelPickup;
+      document.getElementById('labelDropoff').innerText = t.labelDropoff;
+      document.getElementById('labelDistance').innerText = t.labelDistance;
+      document.getElementById('distanceHint').innerText = t.distanceHint;
+      document.getElementById('labelVehicle').innerText = t.labelVehicle;
+      document.getElementById('labelLabor').innerText = t.labelLabor;
+      document.getElementById('labelPayment').innerText = t.labelPayment;
+      document.getElementById('priceBtn').innerText = t.priceBtn;
+      document.getElementById('btnLipa').innerText = t.btnLipa;
+      document.getElementById('selectedText').innerText = t.selected + ': ' + (njiaYaMalipo || 'None');
+      document.getElementById('paymentTitle').innerText = t.paymentTitle;
+      document.getElementById('paymentInstructions').innerHTML = t.paymentInstructions + ' <span id="kiasiChaKulipa">' + depositAmount.toLocaleString() + '</span> kwenda:';
+      document.getElementById('paymentNote').innerText = t.paymentNote;
+      document.getElementById('chatMmiliki').innerText = t.chatMmiliki;
+      document.getElementById('chatDereva').innerText = t.chatDereva;
+    }
 
-        updateUI();
-    </script>
+    function chaguaMalipo(mtandao, element) {
+      njiaYaMalipo = mtandao;
+      var btns = document.querySelectorAll('.payment-btn');
+      for (var i = 0; i < btns.length; i++) {
+        btns[i].classList.remove('selected');
+      }
+      element.classList.add('selected');
+      var lang = document.getElementById('langSelect').value;
+      document.getElementById('selectedText').innerText = tafsiri.selected + ': ' + mtandao;
+      document.getElementById('debug').innerText = 'JS: Payment = ' + mtandao;
+    }
+
+    function hesabuBei() {
+      document.getElementById('debug').innerText = 'JS: Price button clicked';
+      var lang = document.getElementById('langSelect').value;
+      var t = tafsiri;
+      var phone = document.getElementById('mtejaPhone').value.trim();
+      var pickup = document.getElementById('pickup').value.trim();
+      var dropoff = document.getElementById('dropoff').value.trim();
+      var distanceKm = parseFloat(document.getElementById('distance').value);
+      var vehicle = document.getElementById('vehicleType').value;
+      var labor = document.getElementById('labor').checked;
+
+      if(phone === "") return alert(t.alertPhone);
+      if(pickup === "") return alert(t.alertPickup);
+      if(dropoff === "") return alert(t.alertDropoff);
+      if(!distanceKm || distanceKm <= 0) return alert(t.alertDistance);
+      if(njiaYaMalipo === "") return alert(t.alertPayment);
+      if(pickup.toLowerCase() === dropoff.toLowerCase()) return alert(t.alertSame);
+
+      var beiPerKm = 0, basePrice = 0;
+      if(vehicle === "Bodaboda") { basePrice = 500; beiPerKm = 600; }
+      if(vehicle === "Bajaji") { basePrice = 1000; beiPerKm = 1000; }
+      if(vehicle === "Sedan") { basePrice = 2000; beiPerKm = 1500; }
+      if(vehicle === "Pickup") { basePrice = 5000; beiPerKm = 2500; }
+      if(vehicle === "Lorry") { basePrice = 15000; beiPerKm = 4000; }
+      if(vehicle === "Fuso") { basePrice = 25000; beiPerKm = 6000; }
+
+      beiYaMwisho = Math.round(basePrice + (beiPerKm * distanceKm));
+      if(labor) beiYaMwisho += 5000;
+      depositAmount = Math.round(beiYaMwisho * 0.3);
+
+      if (coordinates[pickup]) {
+        var c = coordinates[pickup];
+        derevaAliyechaguliwa = tafutaDerevaKaribu(c[0], c[1]);
+      } else {
+        derevaAliyechaguliwa = madereva[0];
+      }
+
+      document.getElementById('onyeshaBei').innerText = beiYaMwisho.toLocaleString();
+      document.getElementById('onyeshaDeposit').innerText = depositAmount.toLocaleString();
+      document.getElementById('onyeshaUmbali').innerText = distanceKm;
+      document.getElementById('driverInfo').innerText = t.driverText + ': ' + derevaAliyechaguliwa.jina + ' (' + derevaAliyechaguliwa.eneo + ')';
+
+      document.getElementById('kiasiChaKulipa').innerText = depositAmount.toLocaleString();
+      document.getElementById('nambaYaMalipo').innerText = NAMBA_ZA_MALIPO[njiaYaMalipo];
+      document.getElementById('paymentInfo').style.display = 'block';
+
+      document.getElementById('beiContainer').style.display = 'block';
+      document.getElementById('btnLipa').style.display = 'block';
+      document.getElementById('chatButtons').style.display = 'grid';
+      document.getElementById('debug').innerText = 'JS: Price = ' + beiYaMwisho + ' | Driver: ' + derevaAliyechaguliwa.jina;
+    }
+
+    function lipaSasa() {
+      var nambaYaMteja = document.getElementById('mtejaPhone').value.replace(/[^0-9]/g, '');
+      if (nambaYaMteja.startsWith('0')) {
+        nambaYaMteja = '255' + nambaYaMteja.substring(1);
+      }
+
+      var msgKwako = "UTHIBITISHO WA MALIPO - Amot Zanzibar%0A%0A";
+      msgKwako += "Mteja: " + document.getElementById('mtejaPhone').value + "%0A";
+      msgKwako += "Kutoka: " + document.getElementById('pickup').value + "%0A";
+      msgKwako += "Kwenda: " + document.getElementById('dropoff').value + "%0A";
+      msgKwako += "Umbali: " + document.getElementById('distance').value + "km%0A";
+      msgKwako += "Chombo: " + document.getElementById('vehicleType').value + "%0A";
+      msgKwako += "Jumla: TZS " + beiYaMwisho.toLocaleString() + "%0A";
+      msgKwako += "Deposit: TZS " + depositAmount.toLocaleString() + "%0A";
+      msgKwako += "Njia: " + njiaYaMalipo + "%0A%0A";
+      msgKwako += "DEREVA ALIYEPANGWA:%0A";
+      msgKwako += "Jina: " + derevaAliyechaguliwa.jina + "%0A";
+      msgKwako += "Namba: " + derevaAliyechaguliwa.namba + "%0A";
+      msgKwako += "Eneo lake: " + derevaAliyechaguliwa.eneo + "%0A%0A";
+      msgKwako += "MTEJA AMEDAI KAMESHALIPA DEPOSIT.%0A%0A";
+      msgKwako += "--- HATUA ZINAZOFUATA ---%0A";
+      msgKwako += "1. Thibitisha malipo kwenye " + njiaYaMalipo + " yako%0A";
+      msgKwako += "2. Ukiisha thibitisha, BONYEZA HAPA kumtumia mteja:%0A";
+
+      var msgKwaMteja = "Habari, asante kwa kuchagua Amot Zanzibar!%0A%0A";
+      msgKwaMteja += "Malipo yako ya TZS " + depositAmount.toLocaleString() + " tumepokea.%0A%0A";
+      msgKwaMteja += "DEREVA WAKO:%0A";
+      msgKwaMteja += "Jina: " + derevaAliyechaguliwa.jina + "%0A";
+      msgKwaMteja += "Namba: " + derevaAliyechaguliwa.namba + "%0A";
+      msgKwaMteja += "Atakufikia baada ya dakika 15-25.%0A%0A";
+      msgKwaMteja += "Tafadhali mpigie akifika karibu. Safari njema!";
+
+      var linkKwaMteja = "https://wa.me/" + nambaYaMteja + "?text=" + msgKwaMteja;
+      msgKwako += linkKwaMteja;
+
+      window.open('https://wa.me/' + NAMBA_YA_MMILIKI + '?text=' + msgKwako);
+    }
+
+    function chatNaMmiliki() {
+      var msg = "Habari, nina swali kuhusu booking yangu kutoka " + document.getElementById('pickup').value + " kwenda " + document.getElementById('dropoff').value;
+      window.open('https://wa.me/' + NAMBA_YA_MMILIKI + '?text=' + encodeURIComponent(msg));
+    }
+
+    function chatNaDereva() {
+      var msg = "Habari " + derevaAliyechaguliwa.jina + ", mimi ni mteja wako kutoka " + document.getElementById('pickup').value + " kwenda " + document.getElementById('dropoff').value + ". Uko wapi?";
+      window.open('https://wa.me/' + derevaAliyechaguliwa.namba + '?text=' + encodeURIComponent(msg));
+    }
+
+    document.getElementById('pickup').addEventListener('input', jaribuKuhesabuUmbali);
+    document.getElementById('dropoff').addEventListener('input', jaribuKuhesabuUmbali);
+    document.getElementById('langSelect').addEventListener('change', badiliLugha);
+    document.getElementById('priceBtn').addEventListener('click', hesabuBei);
+    document.getElementById('btnLipa').addEventListener('click', lipaSasa);
+    document.getElementById('chatMmiliki').addEventListener('click', chatNaMmiliki);
+    document.getElementById('chatDereva').addEventListener('click', chatNaDereva);
+
+    var paymentBtns = document.querySelectorAll('.payment-btn');
+    for (var i = 0; i < paymentBtns.length; i++) {
+      paymentBtns[i].addEventListener('click', function() {
+        chaguaMalipo(this.getAttribute('data-method'), this);
+      });
+    }
+
+    document.getElementById('debug').innerText = 'JS: Ready. Select or type locations';
+  } catch (e) {
+    document.getElementById('debug').innerText = 'CATCH ERROR: ' + e.message;
+  }
+});
+</script>
+
 </body>
 </html>
