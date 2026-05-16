@@ -135,6 +135,7 @@ document.getElementById('dropoff').addEventListener('change', jaribuKuhesabuUmba
 document.getElementById('langSelect').addEventListener('change', badiliLugha);
 });
 
+<script>
 var njiaYaMalipo = "";
 var beiYaMwisho = 0;
 var depositAmount = 0;
@@ -170,6 +171,11 @@ var coordinates = {
 "Darajani": [-6.1644, 39.1978], "Kwahani": [-6.1600, 39.1950]
 };
 
+var tafsiri = {
+en: { title: "Book Your Ride", labelPhone: "Your Phone Number", labelPickup: "Pick-up Location", labelDropoff: "Drop-off Location", labelDistance: "Distance (km)", distanceHint: "Choose popular place = auto", labelVehicle: "Vehicle Type", labelLabor: "I need loading labor (+TSh 5,000)", labelPayment: "Choose Payment Method:", priceBtn: "Get Your Price", btnLipa: "I HAVE PAID - SEND CONFIRMATION", selected: "Selected", alertPickup: "Please enter pickup location", alertDropoff: "Please enter dropoff location", alertDistance: "Please enter distance in km", alertPayment: "Please choose payment method first", alertSame: "Pickup and dropoff cannot be the same", alertPhone: "Please enter your phone number", driverText: "Assigned Driver", paymentTitle: "PAY DEPOSIT NOW", paymentInstructions: "Send TZS", paymentNote: "Use your name as reference.", chatMmiliki: "Chat with Owner", chatDereva: "Chat with Driver" },
+sw: { title: "Agiza Safari Yako", labelPhone: "Namba yako ya Simu", labelPickup: "Anapotaka Kuchukuliwa", labelDropoff: "Anakoenda", labelDistance: "Umbali (km)", distanceHint: "Chagua sehemu maarufu = auto", labelVehicle: "Chagua Chombo", labelLabor: "Naomba msaada wa kubeba (+TSh 5,000)", labelPayment: "Chagua Njia ya Malipo:", priceBtn: "Pata Bei Yako", btnLipa: "NIMELIPA - TUMA UTHIBITISHO", selected: "Umechagua", alertPickup: "Tafadhali andika anapotaka kuchukuliwa", alertDropoff: "Tafadhali andika anakoenda", alertDistance: "Tafadhali andika umbali kwa km", alertPayment: "Chagua njia ya malipo kwanza", alertSame: "Sehemu za kuchukulia na kupeleka zisiwe sawa", alertPhone: "Tafadhali andika namba yako ya simu", driverText: "Dereva Aliyepangwa", paymentTitle: "LIPA DEPOSIT SASA", paymentInstructions: "Tuma TZS", paymentNote: "Tumia jina lako kama reference.", chatMmiliki: "Chat na Mmiliki", chatDereva: "Chat na Dereva" }
+};
+
 function pimaUmbali(lat1, lon1, lat2, lon2) {
 var R = 6371;
 var dLat = (lat2 - lat1) * Math.PI / 180;
@@ -201,25 +207,15 @@ var c1 = coordinates[pickup];
 var c2 = coordinates[dropoff];
 var km = pimaUmbali(c1[0], c1[1], c2[0], c2[1]);
 distanceField.value = km;
-document.getElementById('debug').innerText = 'JS: Auto Distance = ' + km + 'km';
+document.getElementById('debug').innerText = 'Auto Distance = ' + km + 'km';
 } else {
-document.getElementById('debug').innerText = 'JS: Andika distance mwenyewe';
+document.getElementById('debug').innerText = 'Andika distance mwenyewe';
 }
 }
-
-var tafsiri = {
-en: { title: "Book Your Ride", labelPhone: "Your Phone Number", labelPickup: "Pick-up Location", labelDropoff: "Drop-off Location", labelDistance: "Distance (km)", distanceHint: "Choose popular place = auto", labelVehicle: "Vehicle Type", labelLabor: "I need loading labor (+TSh 5,000)", labelPayment: "Choose Payment Method:", priceBtn: "Get Your Price", btnLipa: "I HAVE PAID - SEND CONFIRMATION", selected: "Selected", alertPickup: "Please enter pickup location", alertDropoff: "Please enter dropoff location", alertDistance: "Please enter distance in km", alertPayment: "Please choose payment method first", alertSame: "Pickup and dropoff cannot be the same", alertPhone: "Please enter your phone number", driverText: "Assigned Driver", paymentTitle: "PAY DEPOSIT NOW", paymentInstructions: "Send TZS", paymentNote: "Use your name as reference.", chatMmiliki: "Chat with Owner", chatDereva: "Chat with Driver" },
-sw: { title: "Agiza Safari Yako", labelPhone: "Namba yako ya Simu", labelPickup: "Anapotaka Kuchukuliwa", labelDropoff: "Anakoenda", labelDistance: "Umbali (km)", distanceHint: "Chagua sehemu maarufu = auto", labelVehicle: "Chagua Chombo", labelLabor: "Naomba msaada wa kubeba (+TSh 5,000)", labelPayment: "Chagua Njia ya Malipo:", priceBtn: "Pata Bei Yako", btnLipa: "NIMELIPA - TUMA UTHIBITISHO", selected: "Umechagua", alertPickup: "Tafadhali andika anapotaka kuchukuliwa", alertDropoff: "Tafadhali andika anakoenda", alertDistance: "Tafadhali andika umbali kwa km", alertPayment: "Chagua njia ya malipo kwanza", alertSame: "Sehemu za kuchukulia na kupeleka zisiwe sawa", alertPhone: "Tafadhali andika namba yako ya simu", driverText: "Dereva Aliyepangwa", paymentTitle: "LIPA DEPOSIT SASA", paymentInstructions: "Tuma TZS", paymentNote: "Tumia jina lako kama reference.", chatMmiliki: "Chat na Mmiliki", chatDereva: "Chat na Dereva" },
-ar: { title: "احجز رحلتك", labelPhone: "رقم هاتفك", labelPickup: "مكان الالتقاط", labelDropoff: "مكان الوصول", labelDistance: "المسافة (كم)", distanceHint: "اختر مكان مشهور = تلقائي", labelVehicle: "نوع السيارة", labelLabor: "أحتاج مساعدة تحميل (+TSh 5,000)", labelPayment: "اختر طريقة الدفع:", priceBtn: "احصل على السعر", btnLipa: "لقد دفعت - أرسل التأكيد", selected: "مختار", alertPickup: "أدخل مكان الالتقاط", alertDropoff: "أدخل مكان الوصول", alertDistance: "أدخل المسافة بالكيلومتر", alertPayment: "اختر طريقة الدفع أولاً", alertSame: "لا يمكن أن يكون المكانان متشابهان", alertPhone: "أدخل رقم هاتفك", driverText: "السائق المخصص", paymentTitle: "ادفع العربون الآن", paymentInstructions: "أرسل TZS", paymentNote: "استخدم اسمك كمرجع", chatMmiliki: "تحدث مع المالك", chatDereva: "تحدث مع السائق" },
-fr: { title: "Réservez Votre Course", labelPhone: "Votre Numéro", labelPickup: "Lieu de Prise", labelDropoff: "Lieu de Dépose", labelDistance: "Distance (km)", distanceHint: "Lieu populaire = auto", labelVehicle: "Type de Véhicule", labelLabor: "J'ai besoin d'aide (+TSh 5,000)", labelPayment: "Méthode de Paiement:", priceBtn: "Obtenir le Prix", btnLipa: "J'AI PAYÉ - ENVOYER", selected: "Sélectionné", alertPickup: "Entrez le lieu de prise", alertDropoff: "Entrez le lieu de dépose", alertDistance: "Entrez la distance", alertPayment: "Choisissez le paiement", alertSame: "Les lieux doivent être différents", alertPhone: "Entrez votre numéro", driverText: "Chauffeur Assigné", paymentTitle: "PAYEZ L'ACOMPTE", paymentInstructions: "Envoyez TZS", paymentNote: "Utilisez votre nom", chatMmiliki: "Contacter Propriétaire", chatDereva: "Contacter Chauffeur" },
-es: { title: "Reserva tu Viaje", labelPhone: "Tu Número", labelPickup: "Lugar de Recogida", labelDropoff: "Lugar de Destino", labelDistance: "Distancia (km)", distanceHint: "Lugar popular = auto", labelVehicle: "Tipo de Vehículo", labelLabor: "Necesito ayuda (+TSh 5,000)", labelPayment: "Método de Pago:", priceBtn: "Obtener Precio", btnLipa: "HE PAGADO - ENVIAR", selected: "Seleccionado", alertPickup: "Ingrese lugar de recogida", alertDropoff: "Ingrese lugar de destino", alertDistance: "Ingrese distancia", alertPayment: "Elija método de pago", alertSame: "Los lugares deben ser diferentes", alertPhone: "Ingrese su número", driverText: "Conductor Asignado", paymentTitle: "PAGA EL DEPÓSITO", paymentInstructions: "Envía TZS", paymentNote: "Usa tu nombre", chatMmiliki: "Chatear con Propietario", chatDereva: "Chatear con Conductor" },
-de: { title: "Fahrt Buchen", labelPhone: "Ihre Telefonnummer", labelPickup: "Abholort", labelDropoff: "Zielort", labelDistance: "Entfernung (km)", distanceHint: "Beliebter Ort = auto", labelVehicle: "Fahrzeugtyp", labelLabor: "Ich brauche Hilfe (+TSh 5,000)", labelPayment: "Zahlungsmethode:", priceBtn: "Preis Ermitteln", btnLipa: "ICH HABE BEZAHLT", selected: "Ausgewählt", alertPickup: "Geben Sie den Abholort ein", alertDropoff: "Geben Sie den Zielort ein", alertDistance: "Geben Sie die Entfernung ein", alertPayment: "Wählen Sie Zahlungsmethode", alertSame: "Orte dürfen nicht gleich sein", alertPhone: "Geben Sie Ihre Nummer ein", driverText: "Zugewiesener Fahrer", paymentTitle: "ANZAHLUNG ZAHLEN", paymentInstructions: "Senden Sie TZS", paymentNote: "Verwenden Sie Ihren Namen", chatMmiliki: "Mit Eigentümer Chat", chatDereva: "Mit Fahrer Chat" },
-zh: { title: "预订行程", labelPhone: "您的电话号码", labelPickup: "上车地点", labelDropoff: "下车地点", labelDistance: "距离 (公里)", distanceHint: "热门地点 = 自动", labelVehicle: "车辆类型", labelLabor: "需要装卸帮助 (+TSh 5,000)", labelPayment: "选择支付方式:", priceBtn: "获取价格", btnLipa: "已付款 - 发送确认", selected: "已选择", alertPickup: "请输入上车地点", alertDropoff: "请输入下车地点", alertDistance: "请输入距离", alertPayment: "请先选择支付方式", alertSame: "地点不能相同", alertPhone: "请输入电话号码", driverText: "指定司机", paymentTitle: "立即支付定金", paymentInstructions: "发送 TZS", paymentNote: "使用您的姓名", chatMmiliki: "联系老板", chatDereva: "联系司机" }
-};
 
 function badiliLugha() {
 var lang = document.getElementById('langSelect').value;
-var t = tafsiri[lang] || tafsiri['en'];
+var t = tafsiri || tafsiri['en'];
 document.getElementById('title').innerText = t.title;
 document.getElementById('labelPhone').innerText = t.labelPhone;
 document.getElementById('labelPickup').innerText = t.labelPickup;
@@ -232,10 +228,6 @@ document.getElementById('labelPayment').innerText = t.labelPayment;
 document.getElementById('priceBtn').innerText = t.priceBtn;
 document.getElementById('btnLipa').innerText = t.btnLipa;
 document.getElementById('selectedText').innerText = t.selected + ': ' + (njiaYaMalipo || 'None');
-document.getElementById('paymentTitle').innerText = t.paymentTitle;
-document.getElementById('paymentNote').innerText = t.paymentNote;
-document.getElementById('chatMmiliki').innerText = t.chatMmiliki;
-document.getElementById('chatDereva').innerText = t.chatDereva;
 }
 
 function chaguaMalipo(mtandao, element) {
@@ -245,14 +237,13 @@ for (var i = 0; i < btns.length; i++) {
 btns[i].classList.remove('selected');
 }
 element.classList.add('selected');
-var lang = document.getElementById('langSelect').value;
-var t = tafsiri[lang] || tafsiri['en'];
+var t = tafsiri || tafsiri['en'];
 document.getElementById('selectedText').innerText = t.selected + ': ' + mtandao;
+document.getElementById('debug').innerText = 'Payment = ' + mtandao;
 }
 
 function hesabuBei() {
-var lang = document.getElementById('langSelect').value;
-var t = tafsiri[lang] || tafsiri['en'];
+var t = tafsiri || tafsiri['en'];
 var phone = document.getElementById('mtejaPhone').value.trim();
 var pickup = document.getElementById('pickup').value.trim();
 var dropoff = document.getElementById('dropoff').value.trim();
@@ -296,6 +287,7 @@ document.getElementById('paymentInfo').style.display = 'block';
 document.getElementById('beiContainer').style.display = 'block';
 document.getElementById('btnLipa').style.display = 'block';
 document.getElementById('chatButtons').style.display = 'grid';
+document.getElementById('debug').innerText = 'Price = ' + beiYaMwisho + ' | Driver: ' + derevaAliyechaguliwa.jina;
 }
 
 function lipaSasa() {
@@ -313,18 +305,23 @@ window.open('https://wa.me/' + NAMBA_YA_MMILIKI + '?text=' + msgKwako);
 }
 
 function chatNaMmiliki() {
-var lang = document.getElementById('langSelect').value;
-var t = tafsiri[lang] || tafsiri['en'];
+var t = tafsiri || tafsiri['en'];
 var msg = t.chatMmiliki + " - " + document.getElementById('pickup').value + " to " + document.getElementById('dropoff').value;
 window.open('https://wa.me/' + NAMBA_YA_MMILIKI + '?text=' + encodeURIComponent(msg));
 }
 
 function chatNaDereva() {
-var lang = document.getElementById('langSelect').value;
-var t = tafsiri[lang] || tafsiri['en'];
+var t = tafsiri || tafsiri['en'];
 var msg = t.chatDereva + " - " + document.getElementById('pickup').value + " to " + document.getElementById('dropoff').value;
 window.open('https://wa.me/' + derevaAliyechaguliwa.namba + '?text=' + encodeURIComponent(msg));
 }
+
+document.addEventListener('DOMContentLoaded', function() {
+document.getElementById('debug').innerText = 'JS: Loaded OK';
+document.getElementById('pickup').addEventListener('change', jaribuKuhesabuUmbali);
+document.getElementById('dropoff').addEventListener('change', jaribuKuhesabuUmbali);
+document.getElementById('langSelect').addEventListener('change', badiliLugha);
+});
 </script>
 </body>
 </html>
