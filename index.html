@@ -41,7 +41,6 @@ input:focus, select:focus { border-color: #00a651; outline: none; }
 <option value="Stone Town"><option value="Airport"><option value="Mwanakwerekwe">
 <option value="Michenzani"><option value="Mlandege"><option value="Mkokotoni">
 <option value="Nungwi"><option value="Kendwa"><option value="Paje"><option value="Jambiani">
-<option value="Kiwengwa"><option value="Matemwe"><option value="Bububu"><option value="Fuoni">
 </datalist>
 
 <div class="card">
@@ -84,14 +83,14 @@ input:focus, select:focus { border-color: #00a651; outline: none; }
 
 <div class="payment-title">Choose Payment Method:</div>
 <div class="payment-grid">
-<button class="payment-btn mpesa" onclick="chaguaMalipo('M-Pesa', this)">M-Pesa</button>
-<button class="payment-btn tigo" onclick="chaguaMalipo('Tigo Pesa', this)">Tigo Pesa</button>
-<button class="payment-btn airtel" onclick="chaguaMalipo('Airtel Money', this)">Airtel Money</button>
-<button class="payment-btn halopesa" onclick="chaguaMalipo('Halopesa', this)">Halopesa</button>
+<button type="button" class="payment-btn mpesa" onclick="chaguaMalipo('M-Pesa', this)">M-Pesa</button>
+<button type="button" class="payment-btn tigo" onclick="chaguaMalipo('Tigo Pesa', this)">Tigo Pesa</button>
+<button type="button" class="payment-btn airtel" onclick="chaguaMalipo('Airtel Money', this)">Airtel Money</button>
+<button type="button" class="payment-btn halopesa" onclick="chaguaMalipo('Halopesa', this)">Halopesa</button>
 </div>
 <div class="selected-text" id="selectedText">Selected: None</div>
 
-<button class="btn-price" onclick="hesabuBei()">Get Your Price</button>
+<button type="button" class="btn-price" onclick="hesabuBei()">Get Your Price</button>
 
 <div id="beiContainer">
 <div class="price-big">TZS <span id="onyeshaBei">0</span></div>
@@ -106,11 +105,11 @@ input:focus, select:focus { border-color: #00a651; outline: none; }
 <p>Tumia jina lako kama reference.</p>
 </div>
 
-<button id="btnLipa" onclick="lipaSasa()">NIMELIPA - TUMA UTHIBITISHO</button>
+<button type="button" id="btnLipa" onclick="lipaSasa()">NIMELIPA - TUMA UTHIBITISHO</button>
 
 <div class="chat-buttons" id="chatButtons">
-<button class="chat-btn chat-mmiliki" onclick="chatNaMmiliki()">Chat na Mmiliki</button>
-<button class="chat-btn chat-dereva" onclick="chatNaDereva()">Chat na Dereva</button>
+<button type="button" class="chat-btn chat-mmiliki" onclick="chatNaMmiliki()">Chat na Mmiliki</button>
+<button type="button" class="chat-btn chat-dereva" onclick="chatNaDereva()">Chat na Dereva</button>
 </div>
 </div>
 </div>
