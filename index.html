@@ -235,18 +235,24 @@ document.getElementById('debug').innerText = 'Price = ' + beiYaMwisho + ' | Driv
 }
 
 function lipaSasa() {
-var msgKwako = "UTHIBITISHO WA MALIPO - Amot Zanzibar%0A%0A";
-msgKwako += "Mteja: " + document.getElementById('mtejaPhone').value + "%0A";
-msgKwako += "Kutoka: " + document.getElementById('pickup').value + "%0A";
-msgKwako += "Kwenda: " + document.getElementById('dropoff').value + "%0A";
-msgKwako += "Umbali: " + document.getElementById('distance').value + "km%0A";
-msgKwako += "Chombo: " + document.getElementById('vehicleType').value + "%0A";
-msgKwako += "Jumla: TZS " + beiYaMwisho.toLocaleString() + "%0A";
-msgKwako += "Deposit: TZS " + depositAmount.toLocaleString() + "%0A";
-msgKwako += "Njia: " + njiaYaMalipo + "%0A%0A";
-msgKwako += "DEREVA: " + derevaAliyechaguliwa.jina + " - " + derevaAliyechaguliwa.namba;
-window.open('https://wa.me/' + NAMBA_YA_MMILIKI + '?text=' + msgKwako);
-}
+  var msgKwako = "UTHIBITISHO WA MALIPO - Amot Zanzibar%0A%0A";
+  msgKwako += "Mteja: " + document.getElementById('mtejaPhone').value + "%0A";
+  msgKwako += "Kutoka: " + document.getElementById('pickup').value + "%0A";
+  msgKwako += "Kwenda: " + document.getElementById('dropoff').value + "%0A";
+  msgKwako += "Umbali: " + document.getElementById('distance').value + "km%0A";
+  msgKwako += "Chombo: " + document.getElementById('vehicleType').value + "%0A";
+  msgKwako += "Jumla: TZS " + beiYaMwisho.toLocaleString() + "%0A";
+  msgKwako += "Deposit: TZS " + depositAmount.toLocaleString() + "%0A";
+  msgKwako += "Njia: " + njiaYaMalipo + "%0A%0A";
+  msgKwako += "DEREVA: " + derevaAliyechaguliwa.jina + " - " + derevaAliyechaguliwa.namba;
+  
+  // Fungua WhatsApp kwenda kwako
+  window.open('https://wa.me/' + NAMBA_YA_MMILIKI + '?text=' + msgKwako);
+  
+  // Onyesha buttons za chat BAADA ya kubonyeza NIMELIPA
+  document.getElementById('chatButtons').style.display = 'grid';
+  document.getElementById('debug').innerText = 'Tuma uthibitisho kwanza, kisha ongea na dereva';
+  }
 
 function chatNaMmiliki() {
 var msg = 'Chat na Mmiliki - ' + document.getElementById('pickup').value + ' to ' + document.getElementById('dropoff').value;
