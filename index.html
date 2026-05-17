@@ -14,6 +14,7 @@ label { display: block; font-size: 15px; font-weight: 700; margin: 18px 0 8px; }
 input, select { width: 100%; padding: 14px; font-size: 16px; border: 2px solid #e8eaed; border-radius: 12px; }
 input:focus, select:focus { border-color: #00a651; outline: none; }
 .hint { font-size: 12px; color: #666; margin-top: 4px; }
+.trust-hint { font-size: 13px; color: #00a651; background: #f0fdf4; padding: 10px; border-radius: 8px; margin: 15px 0; font-weight: 600; }
 .checkbox-row { display: flex; align-items: center; margin: 18px 0; }
 .checkbox-row input { width: 20px; height: 20px; margin-right: 10px; }
 .payment-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px; margin-bottom: 8px; }
@@ -47,6 +48,10 @@ input:focus, select:focus { border-color: #00a651; outline: none; }
 <div id="debug">JS: Loading...</div>
 <h2>Book Your Ride</h2>
 
+<div class="trust-hint">
+✅ Dereva anafika 5-15 min • ✅ Lipa kwa dereva kwa taxi • ✅ Haraka na salama
+</div>
+
 <label>Namba yako ya Simu</label>
 <input type="tel" id="mtejaPhone" placeholder="07XX XXX">
 
@@ -75,6 +80,7 @@ input:focus, select:focus { border-color: #00a651; outline: none; }
 <label for="labor">I need loading labor (+TSh 5,000)</label>
 </div>
 
+<div id="paymentSection">
 <div class="payment-title">Choose Payment Method:</div>
 <div class="payment-grid">
 <button type="button" class="payment-btn mpesa" onclick="chaguaMalipo('M-Pesa', this)">M-Pesa</button>
@@ -83,14 +89,15 @@ input:focus, select:focus { border-color: #00a651; outline: none; }
 <button type="button" class="payment-btn halopesa" onclick="chaguaMalipo('Halopesa', this)">Halopesa</button>
 </div>
 <div class="selected-text" id="selectedText">Selected: None</div>
+</div>
 
 <button type="button" class="btn-price" onclick="hesabuBei()">Get Your Price</button>
 
 <div id="beiContainer">
 <div class="price-big">TZS <span id="onyeshaBei">0</span></div>
 <div class="price-small"><span id="onyeshaUmbali">0</span> km</div>
-<div class="deposit">Deposit 30%: TZS <span id="onyeshaDeposit">0</span></div>
-<div class="driver-info" id="driverInfo"></div>
+<div class="deposit" id="depositText"></div>
+<div class="driver-info" id="driverInfo">Dereva atakutafuta mara baada ya kuthibitisha</div>
 
 <div class="payment-info" id="paymentInfo">
 <h4>LIPA DEPOSIT SASA</h4>
@@ -113,6 +120,7 @@ var njiaYaMalipo = "";
 var beiYaMwisho = 0;
 var depositAmount = 0;
 var derevaAliyechaguliwa = null;
+var anahitajiDeposit = false;
 
 var NAMBA_YA_MMILIKI = "255779771085";
 var NAMBA_ZA_MALIPO = {
@@ -157,7 +165,6 @@ if (umbali < umbaliMdogo) {
 umbaliMdogo = umbali;
 derevaKaribu = d;
 }
-} // <- Hapa ndipo } ilikokuwa imekosa
 return derevaKaribu;
 }
 
@@ -199,7 +206,6 @@ if(phone === "") return alert("Tafadhali andika namba yako ya simu");
 if(pickup === "") return alert("Tafadhali andika pickup");
 if(dropoff === "") return alert("Tafadhali andika dropoff");
 if(!distanceKm || distanceKm <= 0) return alert("Tafadhali andika umbali kwa km");
-if(njiaYaMalipo === "") return alert("Chagua njia ya malipo kwanza");
 if(pickup.toLowerCase() === dropoff.toLowerCase()) return alert("Pickup na dropoff zisiwe sawa");
 
 var beiPerKm = 0, basePrice = 0;
@@ -212,7 +218,26 @@ if(vehicle === "Fuso") { basePrice = 25000; beiPerKm = 6000; }
 
 beiYaMwisho = Math.round(basePrice + (beiPerKm * distanceKm));
 if(labor) beiYaMwisho += 5000;
+
+// Angalia kama anahitaji deposit
+anahitajiDeposit = (vehicle === "Pickup" || vehicle === "Lorry" || vehicle === "Fuso");
+
+if(anahitajiDeposit) {
+if(njiaYaMalipo === "") return alert("Chagua njia ya malipo kwanza kwa mizigo");
 depositAmount = Math.round(beiYaMwisho * 0.3);
+document.getElementById('depositText').innerText = "Deposit 30%: TZS " + depositAmount.toLocaleString();
+document.getElementById('paymentSection').style.display = 'block';
+document.getElementById('paymentInfo').style.display = 'block';
+document.getElementById('kiasiChaKulipa').innerText = depositAmount.toLocaleString();
+document.getElementById('nambaYaMalipo').innerText = NAMBA_ZA_MALIPO[njiaYaMalipo];
+document.getElementById('btnLipa').style.display = 'block';
+} else {
+depositAmount = 0;
+document.getElementById('depositText').innerText = "Lipa kwa dereva unapofika";
+document.getElementById('paymentSection').style.display = 'none';
+document.getElementById('paymentInfo').style.display = 'none';
+document.getElementById('btnLipa').style.display = 'none';
+}
 
 if (coordinates[pickup]) {
 var c = coordinates[pickup];
@@ -222,37 +247,28 @@ derevaAliyechaguliwa = madereva[0];
 }
 
 document.getElementById('onyeshaBei').innerText = beiYaMwisho.toLocaleString();
-document.getElementById('onyeshaDeposit').innerText = depositAmount.toLocaleString();
 document.getElementById('onyeshaUmbali').innerText = distanceKm;
-document.getElementById('driverInfo').innerText = 'Dereva: ' + derevaAliyechaguliwa.jina + ' (' + derevaAliyechaguliwa.eneo + ')';
-document.getElementById('kiasiChaKulipa').innerText = depositAmount.toLocaleString();
-document.getElementById('nambaYaMalipo').innerText = NAMBA_ZA_MALIPO[njiaYaMalipo];
-document.getElementById('paymentInfo').style.display = 'block';
+document.getElementById('driverInfo').innerText = 'Dereva atakutafuta mara baada ya kuthibitisha';
 document.getElementById('beiContainer').style.display = 'block';
-document.getElementById('btnLipa').style.display = 'block';
-document.getElementById('chatButtons').style.display = 'grid';
-document.getElementById('debug').innerText = 'Price = ' + beiYaMwisho + ' | Driver: ' + derevaAliyechaguliwa.jina;
+document.getElementById('chatButtons').style.display = 'none';
+document.getElementById('debug').innerText = 'Price = ' + beiYaMwisho;
 }
 
 function lipaSasa() {
-  var msgKwako = "UTHIBITISHO WA MALIPO - Amot Zanzibar%0A%0A";
-  msgKwako += "Mteja: " + document.getElementById('mtejaPhone').value + "%0A";
-  msgKwako += "Kutoka: " + document.getElementById('pickup').value + "%0A";
-  msgKwako += "Kwenda: " + document.getElementById('dropoff').value + "%0A";
-  msgKwako += "Umbali: " + document.getElementById('distance').value + "km%0A";
-  msgKwako += "Chombo: " + document.getElementById('vehicleType').value + "%0A";
-  msgKwako += "Jumla: TZS " + beiYaMwisho.toLocaleString() + "%0A";
-  msgKwako += "Deposit: TZS " + depositAmount.toLocaleString() + "%0A";
-  msgKwako += "Njia: " + njiaYaMalipo + "%0A%0A";
-  msgKwako += "DEREVA: " + derevaAliyechaguliwa.jina + " - " + derevaAliyechaguliwa.namba;
-  
-  // Fungua WhatsApp kwenda kwako
-  window.open('https://wa.me/' + NAMBA_YA_MMILIKI + '?text=' + msgKwako);
-  
-  // Onyesha buttons za chat BAADA ya kubonyeza NIMELIPA
-  document.getElementById('chatButtons').style.display = 'grid';
-  document.getElementById('debug').innerText = 'Tuma uthibitisho kwanza, kisha ongea na dereva';
-  }
+var msgKwako = "UTHIBITISHO WA MALIPO - Amot Zanzibar%0A%0A";
+msgKwako += "Mteja: " + document.getElementById('mtejaPhone').value + "%0A";
+msgKwako += "Kutoka: " + document.getElementById('pickup').value + "%0A";
+msgKwako += "Kwenda: " + document.getElementById('dropoff').value + "%0A";
+msgKwako += "Umbali: " + document.getElementById('distance').value + "km%0A";
+msgKwako += "Chombo: " + document.getElementById('vehicleType').value + "%0A";
+msgKwako += "Jumla: TZS " + beiYaMwisho.toLocaleString() + "%0A";
+msgKwako += "Deposit: TZS " + depositAmount.toLocaleString() + "%0A";
+msgKwako += "Njia: " + njiaYaMalipo + "%0A%0A";
+msgKwako += "DEREVA: " + derevaAliyechaguliwa.jina + " - " + derevaAliyechaguliwa.namba;
+window.open('https://wa.me/' + NAMBA_YA_MMILIKI + '?text=' + msgKwako);
+document.getElementById('chatButtons').style.display = 'grid';
+document.getElementById('debug').innerText = 'Tuma uthibitisho kwanza';
+}
 
 function chatNaMmiliki() {
 var msg = 'Chat na Mmiliki - ' + document.getElementById('pickup').value + ' to ' + document.getElementById('dropoff').value;
