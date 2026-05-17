@@ -63,7 +63,7 @@ input:focus, select:focus { border-color: #00a651; outline: none; }
 
 <label>Distance (km)</label>
 <input type="number" id="distance" placeholder="Auto au andika km" step="0.1">
-<div class="hint">Chagua sehemu maarufu = auto</div>
+<div class="hint">Chagua sehemu maarufu itajaza umbali kiotomatiki</div>
 
 <label>Vehicle Type</label>
 <select id="vehicleType">
@@ -172,14 +172,15 @@ function jaribuKuhesabuUmbali() {
 var pickup = document.getElementById('pickup').value.trim();
 var dropoff = document.getElementById('dropoff').value.trim();
 var distanceField = document.getElementById('distance');
-if(coordinates[pickup] && coordinates[dropoff] && pickup!== dropoff) {
+
+if(coordinates[pickup] && coordinates[dropoff] && pickup.toLowerCase()!== dropoff.toLowerCase()) {
 var c1 = coordinates[pickup];
 var c2 = coordinates[dropoff];
 var km = pimaUmbali(c1[0], c1[1], c2[0], c2[1]);
 distanceField.value = km;
 document.getElementById('debug').innerText = 'Auto Distance = ' + km + 'km';
 } else {
-document.getElementById('debug').innerText = 'Andika distance mwenyewe';
+document.getElementById('debug').innerText = 'Andika distance mwenyewe au chagua sehemu sahihi';
 }
 }
 
@@ -219,7 +220,6 @@ if(vehicle === "Fuso") { basePrice = 25000; beiPerKm = 6000; }
 beiYaMwisho = Math.round(basePrice + (beiPerKm * distanceKm));
 if(labor) beiYaMwisho += 5000;
 
-// Angalia kama anahitaji deposit
 anahitajiDeposit = (vehicle === "Pickup" || vehicle === "Lorry" || vehicle === "Fuso");
 
 if(anahitajiDeposit) {
@@ -282,8 +282,8 @@ window.open('https://wa.me/' + derevaAliyechaguliwa.namba + '?text=' + encodeURI
 
 document.addEventListener('DOMContentLoaded', function() {
 document.getElementById('debug').innerText = 'JS: Loaded OK';
-document.getElementById('pickup').addEventListener('change', jaribuKuhesabuUmbali);
-document.getElementById('dropoff').addEventListener('change', jaribuKuhesabuUmbali);
+document.getElementById('pickup').addEventListener('input', jaribuKuhesabuUmbali);
+document.getElementById('dropoff').addEventListener('input', jaribuKuhesabuUmbali);
 });
 </script>
 </body>
